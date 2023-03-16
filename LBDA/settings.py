@@ -11,7 +11,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = ['.localhost','.127.0.0.1','.20.127.107.47','.essportal.kobby.co.ke']
+ALLOWED_HOSTS = ['.localhost','.127.0.0.1']
 
 DATABASES = {
     'default': {
@@ -27,7 +27,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'base',
     'myRequest',
+    'dashboard',
 ]
 
 MIDDLEWARE = [
@@ -60,17 +62,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'LBDA.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 
 
 # Password validation
