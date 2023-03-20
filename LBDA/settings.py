@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'base',
     'myRequest',
     'dashboard',
+    'authentication'
 ]
 
 MIDDLEWARE = [
@@ -94,6 +95,14 @@ USE_I18N = True
 
 USE_TZ = True
 
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
+EMAIL_BACKEND = config('EMAIL_BACKEND')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS')
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
@@ -107,6 +116,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+ENCRYPT_KEY = b'8zUwJvYZKzgecbudNa7zjhsjTDW-79fwwtUHQn8YCos='
 
 
 AUTHS = Session()

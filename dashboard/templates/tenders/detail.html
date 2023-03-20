@@ -1,0 +1,337 @@
+{% extends 'base.html' %}
+{% block title %}
+{{response.Process_Type}}
+{% endblock %}
+{% block head %}
+<script src="../../static/plugins/assets/modules/moment.min.js"></script>
+{% endblock %}
+{% block user %}
+{% if authenticated == True %}
+<ul class="navbar-nav navbar-right ml-auto">
+    <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
+            class="nav-link nav-link-lg message-toggle beep"><i class="far fa-envelope"></i></a>
+        <div class="dropdown-menu dropdown-list dropdown-menu-right">
+            <div class="dropdown-header">Messages
+                <div class="float-right">
+                    <a href="#">Mark All As Read</a>
+                </div>
+            </div>
+            <div class="dropdown-list-content dropdown-list-message">
+                <a href="#" class="dropdown-item dropdown-item-unread">
+                    <div class="dropdown-item-avatar">
+                        <img alt="image" src="../../static/img/logo/pp.png" class="rounded-circle">
+                        <div class="is-online"></div>
+                    </div>
+                    <div class="dropdown-item-desc">
+                        <b>Kusnaedi</b>
+                        <p>Hello, Bro!</p>
+                        <div class="time">10 Hours Ago</div>
+                    </div>
+                </a>
+                <a href="#" class="dropdown-item dropdown-item-unread">
+                    <div class="dropdown-item-avatar">
+                        <img alt="image" src="assets/img/avatar/avatar-2.png" class="rounded-circle">
+                    </div>
+                    <div class="dropdown-item-desc">
+                        <b>Dedik Sugiharto</b>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
+                        <div class="time">12 Hours Ago</div>
+                    </div>
+                </a>
+                <a href="#" class="dropdown-item dropdown-item-unread">
+                    <div class="dropdown-item-avatar">
+                        <img alt="image" src="assets/img/avatar/avatar-3.png" class="rounded-circle">
+                        <div class="is-online"></div>
+                    </div>
+                    <div class="dropdown-item-desc">
+                        <b>Agung Ardiansyah</b>
+                        <p>Sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <div class="time">12 Hours Ago</div>
+                    </div>
+                </a>
+                <a href="#" class="dropdown-item">
+                    <div class="dropdown-item-avatar">
+                        <img alt="image" src="assets/img/avatar/avatar-4.png" class="rounded-circle">
+                    </div>
+                    <div class="dropdown-item-desc">
+                        <b>Ardian Rahardiansyah</b>
+                        <p>Duis aute irure dolor in reprehenderit in voluptate velit ess</p>
+                        <div class="time">16 Hours Ago</div>
+                    </div>
+                </a>
+                <a href="#" class="dropdown-item">
+                    <div class="dropdown-item-avatar">
+                        <img alt="image" src="assets/img/avatar/avatar-5.png" class="rounded-circle">
+                    </div>
+                    <div class="dropdown-item-desc">
+                        <b>Alfa Zulkarnain</b>
+                        <p>Exercitation ullamco laboris nisi ut aliquip ex ea commodo</p>
+                        <div class="time">Yesterday</div>
+                    </div>
+                </a>
+            </div>
+            <div class="dropdown-footer text-center">
+                <a href="#">View All <i class="fas fa-chevron-right"></i></a>
+            </div>
+        </div>
+    </li>
+    <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
+            class="nav-link notification-toggle nav-link-lg beep"><i class="far fa-bell"></i></a>
+        <div class="dropdown-menu dropdown-list dropdown-menu-right">
+            <div class="dropdown-header">Notifications
+                <div class="float-right">
+                    <a href="#">Mark All As Read</a>
+                </div>
+            </div>
+            <div class="dropdown-list-content dropdown-list-icons">
+                <a href="#" class="dropdown-item dropdown-item-unread">
+                    <div class="dropdown-item-icon bg-primary text-white">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="dropdown-item-desc">
+                        Template update is available now!
+                        <div class="time text-primary">2 Min Ago</div>
+                    </div>
+                </a>
+                <a href="#" class="dropdown-item">
+                    <div class="dropdown-item-icon bg-info text-white">
+                        <i class="far fa-user"></i>
+                    </div>
+                    <div class="dropdown-item-desc">
+                        <b>You</b> and <b>Dedik Sugiharto</b> are now friends
+                        <div class="time">10 Hours Ago</div>
+                    </div>
+                </a>
+                <a href="#" class="dropdown-item">
+                    <div class="dropdown-item-icon bg-success text-white">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="dropdown-item-desc">
+                        <b>Kusnaedi</b> has moved task <b>Fix bug header</b> to <b>Done</b>
+                        <div class="time">12 Hours Ago</div>
+                    </div>
+                </a>
+                <a href="#" class="dropdown-item">
+                    <div class="dropdown-item-icon bg-danger text-white">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="dropdown-item-desc">
+                        Low disk space. Let's clean it!
+                        <div class="time">17 Hours Ago</div>
+                    </div>
+                </a>
+                <a href="#" class="dropdown-item">
+                    <div class="dropdown-item-icon bg-info text-white">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div class="dropdown-item-desc">
+                        Welcome to Stisla template!
+                        <div class="time">Yesterday</div>
+                    </div>
+                </a>
+            </div>
+            <div class="dropdown-footer text-center">
+                <a href="#">View All <i class="fas fa-chevron-right"></i></a>
+            </div>
+        </div>
+    </li>
+    <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+            <img alt="image" src="../../static/img/logo/pp.png" class="rounded-circle mr-1">
+            <div class="d-sm-none d-lg-inline-block">Hi, Ujang Maman</div>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right">
+            <div class="dropdown-title">Logged in 5 min ago</div>
+            <a href="features-profile.html" class="dropdown-item has-icon">
+                <i class="far fa-user"></i> Profile
+            </a>
+            <a href="features-activities.html" class="dropdown-item has-icon">
+                <i class="fas fa-bolt"></i> Activities
+            </a>
+            <a href="features-settings.html" class="dropdown-item has-icon">
+                <i class="fas fa-cog"></i> Settings
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item has-icon text-danger">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+    </li>
+</ul>
+{% endif %}
+{% endblock %}
+
+{% block navigation %}
+<li class="nav-item active">
+    <a href="#" type="button" class="nav-link" disabled>
+        <i class="fas fa-fire text-danger"></i>
+        {{response.TenderType}}
+    </a>
+</li>
+<li class="nav-item">
+    <a href="/" class="nav-link"><i class="fas fa-home"></i><span>Home</span></a>
+</li>
+<li class="nav-item">
+    <a href="#" class="nav-link modal-5"><i class="fas fa-user"></i><span>Sign
+            In</span></a>
+</li>
+
+{% endblock %}
+{% block main %}
+<style>
+    .text-uppercase,
+    .text-medium {
+        display: inline-block;
+        text-align: center;
+    }
+
+    .btn {
+        float: right;
+    }
+
+    .responseBtn {
+        box-shadow: none !important;
+    }
+</style>
+<section class="section">
+    <div class="section-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="p-4 text-white text-lg bg-dark rounded-top">
+                        <h2 class="">{{response.TenderType}}</h2>
+                        <span class="text-uppercase">{{response.Process_Type}} Reference No - </span>
+                        <span class="text-medium">{{response.RefNo}}</span>
+                        {% if authenticated == True %}
+                        <button class="btn btn-warning responseBtn">Respond to {{response.Process_Type}}</button>
+                        {% elif authenticated == False %}
+                        <button class="btn btn-danger responseBtn modal-5">Sign In to Respond
+                        </button>
+                        {% endif %}
+                    </div>
+                    <div class="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2 bg-secondary">
+                        <div class="w-100 text-center py-1 px-2"><span class="text-medium">{{response.Process_Type}}
+                                Status:</span> {{response.Status}}
+                        </div>
+                        <div class="w-100 text-center py-1 px-2"><span class="text-medium">{{response.Process_Type}}
+                                Opening Date:</span> <span id="TenderOpeningDate">{{response.TenderOpeningDate}}</span>
+                        </div>
+                        <div class="w-100 text-center py-1 px-2"><span class="text-medium">{{response.Process_Type}}
+                                Closing Date:</span> <span id="TenderClosingDate">{{response.TenderClosingDate}}</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h2 class="section-title">{{response.Title}}
+                        </h2>
+                        {% if response.Instructions %}
+                        <h5 class="text-bold my-3">{{response.Process_Type}} Description</h5>
+                        <p>
+                            {{response.Instructions}}.
+                        </p>
+                        {% endif %}
+                        <div class="table-responsive">
+                            <h6>Procurement Items</h6>
+                            <table class="table table-striped" id="table-1">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">
+                                            Tender No.
+                                        </th>
+                                        <th>Title</th>
+                                        <th>Status</th>
+                                        <th>Tender Opening Date</th>
+                                        <th>Tender Closing Date / Time</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for tender in open_tenders %}
+                                    <tr>
+                                        <td>{{tender.No}}</td>
+                                        <td>{{tender.Title}}</td>
+                                        <td>
+                                            <div class="badge badge-success">{{tender.Status}}</div>
+                                        </td>
+                                        <td id="TenderOpeningDate{{tender.No}}">{{tender.TenderOpeningDate}} </td>
+                                        <td id="TenderClosingDate{{tender.No}}">{{tender.TenderClosingDate}}</td>
+                                        <td><a href="/tdr/{{tender.No}}/" class="btn btn-secondary">Detail</a></td>
+                                        <script>
+                                            $(document).ready(function () {
+                                                $("#TenderOpeningDate{{tender.No}}")
+                                                    .empty().append(moment(
+                                                            '{{tender.TenderOpeningDate}}', "YYYY-MM-DD")
+                                                        .format(
+                                                            'Do MMM YYYY'));
+                                                $("#TenderClosingDate{{tender.No}}")
+                                                    .empty().append(moment(
+                                                            '{{tender.TenderClosingDate}}',
+                                                            "YYYY-MM-DD, h:mm:ss a")
+                                                        .format(
+                                                            'Do MMM YYYY, h:mm a'));
+                                            })
+                                        </script>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div
+                            class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
+                            <div class="step stepOne">
+                                <div class="step-icon-wrap">
+                                    <div class="step-icon">
+                                        <i class="fas fa-bullhorn"></i>
+                                    </div>
+                                </div>
+                                <h4 class="step-title">New {{response.Process_Type}}</h4>
+                            </div>
+                            <div class="step">
+                                <div class="step-icon-wrap">
+                                    <div class="step-icon">
+                                        <i class="fas fa-upload"></i>
+                                    </div>
+                                </div>
+                                <h4 class="step-title">{{response.Process_Type}} Requirements</h4>
+                            </div>
+                            <div class="step">
+                                <div class="step-icon-wrap">
+                                    <div class="step-icon">
+                                        <i class="fas fa-coins"></i>
+                                    </div>
+                                </div>
+                                <h4 class="step-title">{{response.Process_Type}} Financial Bid</h4>
+                            </div>
+                            <div class="step">
+                                <div class="step-icon-wrap">
+                                    <div class="step-icon">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                </div>
+                                <h4 class="step-title">Submitted</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+        $("#TenderOpeningDate")
+            .empty().append(moment(
+                    '{{response.TenderOpeningDate}}', "YYYY-MM-DD")
+                .format(
+                    'Do MMM YYYY'));
+        $("#TenderClosingDate")
+            .empty().append(moment(
+                    '{{response.TenderClosingDate}}',
+                    "YYYY-MM-DD, h:mm:ss a")
+                .format(
+                    'Do MMM YYYY, h:mm a'));
+        var procurementStatus = '{{response.Status}}'
+        if (procurementStatus == 'New') {
+            $('.stepOne').addClass('completed')
+        }
+    })
+</script>
+{% endblock %}

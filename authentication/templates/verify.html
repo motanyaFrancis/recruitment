@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block title %}
+VERIFY
+{% endblock %}
+{% block head %}
+<script src="../../static/plugins/assets/modules/moment.min.js"></script>
+<link rel="stylesheet" href="../../static/plugins/assets/modules/select2/dist/css/select2.min.css">
+<link rel="stylesheet" href="../../static/plugins/assets/modules/jquery-selectric/selectric.css">
+<script src="../../static/plugins/assets/modules/select2/dist/js/select2.full.min.js"></script>
+<script src="../../static/plugins/assets/modules/jquery-selectric/jquery.selectric.min.js"></script>
+<script src="../../static/plugins/assets/assets/modules/jquery-pwstrength/jquery.pwstrength.min.js"></script>
+{% endblock %}
+
+{% block navigation %}
+<li class="nav-item">
+    <a href="/" class="nav-link"><i class="fas fa-home"></i><span>Home</span></a>
+</li>
+<li class="nav-item">
+    <a href="#" class="nav-link modal-5"><i class="fas fa-user"></i><span>Sign
+            In</span></a>
+</li>
+{% endblock %}
+
+{% block main %}
+<section class="section">
+    {% include 'alerts.html' %}
+    <div class="section-body">
+        <h2 class="section-title">Verify your account
+        </h2>
+        <div class="row my-2">
+            <div class="col-md-12">
+                <div
+                    class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
+                    <div class="step completed">
+                        <div class="step-icon-wrap">
+                            <div class="step-icon">
+                                <i class="las la-user-cog"></i>
+                            </div>
+                        </div>
+                        <h4 class="step-title">Supplier Details</h4>
+                    </div>
+                    <div class="step completed">
+                        <div class="step-icon-wrap">
+                            <div class="step-icon">
+                                <i class="las la-user-lock"></i>
+                            </div>
+                        </div>
+                        <h4 class="step-title"> Verify Account</h4>
+                    </div>
+                    <div class="step">
+                        <div class="step-icon-wrap">
+                            <div class="step-icon">
+                                <i class="las la-unlock"></i>
+                            </div>
+                        </div>
+                        <h4 class="step-title">Login</h4>
+                    </div>
+                    <div class="step">
+                        <div class="step-icon-wrap">
+                            <div class="step-icon">
+                                <i class="las la-user-check"></i>
+                            </div>
+                        </div>
+                        <h4 class="step-title">Dashboard</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card-body">
+                    <form method="POST" action="/verify/" novalidate>
+                        {% csrf_token %}
+                        <input type="hidden" name="prospNo" value="">
+                        <input type="hidden" name="myAction" value="insert">
+                        <div class="row">
+                            <div class="form-group col-6">
+                                <label for="frist_name">Your Email <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="email" autofocus required>
+                            </div>
+                            <div class="form-group col-6">
+                                <label>Verification Code <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="secret" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                Verify
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+{% endblock %}

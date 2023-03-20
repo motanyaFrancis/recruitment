@@ -13,16 +13,61 @@ from django.http import HttpResponseRedirect
 import aiohttp
 from concurrent.futures import ThreadPoolExecutor
 from concurrent.futures import as_completed
+import secrets
+import string
+from cryptography.fernet import Fernet
+import base64
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from datetime import date
+from django.core.mail import EmailMessage
+import datetime as dt
+import threading
 
 session = None
+class EmailThread(threading.Thread):
+    def __init__(self, email):
+        self.email = email
+        threading.Thread.__init__(self)
 
+    def run(self):
+        self.email.send()
 # Create your views here.
 class UserObjectMixins(object):
     model =None
     sessions = requests.Session()
     sessions.auth = config.AUTHS
     todays_date = dt.datetime.now().strftime("%b. %d, %Y %A")
+    cipher_suite = Fernet(config.ENCRYPT_KEY)
     O_DATA_AUTH = aiohttp.BasicAuth(config.WEB_SERVICE_UID, config.WEB_SERVICE_PWD) 
+    
+    def verificationToken(self,tokenRange):
+        alphabet = string.ascii_letters + string.digits
+        SecretCode = ''.join(secrets.choice(alphabet) for i in range(tokenRange))
+        return SecretCode
+    
+    
+    def pass_encrypt(self,password):
+        encrypted_text = self.cipher_suite.encrypt(password.encode('ascii'))
+        encrypted_password = base64.urlsafe_b64encode(encrypted_text).decode("ascii")
+        return encrypted_password
+    def pass_decrypt(self,password):
+        Portal_Password = base64.urlsafe_b64decode(password)
+        decoded_text = self.cipher_suite.decrypt(Portal_Password).decode("ascii")
+        return decoded_text
+
+    def send_mail(self,request,subject,template,recipient,recipient_email,token):
+        current_site = get_current_site(request)
+        email_body = render_to_string(template, {
+                    "user": recipient,
+                    "domain": current_site,
+                    'Secret': token,
+                })
+        email = EmailMessage(subject=subject, body=email_body,
+                                     from_email=config.EMAIL_HOST_USER, to=[recipient_email])
+        EmailThread(email).start()
+        return True
     
     async def fetch_data(self,session,username,password,endpoint,property,filter):
         auth =aiohttp.BasicAuth(login=username,password=password)
@@ -60,11 +105,11 @@ class UserObjectMixins(object):
             response = data['value']
             return response
 
-    def make_soap_request(self,soap_headers,endpoint, *params):
+    def make_soap_request(self,endpoint, *params):
         global session
         if not session:
             session = Session()
-            session.auth = HTTPBasicAuth(soap_headers['username'], soap_headers['password'])
+            session.auth = HTTPBasicAuth(config.WEB_SERVICE_UID, config.WEB_SERVICE_PWD)
         with ThreadPoolExecutor() as executor:
             client = Client(config.BASE_URL, transport=Transport(session=session))
             response = executor.submit(client.service[endpoint], *params).result()
