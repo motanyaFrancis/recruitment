@@ -15,7 +15,7 @@ SIGN UP
     <a href="/" class="nav-link"><i class="fas fa-home"></i><span>Home</span></a>
 </li>
 <li class="nav-item">
-    <a href="#" class="nav-link modal-5"><i class="fas fa-user"></i><span>Sign
+    <a href="#" class="nav-link" data-toggle="modal" data-target="#signIn"><i class="fas fa-user"></i><span>Sign
             In</span></a>
 </li>
 {% endblock %}
@@ -86,10 +86,9 @@ SIGN UP
                                 <label>Country <span class="text-danger">*</span></label>
                                 <select class="form-control select2" name="countryRegionCode" required>
                                     <option selected disabled value="0">--select--</option>
-                                    <option value="Kenya">Kenya</option>
-                                    <option>Syria</option>
-                                    <option>Malaysia</option>
-                                    <option>Thailand</option>
+                                    {% for country in countries %}
+                                    <option value="{{country.Code}}">{{country.Name}}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>
@@ -153,4 +152,5 @@ SIGN UP
     </div>
     </div>
 </section>
+
 {% endblock %}

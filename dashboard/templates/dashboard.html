@@ -1,1 +1,371 @@
-<h1>Hello World</h1>
+{% extends 'base.html' %}
+{% block title %}
+DASHBOARD
+{% endblock %}
+{% block head %}
+<script src="../../static/plugins/assets/modules/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block user %}
+{% if authenticated == True %}
+<ul class="navbar-nav navbar-right ml-auto">
+    <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
+            class="nav-link nav-link-lg message-toggle beep"><i class="far fa-envelope"></i></a>
+        <div class="dropdown-menu dropdown-list dropdown-menu-right">
+            <div class="dropdown-header">Messages
+                <div class="float-right">
+                    <a href="#">Mark All As Read</a>
+                </div>
+            </div>
+            <div class="dropdown-list-content dropdown-list-message">
+                <a href="#" class="dropdown-item dropdown-item-unread">
+                    <div class="dropdown-item-avatar">
+                        <img alt="image" src="../../static/img/logo/pp.png" class="rounded-circle">
+                        <div class="is-online"></div>
+                    </div>
+                    <div class="dropdown-item-desc">
+                        <b>Okune</b>
+                        <p>Hello, Bro!</p>
+                        <div class="time">10 Hours Ago</div>
+                    </div>
+                </a>
+            </div>
+            <div class="dropdown-footer text-center">
+                <a href="#">View All <i class="fas fa-chevron-right"></i></a>
+            </div>
+        </div>
+    </li>
+    <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
+            class="nav-link notification-toggle nav-link-lg beep"><i class="far fa-bell"></i></a>
+        <div class="dropdown-menu dropdown-list dropdown-menu-right">
+            <div class="dropdown-header">Notifications
+                <div class="float-right">
+                    <a href="#">Mark All As Read</a>
+                </div>
+            </div>
+            <div class="dropdown-list-content dropdown-list-icons">
+                <a href="#" class="dropdown-item dropdown-item-unread">
+                    <div class="dropdown-item-icon bg-primary text-white">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="dropdown-item-desc">
+                        Template update is available now!
+                        <div class="time text-primary">2 Min Ago</div>
+                    </div>
+                </a>
+            </div>
+            <div class="dropdown-footer text-center">
+                <a href="#">View All <i class="fas fa-chevron-right"></i></a>
+            </div>
+        </div>
+    </li>
+    <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+            <img alt="image" src="../../static/img/logo/pp.png" class="rounded-circle mr-1">
+            <div class="d-sm-none d-lg-inline-block">{{username}}</div>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right">
+            <div class="dropdown-title">Logged in 5 min ago</div>
+            <a href="features-profile.html" class="dropdown-item has-icon">
+                <i class="far fa-user"></i> Profile
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item has-icon text-danger">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+    </li>
+</ul>
+{% endif %}
+{% endblock %}
+
+{% block navigation %}
+<li class="nav-item active">
+    <a href="#" type="button" class="nav-link">
+        <i class="fas fa-home text-danger"></i>
+        Dashboard
+    </a>
+</li>
+<li class="nav-item">
+    <a href="/logout/" class="nav-link" data-toggle="tooltip" title="Sign Out"><i
+            class="fas fa-sign-out-alt"></i><span>Sign
+            Out</span></a>
+</li>
+{% endblock %}
+
+{% block main %}
+<section class="section">
+    {% include 'alerts.html' %}
+    <div class="section-body">
+        {% if state == 'Vendor' %}
+        <div class="row gx-1">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="headerTitle">New Procurement Requests ({{total_open}})</h4>
+                        <div class="card-header-action">
+                            <div class="dropdown">
+                                <a href="#" data-toggle="dropdown" class="btn btn-warning dropdown-toggle">Options</a>
+                                <div class="dropdown-menu">
+                                    <a href="#" class="dropdown-item has-icon" id="new-tab"><i class="fas fa-edit"></i>
+                                        Open
+                                        ({{total_open}})</a>
+                                    <a href="#" class="dropdown-item has-icon" id="submitted-tab"><i
+                                            class="far fa-eye"></i>
+                                        My Submissions ({{total_submitted}})</a>
+                                    <div class="dropdown-divider"></div>
+                                    <span class="dropdown-item has-icon text-danger"><i class="fa fa-lock"></i>
+                                        Total Closed ({{total_closed}})</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="new-content">
+                                {% if total_open > 0 %}
+                                <div class="row gx-2" id="card-container">
+                                    {% if open_restricted|length > 0 %}
+                                    <div class="col-md-3 dynamic">
+                                        <div class="card-box bg-blue">
+                                            <div class="inner">
+                                                <h3> {{open_restricted|length}} </h3>
+                                                <p>Restricted Tenders </p>
+                                            </div>
+                                            <div class="icon">
+                                                <i class="fa fa-briefcase" aria-hidden="true"></i>
+                                            </div>
+                                            <a href="#" class="card-box-footer">View All <i
+                                                    class="fa fa-arrow-circle-right"></i></a>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                    {% if open_quotation|length > 0 %}
+                                    <div class="col-md-3 dynamic">
+                                        <div class="card-box bg-green">
+                                            <div class="inner">
+                                                <h3> {{open_quotation|length}} </h3>
+                                                <p>Request For Quotation </p>
+                                            </div>
+                                            <div class="icon">
+                                                <i class="fa fa-file-invoice" aria-hidden="true"></i>
+                                            </div>
+
+                                            <a href="#" class="card-box-footer">View All <i
+                                                    class="fa fa-arrow-circle-right"></i></a>
+
+                                        </div>
+                                    </div>
+
+                                    {% endif %}
+                                    {% if open_interest|length > 0 %}
+                                    <div class="col-md-3 dynamic">
+                                        <div class="card-box bg-orange">
+                                            <div class="inner">
+                                                <h3> {{open_interest|length}} </h3>
+                                                <p>Expression of Interest </p>
+                                            </div>
+                                            <div class="icon">
+                                                <i class="fa fa-file-signature" aria-hidden="true"></i>
+                                            </div>
+
+                                            <a href="#" class="card-box-footer">View All <i
+                                                    class="fa fa-arrow-circle-right"></i></a>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                    {% if open_proposal|length > 0 %}
+                                    <div class="col-md-3 dynamic">
+                                        <div class="card-box bg-red">
+                                            <div class="inner">
+                                                <h3> {{open_proposal|length}} </h3>
+                                                <p> Request For Proposal </p>
+                                            </div>
+                                            <div class="icon">
+                                                <i class="fa fa-file"></i>
+                                            </div>
+
+                                            <a href="#" class="card-box-footer">View All <i
+                                                    class="fa fa-arrow-circle-right"></i></a>
+
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                {% else %}
+                                <div class="empty-state">
+                                    <div class="empty-state-icon">
+                                        <i class="fas fa-question"></i>
+                                    </div>
+                                    <h2>No New Procurement Request</h2>
+                                    <p class="lead">
+                                        come back later...
+                                    </p>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="tab-pane" id="submitted-content">
+                                {% if total_submitted > 0 %}
+                                <canvas id="Chart2"></canvas>
+                                <script>
+                                    const pending_label = [
+                                        'Open Tender',
+                                        'Restricted Tender',
+                                        'Request For Quotation',
+                                        'Expression For Interest',
+                                        'Request For Proposal',
+                                    ];
+
+                                    var open_tender = '{{submitted_open|length}}'
+                                    var restricted_tender = '{{submitted_restricted|length}}'
+                                    var request_for_quotation = '{{submitted_quotation|length}}'
+                                    var expression_of_interest = '{{submitted_interest|length}}'
+                                    var request_for_proposal = '{{submitted_proposal|length}}'
+                                    const pending_data = {
+                                        labels: pending_label,
+                                        datasets: [{
+                                            label: 'Submitted Bids',
+                                            backgroundColor: [
+                                                '#ff5e6c',
+                                                '#DFFF00',
+                                                '#8076a3',
+                                                '#FFBF00',
+                                                '#9FE2BF',
+                                            ],
+                                            borderColor: 'rgb(255, 99, 132)',
+                                            data: [open_tender, restricted_tender,
+                                                request_for_quotation,
+                                                expression_of_interest,
+                                                request_for_proposal
+                                            ],
+                                        }]
+                                    };
+
+                                    const pending_config = {
+                                        type: 'bar',
+                                        data: pending_data,
+                                        options: {}
+                                    };
+
+                                    const Chart2 = new Chart(
+                                        document.getElementById('Chart2'),
+                                        pending_config
+                                    );
+                                </script>
+                                {% else %}
+                                <div class="empty-state">
+                                    <div class="empty-state-icon">
+                                        <i class="fas fa-question"></i>
+                                    </div>
+                                    <h2>{{total_submitted}} submitted bids.</h2>
+                                    <p class="lead">
+                                        Make a submission to any of the open procurement requests to
+                                        view
+                                        the summary.
+                                    </p>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        <h2 class="section-title">Open Tenders ({{open_tenders|length}})
+        </h2>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped" id="table-1">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">
+                                            Tender No.
+                                        </th>
+                                        <th>Title</th>
+                                        <th>Status</th>
+                                        <th>Tender Opening Date</th>
+                                        <th>Tender Closing Date / Time</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for tender in open_tenders %}
+                                    <tr>
+                                        <td>{{tender.No}}</td>
+                                        <td>{{tender.Title}}</td>
+                                        <td>
+                                            <div class="badge badge-success">{{tender.Status}}</div>
+                                        </td>
+                                        <td id="TenderOpeningDate{{tender.No}}">
+                                            {{tender.TenderOpeningDate}}
+                                        </td>
+                                        <td id="TenderClosingDate{{tender.No}}">
+                                            {{tender.TenderClosingDate}}
+                                        </td>
+                                        <td><a href="/tdr/{{tender.No}}/" class="btn btn-primary">Detail</a>
+                                        </td>
+                                        <script>
+                                            $(document).ready(function () {
+                                                $("#TenderOpeningDate{{tender.No}}")
+                                                    .empty().append(moment(
+                                                            '{{tender.TenderOpeningDate}}',
+                                                            "YYYY-MM-DD")
+                                                        .format(
+                                                            'Do MMM YYYY'));
+                                                $("#TenderClosingDate{{tender.No}}")
+                                                    .empty().append(moment(
+                                                            '{{tender.TenderClosingDate}}',
+                                                            "YYYY-MM-DD, h:mm:ss a")
+                                                        .format(
+                                                            'Do MMM YYYY, h:mm a'));
+                                            })
+                                        </script>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+        $('.tab-pane').not('.active').hide();
+        const $headerTitle = $('.headerTitle');
+        var open_total = '{{total_open}}';
+        var submitted_total = '{{total_submitted}}';
+        var cardCount = $('#card-container').children().length;
+        console.log(cardCount)
+        if (cardCount == 1) {
+            $('.dynamic').removeClass('col-md-3');
+            $('.dynamic').addClass('col-md-12');
+        } else if (cardCount == 2) {
+            $('.dynamic').removeClass('col-md-3');
+            $('.dynamic').addClass('col-md-6');
+        } else if (cardCount == 3) {
+            $('.dynamic').removeClass('col-md-3');
+            $('.dynamic').addClass('col-md-4');
+        } else {
+            $('.dynamic').addClass('col-md-3');
+        }
+        $('#new-tab').click(function () {
+            $('#new-content').show();
+            $('#submitted-content').hide();
+            $headerTitle.empty().append('New Procurement Requests' + ' ' + '(' + open_total + ')');
+
+        });
+        $('#submitted-tab').click(function () {
+            $('#new-content').hide();
+            $('#submitted-content').show();
+            $headerTitle.empty().append('My Submissions' + ' ' + '(' + submitted_total + ')');
+        });
+    });
+</script>
+{% endblock %}

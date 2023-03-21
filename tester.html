@@ -1,0 +1,44 @@
+{% if total_open > 0 %}
+<div class="row gx-1">
+    {% set card_count = open_restricted|length + open_quotation|length + open_interest|length + open_proposal|length %}
+    {% set card_width = 12 // card_count if card_count > 0 else 12 %}
+    {% if open_restricted|length > 0 %}
+    <div class="col-md-{{card_width}} col-lg-{{card_width}}">
+        <div class="card-box bg-blue w-100">
+
+        </div>
+    </div>
+    {% endif %}
+    {% if open_quotation|length > 0 %}
+    <div class="col-md-{{card_width}} col-lg-{{card_width}}">
+        <div class="card-box bg-green">
+
+        </div>
+    </div>
+    {% endif %}
+    {% if open_interest|length > 0 %}
+    <div class="col-md-{{card_width}} col-lg-{{card_width}}">
+        <div class="card-box bg-orange">
+        </div>
+    </div>
+    {% endif %}
+    {% if open_proposal|length > 0 %}
+    <div class="col-md-{{card_width}} col-lg-{{card_width}}">
+        <div class="card-box bg-red">
+
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+{% else %}
+<div class="empty-state">
+    <div class="empty-state-icon">
+        <i class="fas fa-question"></i>
+    </div>
+    <h2>No New Procurement Request</h2>
+    <p class="lead">
+        come back later...
+    </p>
+</div>
+{% endif %}

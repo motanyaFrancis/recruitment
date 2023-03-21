@@ -8,7 +8,6 @@ VERIFY
 <link rel="stylesheet" href="../../static/plugins/assets/modules/jquery-selectric/selectric.css">
 <script src="../../static/plugins/assets/modules/select2/dist/js/select2.full.min.js"></script>
 <script src="../../static/plugins/assets/modules/jquery-selectric/jquery.selectric.min.js"></script>
-<script src="../../static/plugins/assets/assets/modules/jquery-pwstrength/jquery.pwstrength.min.js"></script>
 {% endblock %}
 
 {% block navigation %}
@@ -16,7 +15,7 @@ VERIFY
     <a href="/" class="nav-link"><i class="fas fa-home"></i><span>Home</span></a>
 </li>
 <li class="nav-item">
-    <a href="#" class="nav-link modal-5"><i class="fas fa-user"></i><span>Sign
+    <a href="#" class="nav-link" data-toggle="modal" data-target="#signIn"><i class="fas fa-user"></i><span>Sign
             In</span></a>
 </li>
 {% endblock %}
@@ -24,63 +23,68 @@ VERIFY
 {% block main %}
 <section class="section">
     {% include 'alerts.html' %}
-    <div class="section-body">
-        <h2 class="section-title">Verify your account
-        </h2>
-        <div class="row my-2">
-            <div class="col-md-12">
-                <div
-                    class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
-                    <div class="step completed">
-                        <div class="step-icon-wrap">
-                            <div class="step-icon">
-                                <i class="las la-user-cog"></i>
-                            </div>
+    <div class="row my-2">
+        <div class="col-md-12">
+            <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
+                <div class="step completed">
+                    <div class="step-icon-wrap">
+                        <div class="step-icon">
+                            <i class="las la-user-cog"></i>
                         </div>
-                        <h4 class="step-title">Supplier Details</h4>
                     </div>
-                    <div class="step completed">
-                        <div class="step-icon-wrap">
-                            <div class="step-icon">
-                                <i class="las la-user-lock"></i>
-                            </div>
+                    <h4 class="step-title">Supplier Details</h4>
+                </div>
+                <div class="step verifyStep">
+                    <div class="step-icon-wrap">
+                        <div class="step-icon">
+                            <i class="las la-user-lock"></i>
                         </div>
-                        <h4 class="step-title"> Verify Account</h4>
                     </div>
-                    <div class="step">
-                        <div class="step-icon-wrap">
-                            <div class="step-icon">
-                                <i class="las la-unlock"></i>
-                            </div>
+                    <h4 class="step-title"> Verify Account</h4>
+                </div>
+                <div class="step">
+                    <div class="step-icon-wrap">
+                        <div class="step-icon">
+                            <i class="las la-unlock"></i>
                         </div>
-                        <h4 class="step-title">Login</h4>
                     </div>
-                    <div class="step">
-                        <div class="step-icon-wrap">
-                            <div class="step-icon">
-                                <i class="las la-user-check"></i>
-                            </div>
+                    <h4 class="step-title">Login</h4>
+                </div>
+                <div class="step">
+                    <div class="step-icon-wrap">
+                        <div class="step-icon">
+                            <i class="las la-user-check"></i>
                         </div>
-                        <h4 class="step-title">Dashboard</h4>
                     </div>
+                    <h4 class="step-title">Dashboard</h4>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="section-body" id="sectionVerify">
+
+        <h2 class="section-title">Verify your account
+        </h2>
+
         <div class="row">
             <div class="col-md-12">
                 <div class="card-body">
-                    <form method="POST" action="/verify/" novalidate>
+                    <div class="money-spinner mx-auto text-center" id="spinner" style="display: none;">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif"
+                            alt="Loading Gif" style="height: 200px;" class="img-fluid">
+                    </div>
+                    <form method="POST" id="verifyForm" novalidate>
                         {% csrf_token %}
-                        <input type="hidden" name="prospNo" value="">
-                        <input type="hidden" name="myAction" value="insert">
+                        <input type="hidden" name="prospNo" id="prospNo" value="">
+                        <input type="hidden" name="myAction" id="myAction" value="insert">
                         <div class="row">
                             <div class="form-group col-6">
                                 <label for="frist_name">Your Email <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="email" autofocus required>
+                                <input type="text" class="form-control" name="email" id="email" autofocus required>
                             </div>
                             <div class="form-group col-6">
                                 <label>Verification Code <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="secret" required>
+                                <input type="text" class="form-control" name="secret" id="secret" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -92,7 +96,119 @@ VERIFY
                 </div>
             </div>
         </div>
+
     </div>
+    <div class="section-body" id="sectionLogin" style="display: none;">
+        <h2 class="section-title">Login
+        </h2>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card-body">
+                    <form method="POST" action="/login/" novalidate>
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label>Supplier Email</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Email" name="email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fas fa-lock"></i>
+                                    </div>
+                                </div>
+                                <input type="password" class="form-control" placeholder="Password" name="password">
+                            </div>
+                        </div>
+                        <div class="form-group mb-0">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" name="remember" class="custom-control-input" id="remember-me">
+                                <label class="custom-control-label" for="remember-me">Remember Me</label>
+                            </div>
+                        </div>
+                        <div class="form-group my-2">
+                            <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                Verify
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
+
 </section>
+<script>
+    $(document).ready(function () {
+        const $verifyForm = $('#verifyForm');
+        const $spinner = $('#spinner');
+        const $sectionVerify = $('#sectionVerify');
+        const $sectionLogin = $('#sectionLogin');
+
+        $verifyForm.on('submit', (e) => {
+            e.preventDefault();
+
+            if ($('#email').val() === '' || $('#secret').val() === '') {
+                alert('Please fill in all required fields.');
+                return false;
+            }
+            $verifyForm.hide();
+            $spinner.show(200);
+            $.ajax({
+                type: 'POST',
+                url: "/verify/",
+                data: {
+                    prospNo: $('#prospNo').val(),
+                    myAction: $('#myAction').val(),
+                    email: $('#email').val(),
+                    secret: $('#secret').val(),
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                },
+                success: function (data) {
+                    $('#email, #secret').val('');
+                    $spinner.hide();
+                    $verifyForm.show(200);
+                    if (data['success'] == true) {
+                        iziToast.show({
+                            theme: 'dark',
+                            icon: 'fas fa-check-circle',
+                            backgroundColor: '#ad622d',
+                            title: 'Hey',
+                            message: data['message'],
+                            position: 'bottomRight',
+                            progressBarColor: 'rgb(253, 254, 254)',
+                        });
+                        $('.verifyStep').addClass('completed');
+                        $sectionVerify.hide();
+                        $sectionLogin.show();
+                    } else {
+                        iziToast.show({
+                            theme: 'dark',
+                            icon: 'fas fa-exclamation-triangle',
+                            backgroundColor: '#FF0000',
+                            title: 'Hey',
+                            message: data['error'],
+                            position: 'bottomRight',
+                            progressBarColor: 'rgb(253, 254, 254)',
+                        });
+                    }
+                },
+                error: function (error) {
+                    console.log(error)
+                    $spinner.hide();
+                    $verifyForm.show(200);
+                }
+            });
+        });
+
+    })
+</script>
 {% endblock %}

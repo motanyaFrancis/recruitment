@@ -59,8 +59,30 @@
                     </a>
                     <ul class="navbar-nav">
                         {% block navigation %}
+
                         {% endblock %}
-                        <form class="modal-part" id="modal-login-part">
+
+                    </ul>
+                </div>
+            </nav>
+            <!-- Main Content -->
+            <div class="main-content">
+                {% block main %}
+                {% endblock %}
+            </div>
+        </div>
+        <div class="modal fade" tabindex="-1" role="dialog" id="signIn">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Login</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" action="/login/" novalidate>
+                            {% csrf_token %}
                             <div class="form-group">
                                 <label>Supplier Email</label>
                                 <div class="input-group">
@@ -91,14 +113,14 @@
                                 </div>
                             </div>
                             <p>Don't have an account? <a href="/register/" class="text-danger">Register</a></p>
+                            <div class="form-group my-2">
+                                <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                    Verify
+                                </button>
+                            </div>
                         </form>
-                    </ul>
+                    </div>
                 </div>
-            </nav>
-            <!-- Main Content -->
-            <div class="main-content">
-                {% block main %}
-                {% endblock %}
             </div>
         </div>
         {% include 'footer.html' %}
