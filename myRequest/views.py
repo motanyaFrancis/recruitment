@@ -41,6 +41,7 @@ class UserObjectMixins(object):
     todays_date = dt.datetime.now().strftime("%b. %d, %Y %A")
     cipher_suite = Fernet(config.ENCRYPT_KEY)
     O_DATA_AUTH = aiohttp.BasicAuth(config.WEB_SERVICE_UID, config.WEB_SERVICE_PWD) 
+    WEB_PORTAL = 'http://4.227.198.209:7052/LBDA/WS/LBDA/Codeunit/CuWebPortal'
     
     def verificationToken(self,tokenRange):
         alphabet = string.ascii_letters + string.digits
@@ -114,22 +115,22 @@ class UserObjectMixins(object):
             client = Client(config.BASE_URL, transport=Transport(session=session))
             response = executor.submit(client.service[endpoint], *params).result()
         return response
-    def upload_attachment(self,soap_headers, *params):
+    def upload_attachment(self, *params):
         global session
         if not session:
             session = Session()
-            session.auth = HTTPBasicAuth(soap_headers['username'], soap_headers['password'])
+            session.auth = HTTPBasicAuth(config.WEB_SERVICE_UID, config.WEB_SERVICE_PWD)
         with ThreadPoolExecutor() as executor:
-            client = Client(config.BASE_URL, transport=Transport(session=session))
+            client = Client(self.WEB_PORTAL, transport=Transport(session=session))
             response = executor.submit(client.service['FnUploadAttachedDocument'], *params).result()
         return response
-    def delete_attachment(self,soap_headers, *params):
+    def delete_attachment(self, *params):
         global session
         if not session:
             session = Session()
-            session.auth = HTTPBasicAuth(soap_headers['username'], soap_headers['password'])
+            session.auth = HTTPBasicAuth(config.WEB_SERVICE_UID, config.WEB_SERVICE_PWD)
         with ThreadPoolExecutor() as executor:
-            client = Client(config.BASE_URL, transport=Transport(session=session))
+            client = Client(self.WEB_PORTAL, transport=Transport(session=session))
             response = executor.submit(client.service['FnDeleteDocumentAttachment'], *params).result()
         return response
     

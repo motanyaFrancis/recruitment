@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% block title %}
+{{type}}
+{% endblock %}
+{% block head %}
+<script src="../../static/plugins/assets/modules/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block user %}
+{% if authenticated == True %}
+{% include 'topbar.html' %}
+{% endif %}
+{% endblock %}
+
+{% block navigation %}
+<li class="nav-item active">
+    <a href="#" type="button" class="nav-link" disabled>
+        <i class="fas fa-fire text-danger"></i>
+        {{type}}
+    </a>
+</li>
+
+{% if authenticated == True %}
+<li class="nav-item">
+    <a href="/dashboard/" class="nav-link"><i class="fas fa-home"></i><span>Dashboard</span></a>
+</li>
+{% if state == 'Vendor' %}
+<li class="nav-item dropdown">
+    <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="far fa-clone"></i><span>More</span></a>
+    <ul class="dropdown-menu">
+        <li class="nav-item"><a href="/procurement/Open Tender" class="nav-link">Open Tenders</a></li>
+        <li class="nav-item"><a href="/procurement/Restricted Tender" class="nav-link">Restricted Tenders</a></li>
+        <li class="nav-item"><a href="/procurement/RFQ" class="nav-link">Request For Quotation</a></li>
+        <li class="nav-item"><a href="/procurement/EOI" class="nav-link">Expression Of Interest</a></li>
+        <li class="nav-item"><a href="/procurement/RFP" class="nav-link">Request For Proposal</a></li>
+    </ul>
+</li>
+{% endif %}
+<li class="nav-item">
+    <a href="/logout/" class="nav-link" data-toggle="tooltip" title="Sign Out"><i
+            class="fas fa-sign-out-alt"></i><span>Sign
+            Out</span></a>
+</li>
+{% endif %}
+{% endblock %}
+
+{% block main %}
+<section class="section">
+    {% include 'alerts.html' %}
+    <div class="section-body">
+        <h2 class="section-title">{{type}}({{open_tenders|length}})
+        </h2>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped" id="table-1">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">
+                                            Tender No.
+                                        </th>
+                                        <th>Title</th>
+                                        <th>Status</th>
+                                        <th>Tender Opening Date</th>
+                                        <th>Tender Closing Date / Time</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for tender in open_tenders %}
+                                    <tr>
+                                        <td>{{tender.No}}</td>
+                                        <td>{{tender.Title}}</td>
+                                        <td>
+                                            <div class="badge badge-success">{{tender.Status}}</div>
+                                        </td>
+                                        <td id="TenderOpeningDate{{tender.No}}">
+                                            {{tender.TenderOpeningDate}}
+                                        </td>
+                                        <td id="TenderClosingDate{{tender.No}}">
+                                            {{tender.TenderClosingDate}}
+                                        </td>
+                                        <td><a href="/tdr/{{tender.No}}/" class="btn btn-primary">Detail</a>
+                                        </td>
+                                        <script>
+                                            $(document).ready(function () {
+                                                $("#TenderOpeningDate{{tender.No}}")
+                                                    .empty().append(moment(
+                                                            '{{tender.TenderOpeningDate}}',
+                                                            "YYYY-MM-DD")
+                                                        .format(
+                                                            'Do MMM YYYY'));
+                                                $("#TenderClosingDate{{tender.No}}")
+                                                    .empty().append(moment(
+                                                            '{{tender.TenderClosingDate}}',
+                                                            "YYYY-MM-DD, h:mm:ss a")
+                                                        .format(
+                                                            'Do MMM YYYY, h:mm a'));
+                                            })
+                                        </script>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+        $('.tab-pane').not('.active').hide();
+        const $headerTitle = $('.headerTitle');
+        var open_total = '{{total_open}}';
+        var submitted_total = '{{total_submitted}}';
+        var cardCount = $('#card-container').children().length;
+        console.log(cardCount)
+        if (cardCount == 1) {
+            $('.dynamic').removeClass('col-md-3');
+            $('.dynamic').addClass('col-md-12');
+        } else if (cardCount == 2) {
+            $('.dynamic').removeClass('col-md-3');
+            $('.dynamic').addClass('col-md-6');
+        } else if (cardCount == 3) {
+            $('.dynamic').removeClass('col-md-3');
+            $('.dynamic').addClass('col-md-4');
+        } else {
+            $('.dynamic').addClass('col-md-3');
+        }
+        $('#new-tab').click(function () {
+            $('#new-content').show();
+            $('#submitted-content').hide();
+            $headerTitle.empty().append('New Procurement Requests' + ' ' + '(' + open_total + ')');
+
+        });
+        $('#submitted-tab').click(function () {
+            $('#new-content').hide();
+            $('#submitted-content').show();
+            $headerTitle.empty().append('My Submissions' + ' ' + '(' + submitted_total + ')');
+        });
+    });
+</script>
+{% endblock %}
