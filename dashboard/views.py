@@ -15,6 +15,7 @@ class Index(UserObjectMixins, View):
         try:
             ctx = {}
             authenticated = False
+            ContactPage = False
 
             if 'authenticated' in request.session:
                 authenticated = request.session['authenticated']
@@ -30,7 +31,8 @@ class Index(UserObjectMixins, View):
             return redirect('index')
         print(authenticated)
         ctx = {"open_tenders":open_tenders,
-               "authenticated":authenticated}
+               "authenticated":authenticated,
+               "ContactPage":ContactPage}
         return render(request,'index.html',ctx)
     
 class TenderDetail(UserObjectMixins,View):
@@ -38,14 +40,16 @@ class TenderDetail(UserObjectMixins,View):
         try:
             ctx = {}
             response = {}
+            username = 'None'
             if 'authenticated' in request.session:
                 authenticated = request.session['authenticated']
+                if 'Name' in request.session:
+                    username = request.session['Name']
+                else:
+                    username = request.session['Email']
             else:
                 authenticated = False
-            if 'Name' in request.session:
-                username = request.session['Name']
-            else:
-                username = request.session['Email']
+            
             task_get_procurement_methods = self.one_filter("/QyProcurementMethods","No","eq",pk)
             
             for x in task_get_procurement_methods[1]:

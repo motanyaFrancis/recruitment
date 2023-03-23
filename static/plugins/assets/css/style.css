@@ -3697,11 +3697,10 @@ body.layout-3 .main-footer {
 
 .main-footer {
   padding: 20px 30px 20px 280px;
-  margin-top: 40px;
   color: #98a6ad;
-  border-top: 1px solid #e3eaef;
   display: inline-block;
   width: 100%;
+  margin-bottom: -2rem;
 }
 .main-footer .footer-left {
   float: left;

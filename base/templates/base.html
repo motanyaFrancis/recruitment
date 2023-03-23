@@ -61,7 +61,19 @@
                         {% block navigation %}
 
                         {% endblock %}
-
+                        {% if ContactPage == False %}
+                        <li class="nav-item">
+                            <a href="/Contact/" class="nav-link" data-toggle="tooltip" title="contact us"><span>Contact
+                                    Us <i class="fas fa-phone"></i></span></a>
+                        </li>
+                        {% endif %}
+                        {% if authenticated == False %}
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#signIn"><i
+                                    class="fas fa-user"></i><span>Sign
+                                    In</span></a>
+                        </li>
+                        {% endif %}
                     </ul>
                 </div>
             </nav>
@@ -123,9 +135,9 @@
                 </div>
             </div>
         </div>
-        {% include 'footer.html' %}
-    </div>
 
+    </div>
+    {% include 'footer.html' %}
     <!-- General JS Scripts -->
     <script src="../../static/plugins/assets/modules/popper.js"></script>
     <script src="../../static/plugins/assets/modules/tooltip.js"></script>

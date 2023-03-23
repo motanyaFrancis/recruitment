@@ -70,6 +70,23 @@ class UserObjectMixins(object):
         EmailThread(email).start()
         return True
     
+    def send_message(self, name, reply_email, subject, message, email_template, recipient_email):
+        email_body = render_to_string(email_template, {
+            "user": name,
+            "message": message, 
+        })
+        email = EmailMessage(
+            subject=subject,
+            body=email_body,
+            from_email=config.EMAIL_HOST_USER,
+            to=[recipient_email],
+            reply_to=[reply_email]
+        )
+        email.content_subtype = "html"
+        EmailThread(email).start()
+        return True
+
+    
     async def fetch_data(self,session,username,password,endpoint,property,filter):
         auth =aiohttp.BasicAuth(login=username,password=password)
         async with session.get(config.O_DATA.format(f"{endpoint}?$filter={property}%20{filter}%20%27{username}%27"),auth=auth) as res:

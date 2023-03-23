@@ -5,172 +5,12 @@ OPEN TENDERS
 {% block head %}
 <script src="../../static/plugins/assets/modules/moment.min.js"></script>
 {% endblock %}
-
-{% block user %}
-{% if authenticated == True %}
-<ul class="navbar-nav navbar-right ml-auto">
-    <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
-            class="nav-link nav-link-lg message-toggle beep"><i class="far fa-envelope"></i></a>
-        <div class="dropdown-menu dropdown-list dropdown-menu-right">
-            <div class="dropdown-header">Messages
-                <div class="float-right">
-                    <a href="#">Mark All As Read</a>
-                </div>
-            </div>
-            <div class="dropdown-list-content dropdown-list-message">
-                <a href="#" class="dropdown-item dropdown-item-unread">
-                    <div class="dropdown-item-avatar">
-                        <img alt="image" src="../../static/img/logo/pp.png" class="rounded-circle">
-                        <div class="is-online"></div>
-                    </div>
-                    <div class="dropdown-item-desc">
-                        <b>Kusnaedi</b>
-                        <p>Hello, Bro!</p>
-                        <div class="time">10 Hours Ago</div>
-                    </div>
-                </a>
-                <a href="#" class="dropdown-item dropdown-item-unread">
-                    <div class="dropdown-item-avatar">
-                        <img alt="image" src="assets/img/avatar/avatar-2.png" class="rounded-circle">
-                    </div>
-                    <div class="dropdown-item-desc">
-                        <b>Dedik Sugiharto</b>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
-                        <div class="time">12 Hours Ago</div>
-                    </div>
-                </a>
-                <a href="#" class="dropdown-item dropdown-item-unread">
-                    <div class="dropdown-item-avatar">
-                        <img alt="image" src="assets/img/avatar/avatar-3.png" class="rounded-circle">
-                        <div class="is-online"></div>
-                    </div>
-                    <div class="dropdown-item-desc">
-                        <b>Agung Ardiansyah</b>
-                        <p>Sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                        <div class="time">12 Hours Ago</div>
-                    </div>
-                </a>
-                <a href="#" class="dropdown-item">
-                    <div class="dropdown-item-avatar">
-                        <img alt="image" src="assets/img/avatar/avatar-4.png" class="rounded-circle">
-                    </div>
-                    <div class="dropdown-item-desc">
-                        <b>Ardian Rahardiansyah</b>
-                        <p>Duis aute irure dolor in reprehenderit in voluptate velit ess</p>
-                        <div class="time">16 Hours Ago</div>
-                    </div>
-                </a>
-                <a href="#" class="dropdown-item">
-                    <div class="dropdown-item-avatar">
-                        <img alt="image" src="assets/img/avatar/avatar-5.png" class="rounded-circle">
-                    </div>
-                    <div class="dropdown-item-desc">
-                        <b>Alfa Zulkarnain</b>
-                        <p>Exercitation ullamco laboris nisi ut aliquip ex ea commodo</p>
-                        <div class="time">Yesterday</div>
-                    </div>
-                </a>
-            </div>
-            <div class="dropdown-footer text-center">
-                <a href="#">View All <i class="fas fa-chevron-right"></i></a>
-            </div>
-        </div>
-    </li>
-    <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
-            class="nav-link notification-toggle nav-link-lg beep"><i class="far fa-bell"></i></a>
-        <div class="dropdown-menu dropdown-list dropdown-menu-right">
-            <div class="dropdown-header">Notifications
-                <div class="float-right">
-                    <a href="#">Mark All As Read</a>
-                </div>
-            </div>
-            <div class="dropdown-list-content dropdown-list-icons">
-                <a href="#" class="dropdown-item dropdown-item-unread">
-                    <div class="dropdown-item-icon bg-primary text-white">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <div class="dropdown-item-desc">
-                        Template update is available now!
-                        <div class="time text-primary">2 Min Ago</div>
-                    </div>
-                </a>
-                <a href="#" class="dropdown-item">
-                    <div class="dropdown-item-icon bg-info text-white">
-                        <i class="far fa-user"></i>
-                    </div>
-                    <div class="dropdown-item-desc">
-                        <b>You</b> and <b>Dedik Sugiharto</b> are now friends
-                        <div class="time">10 Hours Ago</div>
-                    </div>
-                </a>
-                <a href="#" class="dropdown-item">
-                    <div class="dropdown-item-icon bg-success text-white">
-                        <i class="fas fa-check"></i>
-                    </div>
-                    <div class="dropdown-item-desc">
-                        <b>Kusnaedi</b> has moved task <b>Fix bug header</b> to <b>Done</b>
-                        <div class="time">12 Hours Ago</div>
-                    </div>
-                </a>
-                <a href="#" class="dropdown-item">
-                    <div class="dropdown-item-icon bg-danger text-white">
-                        <i class="fas fa-exclamation-triangle"></i>
-                    </div>
-                    <div class="dropdown-item-desc">
-                        Low disk space. Let's clean it!
-                        <div class="time">17 Hours Ago</div>
-                    </div>
-                </a>
-                <a href="#" class="dropdown-item">
-                    <div class="dropdown-item-icon bg-info text-white">
-                        <i class="fas fa-bell"></i>
-                    </div>
-                    <div class="dropdown-item-desc">
-                        Welcome to Stisla template!
-                        <div class="time">Yesterday</div>
-                    </div>
-                </a>
-            </div>
-            <div class="dropdown-footer text-center">
-                <a href="#">View All <i class="fas fa-chevron-right"></i></a>
-            </div>
-        </div>
-    </li>
-    <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-            <img alt="image" src="../../static/img/logo/pp.png" class="rounded-circle mr-1">
-            <div class="d-sm-none d-lg-inline-block">Hi, Ujang Maman</div>
-        </a>
-        <div class="dropdown-menu dropdown-menu-right">
-            <div class="dropdown-title">Logged in 5 min ago</div>
-            <a href="features-profile.html" class="dropdown-item has-icon">
-                <i class="far fa-user"></i> Profile
-            </a>
-            <a href="features-activities.html" class="dropdown-item has-icon">
-                <i class="fas fa-bolt"></i> Activities
-            </a>
-            <a href="features-settings.html" class="dropdown-item has-icon">
-                <i class="fas fa-cog"></i> Settings
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item has-icon text-danger">
-                <i class="fas fa-sign-out-alt"></i> Logout
-            </a>
-        </div>
-    </li>
-</ul>
-{% endif %}
-{% endblock %}
-
 {% block navigation %}
 <li class="nav-item active">
     <a href="#" type="button" class="nav-link">
-        <i class="fas fa-fire text-danger"></i>
-        Open Tenders <span class="badge badge-primary">{{open_tenders|length}}</span>
+        <i class="fas fa-home text-danger"></i>
+        Home
     </a>
-</li>
-<li class="nav-item">
-    <a href="#" class="nav-link" data-toggle="modal" data-target="#signIn"><i class="fas fa-user"></i><span>Sign
-            In</span></a>
 </li>
 {% endblock %}
 
@@ -178,7 +18,7 @@ OPEN TENDERS
 <section class="section">
     {% include 'alerts.html' %}
     <div class="section-body">
-        <h2 class="section-title">Open Tenders
+        <h2 class="section-title">Open Tenders ({{open_tenders|length}})
         </h2>
         <div class="row">
             <div class="col-12">
@@ -204,7 +44,7 @@ OPEN TENDERS
                                         <td>{{tender.No}}</td>
                                         <td>{{tender.Title}}</td>
                                         <td>
-                                            <div class="badge badge-success">{{tender.Status}}</div>
+                                            <div class="badge badge-secondary">{{tender.Status}}</div>
                                         </td>
                                         <td id="TenderOpeningDate{{tender.No}}">{{tender.TenderOpeningDate}} </td>
                                         <td id="TenderClosingDate{{tender.No}}">{{tender.TenderClosingDate}}</td>
