@@ -21,27 +21,13 @@ DASHBOARD
         Dashboard
     </a>
 </li>
-{% if state == 'Vendor' %}
 <li class="nav-item dropdown">
     <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="far fa-clone"></i><span>More</span></a>
     <ul class="dropdown-menu">
-        <li class="nav-item"><a href="/procurement/Open Tender" class="nav-link">Open Tenders</a></li>
-        <li class="nav-item"><a href="/procurement/Restricted Tender" class="nav-link">Restricted Tenders</a></li>
-        <li class="nav-item"><a href="/procurement/RFQ" class="nav-link">Request For Quotation</a></li>
-        <li class="nav-item"><a href="/procurement/EOI" class="nav-link">Expression Of Interest</a></li>
-        <li class="nav-item"><a href="/procurement/RFP" class="nav-link">Request For Proposal</a></li>
+        <li class="nav-item"><a href="/procurement/RFP" class="nav-link">Submitted</a></li>
     </ul>
 </li>
-{% endif %}
-<li class="nav-item">
-    <a href="#" class="nav-link" data-toggle="tooltip" title="Sign Out"><span>Contact
-            Us <i class="fas fa-phone"></i></span></a>
-</li>
-<li class="nav-item">
-    <a href="/logout/" class="nav-link" data-toggle="tooltip" title="Sign Out"><i
-            class="fas fa-sign-out-alt"></i><span>Sign
-            Out</span></a>
-</li>
+
 {% else %}
 <li class="nav-item active">
     <a href="/" type="button" class="nav-link">
@@ -235,7 +221,13 @@ DASHBOARD
             </div>
         </div>
         {% endif %}
-        <h2 class="section-title">Open Tenders ({{open_tenders|length}})
+
+        <h2 class="section-title">
+            {% if state == 'Vendor' %}
+            Open Tenders ({{all_tenders|length}})
+            {% elif state == 'Prospect' %}
+            Open Tenders ({{open_tenders|length}})
+            {% endif %}
         </h2>
         <div class="row">
             <div class="col-12">
@@ -248,48 +240,86 @@ DASHBOARD
                                         <th class="text-center">
                                             Tender No.
                                         </th>
-                                        <th>Title</th>
+                                        <th>Process Type</th>
+                                        <th>Tender Type</th>
                                         <th>Status</th>
-                                        <th>Tender Opening Date</th>
-                                        <th>Tender Closing Date / Time</th>
+                                        <th>Bidding Deadline</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
+                                {% if state == 'Vendor' %}
                                 <tbody>
-                                    {% for tender in open_tenders %}
+                                    {% for tender in all_tenders %}
                                     <tr>
                                         <td>{{tender.No}}</td>
-                                        <td>{{tender.Title}}</td>
+                                        <td>{{tender.Process_Type}}</td>
+                                        <td>{{tender.TenderType}}</td>
                                         <td>
-                                            <div class="badge badge-success">{{tender.Status}}</div>
+                                            <div class="badge badge-secondary">{{tender.Status}}</div>
                                         </td>
-                                        <td id="TenderOpeningDate{{tender.No}}">
-                                            {{tender.TenderOpeningDate}}
-                                        </td>
-                                        <td id="TenderClosingDate{{tender.No}}">
-                                            {{tender.TenderClosingDate}}
+                                        <td>
+                                            <span
+                                                id="Quotation_Deadline{{tender.No}}">{{tender.Quotation_Deadline}}</span>
+                                            at <span class="text-danger"
+                                                id="Expected_Closing_Time{{tender.No}}">{{tender.Expected_Closing_Time}}</span>
                                         </td>
                                         <td><a href="/tdr/{{tender.No}}/" class="btn btn-primary">Detail</a>
                                         </td>
                                         <script>
                                             $(document).ready(function () {
-                                                $("#TenderOpeningDate{{tender.No}}")
+                                                $("#Quotation_Deadline{{tender.No}}")
                                                     .empty().append(moment(
-                                                            '{{tender.TenderOpeningDate}}',
-                                                            "YYYY-MM-DD")
+                                                            '{{tender.Quotation_Deadline}}', "YYYY-MM-DD")
                                                         .format(
                                                             'Do MMM YYYY'));
-                                                $("#TenderClosingDate{{tender.No}}")
+                                                $("#Expected_Closing_Time{{tender.No}}")
                                                     .empty().append(moment(
-                                                            '{{tender.TenderClosingDate}}',
-                                                            "YYYY-MM-DD, h:mm:ss a")
+                                                            '{{tender.Expected_Closing_Time}}',
+                                                            "h:mm:ss a")
                                                         .format(
-                                                            'Do MMM YYYY, h:mm a'));
+                                                            'h:mm a'));
                                             })
                                         </script>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
+                                {% elif state == 'Prospect' %}
+                                <tbody>
+                                    {% for tender in open_tenders %}
+                                    <tr>
+                                        <td>{{tender.No}}</td>
+                                        <td>{{tender.Process_Type}}</td>
+                                        <td>{{tender.TenderType}}</td>
+                                        <td>
+                                            <div class="badge badge-secondary">{{tender.Status}}</div>
+                                        </td>
+                                        <td>
+                                            <span
+                                                id="Quotation_Deadline{{tender.No}}">{{tender.Quotation_Deadline}}</span>
+                                            at <span class="text-danger"
+                                                id="Expected_Closing_Time{{tender.No}}">{{tender.Expected_Closing_Time}}</span>
+                                        </td>
+                                        <td><a href="/tdr/{{tender.No}}/" class="btn btn-primary">Detail</a>
+                                        </td>
+                                        <script>
+                                            $(document).ready(function () {
+                                                $("#Quotation_Deadline{{tender.No}}")
+                                                    .empty().append(moment(
+                                                            '{{tender.Quotation_Deadline}}', "YYYY-MM-DD")
+                                                        .format(
+                                                            'Do MMM YYYY'));
+                                                $("#Expected_Closing_Time{{tender.No}}")
+                                                    .empty().append(moment(
+                                                            '{{tender.Expected_Closing_Time}}',
+                                                            "h:mm:ss a")
+                                                        .format(
+                                                            'h:mm a'));
+                                            })
+                                        </script>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                {% endif %}
                             </table>
                         </div>
                     </div>

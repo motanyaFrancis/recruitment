@@ -11,4 +11,6 @@ urlpatterns = [
     path('TechnicalRequirements/<str:pk>/',views.TechnicalRequirements.as_view(),name='TechnicalRequirements'),
     path('Attachments/<str:pk>/', views.Attachments.as_view(), name='Attachments'),
     path('DeleteAttachment/', views.DeleteAttachment.as_view(), name='DeleteAttachment'),
+    path('FinancialBid/<str:pk>/',views.FinancialBid.as_view(),name='FinancialBid'),
+    path('Submit/<str:pk>/',views.Submit.as_view(),name='Submit'),
 ]

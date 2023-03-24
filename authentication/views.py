@@ -37,7 +37,7 @@ class login_request(UserObjectMixins,View):
             prospect = self.one_filter("/QyProspectiveSuppliers","Email","eq",email) 
                 
             for prospect in prospect[1]:
-                if prospect['Email'] == email:
+                if prospect['Email'] == email and prospect['Verified']:
                     if self.pass_decrypt(prospect['SerialID']) == password:
                         request.session['UserId'] = prospect['No']
                         request.session['state'] = "Prospect"
@@ -47,6 +47,8 @@ class login_request(UserObjectMixins,View):
                         return redirect('dashboard')
                     messages.error(request, "Invalid Credentials. Please reset your password else create a new account")
                     return redirect('index')
+                messages.error(request, "Account not verified")
+                return redirect('index')
             messages.error(request, "User not Registered")
             return redirect('register')
         except Exception as e:

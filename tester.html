@@ -1,0 +1,278 @@
+Add the security information then the tender-lines are generated where now the financial bid can be submitted
+<div class="row">
+    <div class="col-md-12 p-2" style="border: 2px dotted black;">
+        <h5 class="modal-title text-center">{{response.Process_Type}} Technical
+            Requirements
+        </h5>
+        <div class="money-spinner mx-auto text-center" id="attachment_spinner" style="display: none;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" alt="Loading Gif"
+                style="height: 100px; width: 100px;" class="img-fluid">
+        </div>
+        <form method="post" id="attachmentsForm" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Select Document to Upload <span class="text-danger">*</span></label>
+                <select class="custom-select" name="attachmentCode" id="attachmentCode">
+                    <option class="after" value="" disabled>--Select--</option>
+                </select>
+            </div>
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" name="attachments" id="attachments">
+                <label class="custom-file-label" for="customFile">Choose
+                    file</label>
+            </div>
+            <div style="display:flex; justify-content:space-between;" class="my-3">
+                <button type="submit" class="btn btn-primary btn-lg mr-1" style="flex:1;">
+                    Submit <i class="fas fa-paper-plane"></i>
+                </button>
+                <button class="btn btn-dark mr-1" type="button" id="attachmentBtn" style="flex:1;display:none">
+                    View <span id="attachementCount"></span> Attachments <i class="fas fa-eye"></i>
+                </button>
+            </div>
+        </form>
+        <div class="row" id="leave_attachments_row" style="display:none">
+            <div class="col-md-12">
+                <h5 class="">
+                    Attached Files <i class="las la-folder-open text-success"></i>
+                </h5>
+                <div class="row" id="attachments-container">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+function FinancialData(pk) {
+$.ajax({
+url: "/FinancialBid/" + pk + "/",
+type: "GET",
+dataType: "json",
+success: function (data) {
+var openTableBody = $('#open_table tbody');
+openTableBody.empty();
+
+for (var i = 0; i < data.length; i++) { var Line_No=data[i].Line_No; var Response_No=data[i].Response_No; var
+    Tender_No_=data[i].Tender_No_; var Description=data[i].Description; var Unit_of_Measure=data[i].Unit_of_Measure; var
+    Quantity=data[i].Quantity; var Unit_Price=data[i].Unit_Price; var Amount=data[i].Amount; var
+    modalHtml='<div class="modal fade" tabindex="-1" role="dialog" id="financialBid' + Line_No + '">\
+                                            <div class="modal-dialog modal-lg" role="document">\
+                                                <div class="modal-content">\
+                                                    <div class="modal-header">\
+                                                        <h5 class="modal-title">Financial Bid <span id="modal-title-LineNo"></span>\
+                                                        </h5>\
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">\
+                                                            <span aria-hidden="true">&times;</span>\
+                                                        </button>\
+                                                    </div>\
+                                                    <div class="modal-body">\
+                                                        <form method="POST" novalidate>\
+                                                            {% csrf_token %}\
+                                                            <input type="hidden" name="Process_Type" value="{{response.Process_Type}}">\
+                                                            <input type="hidden" name="TenderType" value="{{response.TenderType}}">\
+                                                            <input type="hidden" name="docNo" value="{{response.No}}">\
+                                                            <div class="form-group">\
+                                                                <label>Unit Price</label>\
+                                                                <div class="input-group">\
+                                                                    <div class="input-group-prepend">\
+                                                                        <div class="input-group-text">\
+                                                                            <i class="fas fa-coins"></i>\
+                                                                        </div>\
+                                                                    </div>\
+                                                                    <input type="text" class="form-control" placeholder="00.00" value="{{UnitPrice}}"\
+                                                                        name="unitPrice">\
+                                                                </div>\
+                                                            </div>\
+                                                            <div class="form-group my-2">\
+                                                                <button type="submit" class="btn btn-primary btn-lg btn-block">\
+                                                                    Submit <i class="fas fa-paper-plane"></i>\
+                                                                </button>\
+                                                            </div>\
+                                                        </form>\
+                                                    </div>\
+                                                </div>\
+                                            </div>\
+                                        </div>' ; var row=$('<tr>');
+    row.append($('<td>').text(Description));
+        row.append($('
+    <td>').text(Unit_of_Measure));
+        row.append($('
+    <td>').text(Quantity));
+        row.append($('
+    <td>').text(Unit_Price));
+        row.append($('
+    <td>').text(Amount));
+
+
+
+        // create a link button
+        var viewBtn = $('<a>').attr({
+            class: "btn btn-primary text-white",
+            type: "button",
+            "data-toggle": "modal",
+            "data-target": "#financialBid" + Line_No,
+            id: "SubmitBtnBG" + Line_No,
+            onclick: "openModal(" + Line_No + ")"
+            }).text("Bid");
+
+            // add the font awesome icon to the button
+            var icon = $('<i>').addClass('fa fa-coins ml-1');
+                viewBtn.append(icon);
+
+                // add event listener to button
+                viewBtn.click(function () {
+                // get Line_No from button id
+                var lineNo = $(this).attr('id').replace('SubmitBtnBG', '');
+                // construct id of modal
+                var modalId = '#financialBid' + lineNo;
+                });
+
+                // append the link button to the last
+    <td> element
+        row.append($('
+    <td>').append(viewBtn));
+        openTableBody.append(row);
+
+        }
+        // initialize DataTables for each table
+        if (!$.fn.DataTable.isDataTable('#open_table')) {
+        $('#open_table').DataTable({
+        "pageLength": 5,
+        "order": [
+        [0, "desc"]
+        ]
+        });
+        }
+        console.log(data);
+        },
+        error: function (xhr, status, error) {
+        console.log("Error:", error);
+        },
+        });
+        }
+
+        function FinancialData(pk) {
+        $.ajax({
+        url: "/FinancialBid/" + pk + "/",
+        type: "GET",
+        dataType: "json",
+        success: function (data) {
+        var openTableBody = $('#open_table tbody');
+        openTableBody.empty();
+        var showNextFour = false;
+
+        for (var i = 0; i < data.length; i++) { var Line_No=data[i].Line_No; var prospectNo=data[i].Response_No; var
+            docNo=data[i].Tender_No_; var Description=data[i].Description; var Unit_of_Measure=data[i].Unit_of_Measure;
+            var Quantity=data[i].Quantity; var Unit_Price=data[i].Unit_Price; var Amount=data[i].Amount; var
+            Vendor_No_=data[i].Vendor_No_; var
+            modalHtml='<div class="modal fade" tabindex="-1" role="dialog" id="financialBid' + Line_No + '">\
+                            <div class="modal-dialog modal-lg" role="document">\
+                                <div class="modal-content">\
+                                    <div class="modal-header">\
+                                        <h5 class="modal-title"> Financial Bid - ' + Line_No + '</h5>\
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">\
+                                            <span aria-hidden="true">&times;</span>\
+                                        </button>\
+                                    </div>\
+                                    <div class="modal-body">\
+                                        <div class="money-spinner mx-auto text-center" id="line_spinner" style="display: none;">\
+                                            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif"\
+                                                alt="Loading Gif" style="height: 100px; width: 100px;" class="img-fluid">\
+                                        </div>\
+                                        <form id="financialBidForm' + Line_No + '">\
+                                            {% csrf_token %}\
+                                            <input type="hidden" name="prospectNo" id="prospectNo' + Line_No
+            + '" value="' + prospectNo + '">\
+                                            <input type="hidden" name="docNo" id="docNo' + Line_No + '" value="' +
+            docNo + '">\
+                                            <input type="hidden" name="lineNo" id="lineNo' + Line_No + '" value="' +
+            Line_No + '">\
+                            <input type="hidden" name="Vendor_No_" id="Vendor_No_' + Line_No + '" value="' + Vendor_No_
+            + '">\
+                                            <div class="form-group">\
+                                                <label>Unit Price</label>\
+                                                <div class="input-group">\
+                                                    <div class="input-group-prepend">\
+                                                        <div class="input-group-text">\
+                                                            <i class="fas fa-coins"></i>\
+                                                        </div>\
+                                                    </div>\
+                                                    <input type="text" class="form-control" placeholder="00.00" value=""\
+                                                        name="unitPrice" id="unitPrice' + Line_No + '">\
+                                                </div>\
+                                            </div>\
+                                            <div class="form-group my-2">\
+                                                <button type="submit" class="btn btn-primary btn-lg btn-block">\
+                                                    Submit <i class="fas fa-paper-plane"></i>\
+                                                </button>\
+                                            </div>\
+                                        </form>\
+                                    </div>\
+                                </div>\
+                            </div>\
+                        </div>' ; var row=$('<tr>');
+            row.append($('
+    <td>').text(Description));
+        row.append($('
+    <td>').text(Unit_of_Measure));
+        row.append($('
+    <td>').text(Quantity));
+        row.append($('
+    <td>').text(Unit_Price));
+        row.append($('
+    <td>').text(Amount));
+        if (Unit_Price > 0) {
+        var viewBtn = $('<a>').attr({
+            class: "btn btn-primary text-white financeModal",
+            type: "button",
+            "data-toggle": "modal",
+            "data-target": "#financialBid" + data[i].Line_No,
+            id: "SubmitBtnBG" + data[i].Line_No,
+            }).text("Update Bid");
+            } else {
+            var viewBtn = $('<a>').attr({
+                class: "btn btn-primary text-white financeModal",
+                type: "button",
+                "data-toggle": "modal",
+                "data-target": "#financialBid" + data[i].Line_No,
+                id: "SubmitBtnBG" + data[i].Line_No,
+                }).text("Bid");
+                }
+
+
+                if (Unit_Price > 0) {
+                viewBtn.text("Update Bid");
+                } else {
+                viewBtn.text("Bid");
+                }
+
+
+                var icon = $('<i>').addClass('fa fa-coins ml-1');
+                    viewBtn.append(icon);
+
+                    row.append($('
+    <td>').append(viewBtn));
+        openTableBody.append(row);
+        $('body').append(modalHtml);
+        }
+        // initialize DataTables for each table
+        if (!$.fn.DataTable.isDataTable('#open_table')) {
+        $('#open_table').DataTable({
+        "pageLength": 5,
+        "order": [
+        [0, "desc"]
+        ]
+        });
+        }
+
+        // Bind a click event handler to the button to open the modal
+        $('.financeModal').on('click', function () {
+        var lineNoToOpen = $(this).attr('id').substring(11);
+        $('#financialBid' + lineNoToOpen).modal('show');
+        });
+        },
+        error: function (xhr, status, error) {
+        console.log("Error:", error);
+        },
+        });
+        }

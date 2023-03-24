@@ -43,6 +43,18 @@ class SendMessage(UserObjectMixins,View):
             email_template = 'message.html'
             recipient_email = 'devops@kobby.co.ke'
             
+            if 'authenticated' in request.session:
+                authenticated = request.session['authenticated']
+                
+                if authenticated == True:
+                    state = request.session['state'] 
+                    reply_email = request.session['Email']
+                    if state == 'Prospect':
+                        name = request.session['Email']
+                    elif state == 'Vendor':
+                        name = request.session['Name']
+            if ('authenticated' not in request.session and name == '') or ('authenticated' not in request.session and reply_email == ''):
+                return JsonResponse({'success': False, 'error': 'email and name cannot be empty'})
             send_mail = self.send_message(name,reply_email,subject,
                                             message,email_template,recipient_email)
             if send_mail == True:

@@ -33,8 +33,7 @@ OPEN TENDERS
                                         </th>
                                         <th>Title</th>
                                         <th>Status</th>
-                                        <th>Tender Opening Date</th>
-                                        <th>Tender Closing Date / Time</th>
+                                        <th>Bidding Deadline</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -46,22 +45,26 @@ OPEN TENDERS
                                         <td>
                                             <div class="badge badge-secondary">{{tender.Status}}</div>
                                         </td>
-                                        <td id="TenderOpeningDate{{tender.No}}">{{tender.TenderOpeningDate}} </td>
-                                        <td id="TenderClosingDate{{tender.No}}">{{tender.TenderClosingDate}}</td>
+                                        <td>
+                                            <span
+                                                id="Quotation_Deadline{{tender.No}}">{{tender.Quotation_Deadline}}</span>
+                                            at <span class="text-danger"
+                                                id="Expected_Closing_Time{{tender.No}}">{{tender.Expected_Closing_Time}}</span>
+                                        </td>
                                         <td><a href="/tdr/{{tender.No}}/" class="btn btn-primary">Detail</a></td>
                                         <script>
                                             $(document).ready(function () {
-                                                $("#TenderOpeningDate{{tender.No}}")
+                                                $("#Quotation_Deadline{{tender.No}}")
                                                     .empty().append(moment(
-                                                            '{{tender.TenderOpeningDate}}', "YYYY-MM-DD")
+                                                            '{{tender.Quotation_Deadline}}', "YYYY-MM-DD")
                                                         .format(
                                                             'Do MMM YYYY'));
-                                                $("#TenderClosingDate{{tender.No}}")
+                                                $("#Expected_Closing_Time{{tender.No}}")
                                                     .empty().append(moment(
-                                                            '{{tender.TenderClosingDate}}',
-                                                            "YYYY-MM-DD, h:mm:ss a")
+                                                            '{{tender.Expected_Closing_Time}}',
+                                                            "h:mm:ss a")
                                                         .format(
-                                                            'Do MMM YYYY, h:mm a'));
+                                                            'h:mm a'));
                                             })
                                         </script>
                                     </tr>

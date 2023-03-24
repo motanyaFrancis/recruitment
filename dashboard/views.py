@@ -9,6 +9,8 @@ from myRequest.views import UserObjectMixins
 from django.contrib import messages
 from asgiref.sync import sync_to_async
 from django.conf import settings as config
+from datetime import datetime
+
 # Create your views here.
 class Index(UserObjectMixins, View):
     def get(self, request):
@@ -16,6 +18,7 @@ class Index(UserObjectMixins, View):
             ctx = {}
             authenticated = False
             ContactPage = False
+            current_datetime = datetime.now()  
 
             if 'authenticated' in request.session:
                 authenticated = request.session['authenticated']
@@ -24,7 +27,10 @@ class Index(UserObjectMixins, View):
             
             response = self.double_filtered_data("/QyProcurementMethods","Status","eq",'New',
                         "and","TenderType","eq",'Open Tender')
-            open_tenders = [x for x in response[1] if x['SubmittedToPortal'] == True]
+            open_tenders = [x for x in response[1] 
+                                if x['SubmittedToPortal'] == True and
+                                    datetime.strptime(x['Release_Date'] + 
+                                    ' ' + x['Release_Time'],'%Y-%m-%d %H:%M:%S') <= current_datetime]
         except Exception as e:
             logging.exception(e)
             messages.error(request, f'{e}')
@@ -41,6 +47,8 @@ class TenderDetail(UserObjectMixins,View):
             ctx = {}
             response = {}
             username = 'None'
+            current_datetime = datetime.now()  
+            applicable = False
             if 'authenticated' in request.session:
                 authenticated = request.session['authenticated']
                 if 'Name' in request.session:
@@ -54,15 +62,12 @@ class TenderDetail(UserObjectMixins,View):
             
             for x in task_get_procurement_methods[1]:
                 response = x
-            
+                if authenticated == True and datetime.strptime(x['Quotation_Deadline'] + ' ' + x['Expected_Closing_Time'],'%Y-%m-%d %H:%M:%S') >= current_datetime:
+                    applicable = True
+                                  
             procurement_lines = self.one_filter('/QyProcurementMethodLines','RequisitionNo','eq',pk)
             lines = [x for x in procurement_lines[1]]
-            financialBid = False
-            if len(lines) > 0:
-                complete = all(d.get("UnitPrice", 0) > 0 for d in procurement_lines[1])
-                
-                if complete:
-                    financialBid = True
+
         except Exception as e:
             logging.exception(e)
             messages.error(request, f'{e}')
@@ -72,7 +77,7 @@ class TenderDetail(UserObjectMixins,View):
             "response":response,
             'username':username,
             'lines':lines,
-            'financialBid':financialBid,
+            'applicable':applicable
         }
         return render(request,'tenders/detail.html',ctx)
 
@@ -82,6 +87,7 @@ class Dashboard(UserObjectMixins,View):
         try:
             ctx = {}
             state = 'Prospect'
+            ContactPage = False
             if 'authenticated' in request.session:
                 authenticated = request.session['authenticated']
             else:
@@ -99,6 +105,9 @@ class Dashboard(UserObjectMixins,View):
             open_proposal = [x for x in response['value'] if x['Process_Type'] == 'RFP' and x['Status'] == 'New']
             total_open = len([x for x in response['value'] if x['Status'] == 'New'])
             total_closed = len([x for x in response['value'] if x['Status'] == 'Archived'])
+            
+            all_tenders = [x for x in response['value'] if x['Status'] == 'New']
+            
             if 'UserId' in request.session:
                 VendorNo = request.session['UserId']
                 submitted = self.one_filter("/QyProspectiveSupplierTender","Vendor_No","eq",VendorNo)
@@ -131,11 +140,29 @@ class Dashboard(UserObjectMixins,View):
             'total_submitted':total_submitted,
             'total_open':total_open,
             'total_closed':total_closed,
-            'state':state
+            'state':state,
+            'ContactPage':ContactPage,
+            'all_tenders':all_tenders
         }
         return render(request,'dashboard.html',ctx)
     
 class FnCreateProspectiveSupplier(UserObjectMixins,View):
+    def get(self,request):
+        try:
+            response = {}
+            tenderNo = request.GET.get('tenderNo')
+            user_id = request.session['UserId']
+            task_get_procurement_methods = self.double_filtered_data("/QyProspectiveSupplierTender",
+                                    "Tender_No_","eq",tenderNo,'and','Vendor_No','eq',user_id)
+            
+            for x in task_get_procurement_methods[1]:
+                response = x
+                return JsonResponse({'success': True,'response':response}, safe=False)
+            return JsonResponse({'success': False,'response':str(0)}, safe=False)
+        except Exception as e:
+            logging.exception(e)
+            return JsonResponse({'error': str(e)}, safe=False)
+        
     def post(self,request):
         try:
             if 'UserId' in request.session:
@@ -143,9 +170,10 @@ class FnCreateProspectiveSupplier(UserObjectMixins,View):
                 Process_Type = request.POST.get('Process_Type')
                 TenderType = request.POST.get('TenderType')
                 docNo = request.POST.get('docNo')
-                unitPrice = request.POST.get('unitPrice')
                 securityInstitution = request.POST.get('securityInstitution')
                 securityAmount = request.POST.get('securityAmount')
+                myAction = request.POST.get('myAction')
+                
                 if Process_Type == 'Tender' and TenderType== 'Open Tender':
                     procurementMethod = 1
                 elif Process_Type == 'Tender' and TenderType== "Restricted Tender":
@@ -156,18 +184,19 @@ class FnCreateProspectiveSupplier(UserObjectMixins,View):
                     procurementMethod = 4
                 elif Process_Type == 'RFP':
                     procurementMethod = 3
+                    
                 if 'state' in request.session:
                     if request.session['state'] == 'Vendor':
                         userType = 'vendor'
                     elif request.session['state'] == 'Prospect':
                         userType = 'prospective'
-                    response = self.make_soap_request('FnCreateProspectiveSupplier',vendNo,
-                                                        procurementMethod,docNo,float(unitPrice),userType,
-                                                            securityInstitution,float(securityAmount))
-                    if response != 'None' and response !='': 
-                        return JsonResponse({'success': True, 'message': 'Saved Successful'})
-                    return JsonResponse({'success': False, 'error': str(response)})
-                return JsonResponse({'success': False, 'error': 'Session Expired. Please Login Again'})
+                        
+                response = self.make_soap_request('FnSupplierResponseHeader',vendNo,
+                                                        procurementMethod,docNo,userType,
+                                                            securityInstitution,float(securityAmount),myAction)
+                if response != 'None' and response !='': 
+                    return JsonResponse({'success': True, 'message': str(response)})
+                return JsonResponse({'success': False, 'error': str(response)})
             return JsonResponse({'success': False, 'error': 'Session Expired. Please Login Again'})
         except Exception as e:
             logging.exception(e)
@@ -303,3 +332,62 @@ class DeleteAttachment(UserObjectMixins,View):
             error = "Upload failed: {}".format(e)
             logging.exception(e)
             return JsonResponse({'success': False, 'error': error})
+
+class FinancialBid(UserObjectMixins,View):
+    def get(self,request,pk):
+        try:
+            response = {}
+            user_id = request.session['UserId']
+            task_get_procurement_methods = self.double_filtered_data("/QySupplierTenderLines","Tender_No_","eq",pk,
+                                                           'and', 'Response_No', 'eq', user_id)
+            response = [x for x in task_get_procurement_methods[1]]
+            return JsonResponse(response, safe=False)
+        except Exception as e:
+            logging.exception(e)
+            return JsonResponse({'error': str(e)}, safe=False)
+    def post(self, request,pk):
+        try:
+            vendorNo = request.POST.get('Vendor_No_')
+            prospectNo = request.POST.get('prospectNo')
+            docNo = pk
+            lineNo = request.POST.get('lineNo')
+            unitPrice = request.POST.get('unitPrice')
+            
+            response = self.make_soap_request('FnSupplierResponseLine',
+                                              prospectNo,docNo,vendorNo,lineNo,unitPrice)  
+            
+            if response == True:          
+                return JsonResponse({'success': True, 'message': 'added successfully'})
+            return JsonResponse({'success': False, 'error': f'{response}'})
+        except Exception as e:
+            logging.exception(e)
+            return JsonResponse({'error': str(e)}, safe=False)  
+    
+class Submit(UserObjectMixins,View):
+    def post(self,request,pk):
+        try:
+            prospectNo = request.session['UserId']
+            Process_Type = request.POST.get('Process_Type')
+            TenderType = request.POST.get('TenderType')
+            
+            if Process_Type == 'Tender' and TenderType== 'Open Tender':
+                procurementMethod = 1
+            elif Process_Type == 'Tender' and TenderType== "Restricted Tender":
+                procurementMethod = 5
+            elif Process_Type == 'RFQ':
+                procurementMethod = 2
+            elif Process_Type== 'EOI':
+                procurementMethod = 4
+            elif Process_Type == 'RFP':
+                procurementMethod = 3
+            
+            docID = pk
+            response = self.make_soap_request('FnSupplierSubmitResponse',prospectNo,
+                                            procurementMethod,docID)
+            print(response)
+            if response == True:
+                return JsonResponse({'success': True, 'message': 'Submitted successfully'})
+            return JsonResponse({'success': False, 'message': f'{response}'})
+        except Exception as e:
+            logging.exception(e)
+            return JsonResponse({'success': False, 'error': f'{e}'})

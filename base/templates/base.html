@@ -63,8 +63,9 @@
                         {% endblock %}
                         {% if ContactPage == False %}
                         <li class="nav-item">
-                            <a href="/Contact/" class="nav-link" data-toggle="tooltip" title="contact us"><span>Contact
-                                    Us <i class="fas fa-phone"></i></span></a>
+                            <a href="/Contact/" class="nav-link" data-toggle="tooltip" title="contact us">
+                                <span><i class="fas fa-envelope-open-text"></i> Contact Us </span>
+                            </a>
                         </li>
                         {% endif %}
                         {% if authenticated == False %}
@@ -72,6 +73,12 @@
                             <a href="#" class="nav-link" data-toggle="modal" data-target="#signIn"><i
                                     class="fas fa-user"></i><span>Sign
                                     In</span></a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a href="/logout/" class="nav-link" data-toggle="tooltip" title="Sign Out"><i
+                                    class="fas fa-sign-out-alt"></i><span>Sign
+                                    Out</span></a>
                         </li>
                         {% endif %}
                     </ul>
@@ -115,13 +122,6 @@
                                         </div>
                                     </div>
                                     <input type="password" class="form-control" placeholder="Password" name="password">
-                                </div>
-                            </div>
-                            <div class="form-group mb-0">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" name="remember" class="custom-control-input"
-                                        id="remember-me">
-                                    <label class="custom-control-label" for="remember-me">Remember Me</label>
                                 </div>
                             </div>
                             <p>Don't have an account? <a href="/register/" class="text-danger">Register</a></p>

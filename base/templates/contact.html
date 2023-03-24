@@ -4,11 +4,6 @@ CONTACT US
 {% endblock %}
 {% block head %}
 <script src="../../static/plugins/assets/modules/moment.min.js"></script>
-<style>
-    .messageMail {
-        min-height: 450px !important;
-    }
-</style>
 {% endblock %}
 
 {% block navigation %}
@@ -27,12 +22,21 @@ CONTACT US
 <section class="section contact">
     {% include 'alerts.html' %}
     <div class="section-body">
-        <h2 class="section-title">Contact Us
-        </h2>
+        <div class="header">
+            <h2 class="section-title firstTittle">Contact Us</h2>
+            <nav aria-label="breadcrumb bg-none">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#" onclick="window.history.back()"><i
+                                class="fas fa-backward text-warning"></i> Back</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        <i class="far fa-envelope"></i> Contact US
+                    </li>
+                </ol>
+            </nav>
+        </div>
+
         <div class="row gy-4">
-
             <div class="col-xl-6">
-
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="info-box card h-100">
@@ -75,6 +79,7 @@ CONTACT US
                     </div>
                     <form method="post" class="php-email-form" id="messageForm">
                         <div class="row">
+                            {% if authenticated == False %}
                             <div class="col-md-6">
                                 <input type="text" name="name" id="name" class="form-control" placeholder="Your Name">
                             </div>
@@ -83,7 +88,7 @@ CONTACT US
                                 <input type="email" class="form-control" name="email" id="email"
                                     placeholder="Your Email">
                             </div>
-
+                            {% endif %}
                             <div class="col-md-12 my-3">
                                 <input type="text" class="form-control" name="subject" id="subject"
                                     placeholder="Subject" required>
