@@ -371,16 +371,17 @@ class FinancialBid(UserObjectMixins,View):
     def get(self,request,pk):
         try:
             response = {}
-            user_id = request.session['UserId']
-            state = request.session['state']
-            if state == 'Vendor':
-                task_get_procurement_methods = self.double_filtered_data("/QySupplierTenderLines","Tender_No_","eq",pk, 
-                                                            'and', 'Vendor_No_', 'eq', user_id)
-            elif state == 'Prospect':
-                task_get_procurement_methods = self.double_filtered_data("/QySupplierTenderLines","Tender_No_","eq",pk,
-                                                            'and', 'Response_No', 'eq', user_id)
-            response = [x for x in task_get_procurement_methods[1]]
-            return JsonResponse(response, safe=False)
+            if 'UserId' in request.session:
+                user_id = request.session['UserId']
+                state = request.session['state']
+                if state == 'Vendor':
+                    task_get_procurement_methods = self.double_filtered_data("/QySupplierTenderLines","Tender_No_","eq",pk, 
+                                                                'and', 'Vendor_No_', 'eq', user_id)
+                elif state == 'Prospect':
+                    task_get_procurement_methods = self.double_filtered_data("/QySupplierTenderLines","Tender_No_","eq",pk,
+                                                                'and', 'Response_No', 'eq', user_id)
+                response = [x for x in task_get_procurement_methods[1]]
+                return JsonResponse(response, safe=False)
         except Exception as e:
             logging.exception(e)
             return JsonResponse({'error': str(e)}, safe=False)

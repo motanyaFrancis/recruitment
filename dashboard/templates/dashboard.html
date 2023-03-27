@@ -17,7 +17,7 @@ DASHBOARD
 {% if authenticated == True %}
 <li class="nav-item active">
     <a href="/dashboard/" type="button" class="nav-link">
-        <i class="fas fa-home text-danger"></i>
+        <i class="fas fa-home br"></i>
         Dashboard
     </a>
 </li>
@@ -245,12 +245,10 @@ DASHBOARD
                                     <a href="#" class="dropdown-item has-icon" id="new-tab"><i class="fas fa-edit"></i>
                                         Open
                                         ({{total_open}})</a>
+                                    <div class="dropdown-divider"></div>
                                     <a href="#" class="dropdown-item has-icon" id="submitted-tab"><i
                                             class="far fa-eye"></i>
                                         My Submissions ({{total_submitted}})</a>
-                                    <div class="dropdown-divider"></div>
-                                    <span class="dropdown-item has-icon text-danger"><i class="fa fa-lock"></i>
-                                        Total Closed ({{total_closed}})</span>
                                 </div>
                             </div>
                         </div>

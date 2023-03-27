@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+{% block title %}
+My Profile
+{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="../../static/plugins/assets/modules/summernote/summernote-bs4.css">
+<script src="../../static/plugins/assets/modules/summernote/summernote-bs4.js"></script>
+{% endblock %}
+{% block user %}
+{% if authenticated == True %}
+{% include 'topbar.html' %}
+{% endif %}
+{% endblock %}
+
+{% block navigation %}
+<li class="nav-item active">
+    <a href="#" type="button" class="nav-link">
+        <i class="fas fa-user-circlebr"></i>
+        Profile
+    </a>
+</li>
+<li class="nav-item">
+    <a href="/" class="nav-link"><i class="fas fa-home"></i><span>Home</span></a>
+</li>
+{% endblock %}
+
+{% block main %}
+<section class="section contact">
+    {% include 'alerts.html' %}
+    <div class="section-body">
+        <div class="header">
+            <h2 class="section-title firstTittle">Profile Management</h2>
+            <nav aria-label="breadcrumb bg-none">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#" onclick="window.history.back()"><i
+                                class="fas fa-backward text-warning"></i> Back</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        <i class="far fa-envelope"></i> My Profile
+                    </li>
+                </ol>
+            </nav>
+        </div>
+        <div class="row mt-sm-4">
+            <div class="col-12 col-md-12 col-lg-12">
+                <div class="card profile-widget">
+                    <div class="profile-widget-header">
+                        <img alt="image" src="../../static/img/logo/pp.png"
+                            class="rounded-circle profile-widget-picture">
+                    </div>
+                    <div class="profile-widget-description">
+                        <div class="profile-widget-name">{{username}} <div
+                                class="text-muted d-inline font-weight-normal">
+                                <div class="slash"></div> {{state}}
+                            </div>
+                        </div>
+                        Kobby Technologies (www.kobby.co.ke) was founded in 2015 as a provider of consultancy services
+                        that help organizations get the maximum value from their IT investment. We are a young,
+                        progressive, and dynamic firm whose consultants have a wealth of experience of over 10 years in
+                        ICT disciplines and who are driven by the desire to provide consultancy advice that is
+                        responsive to our client's needs. We build relationships by providing services based on quality
+                        and integrity. We are particularly focused on ensuring that our work and the development of our
+                        business benefit the countries in which we work. In addition, we have a strategy and client
+                        service philosophy that ensures that our clients receive high-quality service delivery.
+                    </div>
+                </div>
+                <div class="card">
+                    <form method="post" class="needs-validation" novalidate="">
+                        <div class="card-header">
+                            <h4>Edit Profile</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="form-group col-md-6 col-12">
+                                    <label>Supplier Name</label>
+                                    <input type="text" class="form-control" value="Enock Doe" required="">
+                                </div>
+                                <div class="form-group col-md-6 col-12">
+                                    <label>Country <span class="text-danger">*</span></label>
+                                    <select class="form-control select2" name="countryRegionCode" required>
+                                        <option selected disabled value="0">--select--</option>
+                                        {% for country in countries %}
+                                        <option value="{{country.Code}}">{{country.Name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6 col-12">
+                                    <label for="frist_name">Contact Person Name <span
+                                            class="text-danger">*</span></label>
+                                    <input id="contactPersonName" type="text" class="form-control"
+                                        name="contactPersonName" autofocus required>
+                                </div>
+                                <div class="form-group col-md-6 col-12">
+                                    <label for="last_name">Contact Person Phone No. (07 XX XX XX XX) <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="contactPhoneNo" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-12">
+                                    <label for="last_name">Contact Person Email <span
+                                            class="text-danger">*</span></label>
+                                    <input type="email" class="form-control" name="contactMail" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-12">
+                                    <label>Bio</label>
+                                    <textarea class="form-control summernote-simple">
+                                        Kobby Technologies (www.kobby.co.ke) was founded in 2015 as a provider of consultancy 
+                                        services that help organizations get the maximum value from their IT investment.
+                                         We are a young, progressive, and dynamic firm whose consultants have a wealth
+                                          of experience of over 10 years in ICT disciplines and who are driven by the 
+                                      </textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group mb-0 col-12">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" name="remember" class="custom-control-input"
+                                            id="newsletter">
+                                        <label class="custom-control-label" for="newsletter">Subscribe to
+                                            newsletter</label>
+                                        <div class="text-muted form-text">
+                                            You will get new information about products, offers and promotions
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer text-right">
+                            <button class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+        const $messageForm = $('#messageForm');
+        const $messageSpinner = $('#messageSpinner');
+
+        $messageForm.on('submit', (e) => {
+            e.preventDefault();
+
+            if ($('#message').val() === '' || $('#subject').val() === '') {
+                alert('Message and Subject can not be empty');
+                return false;
+            }
+            $messageSpinner.show(200);
+            $.ajax({
+                type: 'POST',
+                url: '/SendMessage/',
+                data: {
+                    name: $('#name').val(),
+                    email: $('#email').val(),
+                    subject: $('#subject').val(),
+                    message: $('#message').val(),
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                },
+                success: function (data) {
+                    $('#name, #email, #subject, #message').val('');
+                    $messageSpinner.hide();
+                    if (data['success'] == true) {
+                        iziToast.show({
+                            theme: 'dark',
+                            backgroundColor: '#239B56',
+                            icon: 'las la-check-circle',
+                            title: 'Yeah',
+                            message: data['message'],
+                            position: 'topRight',
+                            progressBarColor: '#F4F6F7',
+                        });
+                    } else {
+                        iziToast.show({
+                            theme: 'dark',
+                            icon: 'las la-exclamation',
+                            title: 'Error',
+                            message: data['error'],
+                            position: 'topRight',
+                            progressBarColor: '#ff0800',
+                        });
+                    }
+                },
+                error: function (error) {
+                    console.log(error)
+                    $messageSpinner.hide();
+                }
+            });
+        });
+    })
+</script>
+{% endblock %}

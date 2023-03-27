@@ -8,7 +8,7 @@ OPEN TENDERS
 {% block navigation %}
 <li class="nav-item active">
     <a href="#" type="button" class="nav-link">
-        <i class="fas fa-home text-danger"></i>
+        <i class="fas fa-home br"></i>
         Home
     </a>
 </li>
@@ -18,11 +18,30 @@ OPEN TENDERS
 <section class="section">
     {% include 'alerts.html' %}
     <div class="section-body">
-        <h2 class="section-title">Open Tenders ({{open_tenders|length}})
-        </h2>
+        <div class="row">
+            <div class="col-12 mb-4">
+                <div class="hero second_color text-white">
+                    <div class="hero-inner">
+                        <h2>Welcome!</h2>
+                        <p class="lead">Please take a moment to review the open tenders listed below. We
+                            encourage you to submit your bids for any tenders that match your expertise and interests.
+                            To access the tender details and submission instructions, simply sign in and click on the
+                            tender details
+                            in the table. Don't miss out on this opportunity to participate in exciting projects and
+                            partnerships. Thank you for your interest and we look forward to receiving your bids!</p>
+                        <div class="mt-4">
+                            <a href="/register/" class="btn btn-outline-white btn-lg btn-icon icon-left"><i
+                                    class="far fa-user"></i> Setup Account</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row" style="padding-bottom: 5rem;">
             <div class="col-12">
                 <div class="card">
+                    <h2 class="section-title mx-3">Open Tenders ({{open_tenders|length}})
+                    </h2>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-striped" id="table-1">

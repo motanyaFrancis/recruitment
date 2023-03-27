@@ -62,3 +62,33 @@ class SendMessage(UserObjectMixins,View):
             return JsonResponse({'success': False, 'error': 'Not sent'})
         except Exception as e:
             return JsonResponse({'success': False, 'error': str(e)})
+        
+class Profile(UserObjectMixins,View):
+    def get(self, request):
+        try:
+            ctx = {}
+            response = {}
+            username = 'None'
+            state = 'Prospect'
+            ContactPage = True
+            if 'authenticated' in request.session:
+                authenticated = request.session['authenticated']
+                state =  request.session['state']
+                if 'Name' in request.session:
+                    username = request.session['Name']
+                else:
+                    username = request.session['Email']
+            else:
+                authenticated = False
+        except Exception as e:
+            logging.exception(e)
+            messages.error(request, f'{e}')
+            return redirect('index')
+        ctx = {
+            'authenticated':authenticated,
+            "response":response,
+            'username':username,
+            'ContactPage':ContactPage,
+            'state':state
+        }
+        return render(request,'profile.html',ctx)
