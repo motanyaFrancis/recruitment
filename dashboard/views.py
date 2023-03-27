@@ -30,7 +30,9 @@ class Index(UserObjectMixins, View):
             open_tenders = [x for x in response[1] 
                                 if x['SubmittedToPortal'] == True and
                                     datetime.strptime(x['Release_Date'] + 
-                                    ' ' + x['Release_Time'],'%Y-%m-%d %H:%M:%S') <= current_datetime]
+                                    ' ' + x['Release_Time'],'%Y-%m-%d %H:%M:%S') <= current_datetime
+                                    and datetime.strptime(x['Quotation_Deadline'] + ' ' 
+                                + x['Expected_Closing_Time'],'%Y-%m-%d %H:%M:%S') >= current_datetime]
         except Exception as e:
             logging.exception(e)
             messages.error(request, f'{e}')
