@@ -67,6 +67,7 @@ class UserObjectMixins(object):
                 })
         email = EmailMessage(subject=subject, body=email_body,
                                      from_email=config.EMAIL_HOST_USER, to=[recipient_email])
+        email.content_subtype = "html"
         EmailThread(email).start()
         return True
     

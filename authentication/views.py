@@ -27,10 +27,8 @@ class login_request(UserObjectMixins,View):
                         request.session['authenticated'] = True  
                         request.session['Name'] = vendor['Name']
                         request.session['Email'] = vendor['EMail']
-                        if password == 'Password@123': 
-                            messages.success(request,f"Success. Logged in as {request.session['Name']}")
-                            messages.info(request,'You are using a default password, reset it')                  
-                            return redirect('dashboard')
+                        messages.success(request,f"Success. Logged in as {request.session['Name']}")             
+                        return redirect('dashboard')
                     messages.error(request, "Invalid Credentials. Please reset your password")
                     return redirect('index')
                     
@@ -127,6 +125,91 @@ class Register(UserObjectMixins,View):
             logging.exception(e)
             messages.error(request, f'{e}')
             return redirect('register')
+        
+class FnResetEmail(UserObjectMixins,View):
+    def post(self,request):
+        if request.method == 'POST':
+            try:            
+                emailAddress = request.POST.get('emailAddress')
+                vendors = self.one_filter("/QyVendorDetails","EMail","eq",emailAddress)
+                for vendor in vendors[1]:
+                    if vendor['EMail'] == emailAddress:
+                        email_subject = 'Password Reset'
+                        email_template = 'resetMail.html'
+                        recipient = vendor['Name']
+                        recipient_email = vendor['EMail']
+                        token = self.verificationToken(5)
+                        reset_data = {
+                            "user":"Vendor",
+                            "Email":vendor['EMail'],
+                            "token":token
+                        }
+                        request.session['resetMail'] = reset_data
+                        send_rest_mail = self.send_mail(request,email_subject,email_template,
+                                            recipient,recipient_email,token)
+                        if send_rest_mail == True:
+                            messages.success(request, "We sent you an email to reset your password")
+                            return redirect('FnResetPassword')
+                        messages.error(request, 'Reset failed contact admin')
+                        return redirect('FnResetPassword')
+                prospects =self.one_filter("/QyProspectiveSuppliers","Email","eq",emailAddress)
+                for prospect in prospects[1]:
+                    if prospect['Email'] == emailAddress and prospect['Verified']==True:
+                        email_subject = 'Password Reset'
+                        email_template = 'resetMail.html'
+                        recipient = prospect['ContactPersonName']
+                        recipient_email = prospect['Email']
+                        token = self.verificationToken(5)
+                        reset_data = {
+                            "user":"Prospect",
+                            "Email":prospect['Email'],
+                            "token":token
+                        }
+                        request.session['resetMail'] = reset_data
+                        send_reset_mail = self.send_mail(request,email_subject,email_template,
+                                            recipient,recipient_email,token)
+                        if send_reset_mail == True:
+                            messages.success(request, 'We sent you an email to reset your password')
+                            return redirect('FnResetPassword')
+                        messages.error(request, 'Reset failed contact admin')
+                        return redirect('FnResetPassword')
+                    messages.error(request, 'Reset failed, email not verified')
+                    return redirect('index')
+            except Exception as e:
+                print(e)
+                messages.error(request,f'{e}')
+        return redirect('index')
+
+class FnResetPassword(UserObjectMixins,View):
+    def get(self, request):
+        return render(request,'reset.html')
+    def post(self,request):
+        try:
+            reset_data = request.session['resetMail'] 
+            verificationToken = request.POST.get('verificationToken')
+            password = request.POST.get('password')
+            password2 = request.POST.get('password2')
+            
+            if verificationToken != reset_data['token']:
+                messages.error(request, "Incorrect Verification Token")
+                return redirect('FnResetPassword')
+            if len(password) < 6:
+                    messages.error(request, "Password should be at least 6 characters")
+                    return redirect('FnResetPassword')
+            if password != password2:
+                messages.error(request, "Password mismatch")
+                return redirect('FnResetPassword')  
+            response = self.make_soap_request('FnResetPassword',
+                                    reset_data['Email'], self.pass_encrypt(password), verificationToken)
+            del request.session['resetMail']
+            messages.success(request, "Reset successful, login to continue")
+            return redirect('index')
+        except Exception as e:
+            messages.error(request, f"{e}")
+            print(e)
+            return redirect('FnResetPassword')
+
+
         
 class  verify_user(UserObjectMixins,View):
     def get(self, request):

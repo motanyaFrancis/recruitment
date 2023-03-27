@@ -88,6 +88,7 @@ class Dashboard(UserObjectMixins,View):
             ctx = {}
             state = 'Prospect'
             ContactPage = False
+            current_datetime = datetime.now()  
             if 'authenticated' in request.session:
                 authenticated = request.session['authenticated']
             else:
@@ -98,19 +99,49 @@ class Dashboard(UserObjectMixins,View):
                 username = request.session['Email']
             ProcURL = config.O_DATA.format("/QyProcurementMethods?$filter=SubmittedToPortal%20eq%20true")
             response = self.get_object(ProcURL)
-            open_tenders = [x for x in response['value'] if x['TenderType'] == 'Open Tender' and x['Status'] == 'New']
-            open_restricted = [x for x in response['value'] if x['TenderType'] == 'Restricted Tender' and x['Status'] == 'New']
-            open_quotation = [x for x in response['value'] if x['Process_Type'] == 'RFQ' and x['Status'] == 'New']
-            open_interest = [x for x in response['value'] if x['Process_Type'] == 'EOI' and x['Status'] == 'New']
-            open_proposal = [x for x in response['value'] if x['Process_Type'] == 'RFP' and x['Status'] == 'New']
-            total_open = len([x for x in response['value'] if x['Status'] == 'New'])
+            open_tenders = [x for x in response['value'] if x['TenderType'] == 'Open Tender'
+                            and x['Status'] == 'New' and datetime.strptime(x['Quotation_Deadline'] 
+                                + ' ' + x['Expected_Closing_Time'],'%Y-%m-%d %H:%M:%S') >= current_datetime
+                            and datetime.strptime(x['Release_Date'] + 
+                                    ' ' + x['Release_Time'],'%Y-%m-%d %H:%M:%S') <= current_datetime]
+            open_restricted = [x for x in response['value'] if x['TenderType'] == 'Restricted Tender'
+                               and x['Status'] == 'New' and datetime.strptime(x['Quotation_Deadline'] + 
+                                    ' ' + x['Expected_Closing_Time'],'%Y-%m-%d %H:%M:%S') >= current_datetime
+                               and datetime.strptime(x['Release_Date'] + 
+                                    ' ' + x['Release_Time'],'%Y-%m-%d %H:%M:%S') <= current_datetime]
+            open_quotation = [x for x in response['value'] if x['Process_Type'] == 'RFQ' and x['Status'] == 'New' 
+                              and datetime.strptime(x['Quotation_Deadline'] + ' ' 
+                                + x['Expected_Closing_Time'],'%Y-%m-%d %H:%M:%S') >= current_datetime
+                              and datetime.strptime(x['Release_Date'] + 
+                                    ' ' + x['Release_Time'],'%Y-%m-%d %H:%M:%S') <= current_datetime]
+            open_interest = [x for x in response['value'] if x['Process_Type'] == 'EOI' and x['Status'] == 'New' 
+                            and datetime.strptime(x['Quotation_Deadline'] + ' ' 
+                                                  + x['Expected_Closing_Time'],'%Y-%m-%d %H:%M:%S') >= current_datetime
+                            and datetime.strptime(x['Release_Date'] + 
+                                    ' ' + x['Release_Time'],'%Y-%m-%d %H:%M:%S') <= current_datetime]
+            open_proposal = [x for x in response['value'] if x['Process_Type'] == 'RFP' 
+                             and x['Status'] == 'New' and datetime.strptime(x['Quotation_Deadline'] +
+                                ' ' + x['Expected_Closing_Time'],'%Y-%m-%d %H:%M:%S') >= current_datetime
+                             and datetime.strptime(x['Release_Date'] + 
+                                    ' ' + x['Release_Time'],'%Y-%m-%d %H:%M:%S') <= current_datetime]
+            total_open = len([x for x in response['value'] if x['Status'] == 'New' 
+                              and datetime.strptime(x['Quotation_Deadline'] + ' ' + 
+                                 x['Expected_Closing_Time'],'%Y-%m-%d %H:%M:%S') >= current_datetime
+                              and datetime.strptime(x['Release_Date'] + 
+                                    ' ' + x['Release_Time'],'%Y-%m-%d %H:%M:%S') <= current_datetime])
             total_closed = len([x for x in response['value'] if x['Status'] == 'Archived'])
             
-            all_tenders = [x for x in response['value'] if x['Status'] == 'New']
+            all_tenders = [x for x in response['value'] if x['Status'] == 'New' 
+                           and datetime.strptime(x['Quotation_Deadline'] + ' ' 
+                                                 + x['Expected_Closing_Time'],'%Y-%m-%d %H:%M:%S') >= current_datetime
+                           and datetime.strptime(x['Release_Date'] + 
+                                    ' ' + x['Release_Time'],'%Y-%m-%d %H:%M:%S') <= current_datetime]
+            
             
             if 'UserId' in request.session:
                 VendorNo = request.session['UserId']
                 submitted = self.one_filter("/QyProspectiveSupplierTender","Vendor_No","eq",VendorNo)
+                all_submitted = [x for x in submitted[1]]
                 submitted_open = [x for x in submitted[1] if x['Type'] == 'Tender']
                 submitted_restricted = [x for x in submitted[1] if x['Type'] == 'Restricted']
                 submitted_quotation = [x for x in submitted[1] if x['Type'] == 'RFQ']
@@ -142,7 +173,8 @@ class Dashboard(UserObjectMixins,View):
             'total_closed':total_closed,
             'state':state,
             'ContactPage':ContactPage,
-            'all_tenders':all_tenders
+            'all_tenders':all_tenders,
+            'all_submitted':all_submitted
         }
         return render(request,'dashboard.html',ctx)
     
@@ -190,7 +222,7 @@ class FnCreateProspectiveSupplier(UserObjectMixins,View):
                         userType = 'vendor'
                     elif request.session['state'] == 'Prospect':
                         userType = 'prospective'
-                        
+                         
                 response = self.make_soap_request('FnSupplierResponseHeader',vendNo,
                                                         procurementMethod,docNo,userType,
                                                             securityInstitution,float(securityAmount),myAction)
@@ -338,8 +370,13 @@ class FinancialBid(UserObjectMixins,View):
         try:
             response = {}
             user_id = request.session['UserId']
-            task_get_procurement_methods = self.double_filtered_data("/QySupplierTenderLines","Tender_No_","eq",pk,
-                                                           'and', 'Response_No', 'eq', user_id)
+            state = request.session['state']
+            if state == 'Vendor':
+                task_get_procurement_methods = self.double_filtered_data("/QySupplierTenderLines","Tender_No_","eq",pk, 
+                                                            'and', 'Vendor_No_', 'eq', user_id)
+            elif state == 'Prospect':
+                task_get_procurement_methods = self.double_filtered_data("/QySupplierTenderLines","Tender_No_","eq",pk,
+                                                            'and', 'Response_No', 'eq', user_id)
             response = [x for x in task_get_procurement_methods[1]]
             return JsonResponse(response, safe=False)
         except Exception as e:
@@ -387,7 +424,7 @@ class Submit(UserObjectMixins,View):
             print(response)
             if response == True:
                 return JsonResponse({'success': True, 'message': 'Submitted successfully'})
-            return JsonResponse({'success': False, 'message': f'{response}'})
+            return JsonResponse({'success': False, 'message': f'Not sent, try again'})
         except Exception as e:
             logging.exception(e)
             return JsonResponse({'success': False, 'error': f'{e}'})

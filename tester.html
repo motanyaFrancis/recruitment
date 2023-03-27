@@ -1,6 +1,109 @@
-Add the security information then the tender-lines are generated where now the financial bid can be submitted
-<div class="row">
-    <div class="col-md-12 p-2" style="border: 2px dotted black;">
+FnResetPassword (Return a Boolean)
+
+Add Verified to Vendors
+
+how do i filter documents by user_id
+
+QyProspectiveSupplierTender is not modifying for vendors
+
+QySupplierTenderLines is duplicated when i modify
+
+<div class="row" id="step1">
+    <div class="col-md-12">
+        <h5 class="modal-title text-center">{{response.Process_Type}} Security
+        </h5>
+        <div class="money-spinner mx-auto text-center" id="security_spinner" style="display: none;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" alt="Loading Gif"
+                style="height: 100px; width: 100px;" class="img-fluid">
+        </div>
+        <form method="POST" novalidate id="securityForm">
+            {% csrf_token %}
+            <input type="hidden" name="Process_Type" id="Process_Type" value="{{response.Process_Type}}">
+            <input type="hidden" name="TenderType" id="TenderType" value="{{response.TenderType}}">
+            <input type="hidden" name="docNo" id="docNo" value="{{response.No}}">
+            <input type="hidden" name="myAction" id="myAction" value="insert">
+
+            <div class="form-group">
+                <label>Security Institution</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <i class="fas fa-university"></i>
+                        </div>
+                    </div>
+                    <input type="text" class="form-control" name="securityInstitution" id="securityInstitution"
+                        required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Security Amount</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                    </div>
+                    <input type="text" class="form-control" placeholder="00.00" name="securityAmount"
+                        id="securityAmount" required>
+                </div>
+            </div>
+            <div class="form-group controlBtn my-2">
+                <button type="submit" class="btn btn-primary mr-1 w-50" id="submitSecurity">
+                    Submit <span class="icon"><i class="fas fa-paper-plane"></i></span>
+                </button>
+                <button type="button" class="btn btn-warning ml-1" id="nextOne">
+                    Next <i class="fas fa-forward"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row" id="step2" style="display: none;">
+    <div class="col-md-12">
+        <h5 class="modal-title text-center">Financial Bid
+        </h5>
+        <div class="money-spinner mx-auto text-center" id="financial_spinner" style="display: none;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" alt="Loading Gif"
+                style="height: 100px; width: 100px;" class="img-fluid">
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped" id="open_table">
+                <thead>
+                    <tr>
+                        <th class="text-center">
+                            Description
+                        </th>
+                        <th>Unit of Measure</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Amount</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td> </td>
+                        <td> </td>
+                        <td> </td>
+                        <td> </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="form-group controlBtn my-2">
+            <button type="button" class="btn btn-primary mr-1" id="prevOne">
+                <i class="fas fa-backward"></i> Prev
+            </button>
+            <button type="button" class="btn btn-warning ml-1" id="nextTwo">
+                Next <i class="fas fa-forward"></i>
+            </button>
+        </div>
+    </div>
+</div>
+<div class="row" id="step3" style="display:none">
+    <div class="col-md-12 p-2" style="border: 2px dotted black;" id="techStep">
         <h5 class="modal-title text-center">{{response.Process_Type}} Technical
             Requirements
         </h5>
@@ -10,20 +113,20 @@ Add the security information then the tender-lines are generated where now the f
         </div>
         <form method="post" id="attachmentsForm" enctype="multipart/form-data">
             {% csrf_token %}
-            <div class="form-group">
+            <div class="form-group" id="attachmentCodeRow">
                 <label>Select Document to Upload <span class="text-danger">*</span></label>
                 <select class="custom-select" name="attachmentCode" id="attachmentCode">
                     <option class="after" value="" disabled>--Select--</option>
                 </select>
             </div>
-            <div class="custom-file">
+            <div class="custom-file" id="attachmentsRow">
                 <input type="file" class="custom-file-input" name="attachments" id="attachments">
                 <label class="custom-file-label" for="customFile">Choose
                     file</label>
             </div>
             <div style="display:flex; justify-content:space-between;" class="my-3">
-                <button type="submit" class="btn btn-primary btn-lg mr-1" style="flex:1;">
-                    Submit <i class="fas fa-paper-plane"></i>
+                <button type="submit" class="btn btn-primary btn-lg mr-1" id="attachSubmit" style="flex:1;">
+                    Upload <i class="fas fa-file-upload"></i>
                 </button>
                 <button class="btn btn-dark mr-1" type="button" id="attachmentBtn" style="flex:1;display:none">
                     View <span id="attachementCount"></span> Attachments <i class="fas fa-eye"></i>
@@ -40,239 +143,79 @@ Add the security information then the tender-lines are generated where now the f
                 </div>
             </div>
         </div>
+        <div class="form-group controlBtn my-2">
+            <button type="button" class="btn btn-primary mr-1" id="prev2">
+                <i class="fas fa-backward"></i> Prev
+            </button>
+            <button type="button" class="btn btn-warning ml-1" id="next3" style="display:none">
+                Next <i class="fas fa-forward"></i>
+            </button>
+        </div>
+    </div>
+    <div class="col-md-12 p-2 my-3" style="border: 2px dotted black;" id="step4" style="display: none;">
+
+        <div class="money-spinner mx-auto text-center" id="submit_spinner" style="display: none;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" alt="Loading Gif"
+                style="height: 100px; width: 100px;" class="img-fluid">
+        </div>
+
+
+        <div class="form-group controlBtn my-2">
+            <button type="button" class="btn btn-primary mr-1" id="prev3">
+                <i class="fas fa-backward"></i> Prev
+            </button>
+        </div>
     </div>
 </div>
 
-function FinancialData(pk) {
-$.ajax({
-url: "/FinancialBid/" + pk + "/",
-type: "GET",
-dataType: "json",
-success: function (data) {
-var openTableBody = $('#open_table tbody');
-openTableBody.empty();
 
-for (var i = 0; i < data.length; i++) { var Line_No=data[i].Line_No; var Response_No=data[i].Response_No; var
-    Tender_No_=data[i].Tender_No_; var Description=data[i].Description; var Unit_of_Measure=data[i].Unit_of_Measure; var
-    Quantity=data[i].Quantity; var Unit_Price=data[i].Unit_Price; var Amount=data[i].Amount; var
-    modalHtml='<div class="modal fade" tabindex="-1" role="dialog" id="financialBid' + Line_No + '">\
-                                            <div class="modal-dialog modal-lg" role="document">\
-                                                <div class="modal-content">\
-                                                    <div class="modal-header">\
-                                                        <h5 class="modal-title">Financial Bid <span id="modal-title-LineNo"></span>\
-                                                        </h5>\
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">\
-                                                            <span aria-hidden="true">&times;</span>\
-                                                        </button>\
-                                                    </div>\
-                                                    <div class="modal-body">\
-                                                        <form method="POST" novalidate>\
-                                                            {% csrf_token %}\
-                                                            <input type="hidden" name="Process_Type" value="{{response.Process_Type}}">\
-                                                            <input type="hidden" name="TenderType" value="{{response.TenderType}}">\
-                                                            <input type="hidden" name="docNo" value="{{response.No}}">\
-                                                            <div class="form-group">\
-                                                                <label>Unit Price</label>\
-                                                                <div class="input-group">\
-                                                                    <div class="input-group-prepend">\
-                                                                        <div class="input-group-text">\
-                                                                            <i class="fas fa-coins"></i>\
-                                                                        </div>\
-                                                                    </div>\
-                                                                    <input type="text" class="form-control" placeholder="00.00" value="{{UnitPrice}}"\
-                                                                        name="unitPrice">\
-                                                                </div>\
-                                                            </div>\
-                                                            <div class="form-group my-2">\
-                                                                <button type="submit" class="btn btn-primary btn-lg btn-block">\
-                                                                    Submit <i class="fas fa-paper-plane"></i>\
-                                                                </button>\
-                                                            </div>\
-                                                        </form>\
-                                                    </div>\
-                                                </div>\
-                                            </div>\
-                                        </div>' ; var row=$('<tr>');
-    row.append($('<td>').text(Description));
-        row.append($('
-    <td>').text(Unit_of_Measure));
-        row.append($('
-    <td>').text(Quantity));
-        row.append($('
-    <td>').text(Unit_Price));
-        row.append($('
-    <td>').text(Amount));
+<div class="tab no_attachment">
+    <h5 class="modal-title text-center">{{response.Process_Type}} Technical
+        Requirements
+    </h5>
+    <form method="post" id="attachmentsForm" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group" id="attachmentCodeRow">
+            <label>Select Document to Upload <span class="text-danger">*</span></label>
+            <select class="custom-select" name="attachmentCode" id="attachmentCode">
+                <option class="after" value="" disabled>--Select--</option>
+            </select>
+        </div>
+        <div class="custom-file" id="attachmentsRow">
+            <input type="file" class="custom-file-input" name="attachments" id="attachments">
+            <label class="custom-file-label" for="customFile">Choose
+                file</label>
+        </div>
+        <div style="display:flex; justify-content:space-between;" class="my-3">
+            <button type="submit" class="btn btn-primary btn-lg mr-1" id="attachSubmit" style="flex:1;">
+                Upload <i class="fas fa-file-upload"></i>
+            </button>
+            <!-- <button class="btn btn-dark mr-1" type="button" id="attachmentBtn"
+                                            style="flex:1;display:none">
+                                            View <span id="attachementCount"></span> Attachments <i
+                                                class="fas fa-eye"></i>
+                                        </button> -->
+        </div>
+    </form>
+    <!-- <div class="row" id="leave_attachments_row" style="display:none">
+                                    <div class="col-md-12">
+                                        <h5 class="">
+                                            Attached Files <i class="las la-folder-open text-success"></i>
+                                        </h5>
+                                        <div class="row" id="attachments-container">
+
+                                        </div>
+                                    </div>
+                                </div> -->
+</div>
 
 
+<div style="text-align:center;margin-top:40px;">
+    <span class="step"></span>
+    <span class="step"></span>
+    <span class="step attach_step"></span>
+    <span class="step"></span>
+</div>
 
-        // create a link button
-        var viewBtn = $('<a>').attr({
-            class: "btn btn-primary text-white",
-            type: "button",
-            "data-toggle": "modal",
-            "data-target": "#financialBid" + Line_No,
-            id: "SubmitBtnBG" + Line_No,
-            onclick: "openModal(" + Line_No + ")"
-            }).text("Bid");
-
-            // add the font awesome icon to the button
-            var icon = $('<i>').addClass('fa fa-coins ml-1');
-                viewBtn.append(icon);
-
-                // add event listener to button
-                viewBtn.click(function () {
-                // get Line_No from button id
-                var lineNo = $(this).attr('id').replace('SubmitBtnBG', '');
-                // construct id of modal
-                var modalId = '#financialBid' + lineNo;
-                });
-
-                // append the link button to the last
-    <td> element
-        row.append($('
-    <td>').append(viewBtn));
-        openTableBody.append(row);
-
-        }
-        // initialize DataTables for each table
-        if (!$.fn.DataTable.isDataTable('#open_table')) {
-        $('#open_table').DataTable({
-        "pageLength": 5,
-        "order": [
-        [0, "desc"]
-        ]
-        });
-        }
-        console.log(data);
-        },
-        error: function (xhr, status, error) {
-        console.log("Error:", error);
-        },
-        });
-        }
-
-        function FinancialData(pk) {
-        $.ajax({
-        url: "/FinancialBid/" + pk + "/",
-        type: "GET",
-        dataType: "json",
-        success: function (data) {
-        var openTableBody = $('#open_table tbody');
-        openTableBody.empty();
-        var showNextFour = false;
-
-        for (var i = 0; i < data.length; i++) { var Line_No=data[i].Line_No; var prospectNo=data[i].Response_No; var
-            docNo=data[i].Tender_No_; var Description=data[i].Description; var Unit_of_Measure=data[i].Unit_of_Measure;
-            var Quantity=data[i].Quantity; var Unit_Price=data[i].Unit_Price; var Amount=data[i].Amount; var
-            Vendor_No_=data[i].Vendor_No_; var
-            modalHtml='<div class="modal fade" tabindex="-1" role="dialog" id="financialBid' + Line_No + '">\
-                            <div class="modal-dialog modal-lg" role="document">\
-                                <div class="modal-content">\
-                                    <div class="modal-header">\
-                                        <h5 class="modal-title"> Financial Bid - ' + Line_No + '</h5>\
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">\
-                                            <span aria-hidden="true">&times;</span>\
-                                        </button>\
-                                    </div>\
-                                    <div class="modal-body">\
-                                        <div class="money-spinner mx-auto text-center" id="line_spinner" style="display: none;">\
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif"\
-                                                alt="Loading Gif" style="height: 100px; width: 100px;" class="img-fluid">\
-                                        </div>\
-                                        <form id="financialBidForm' + Line_No + '">\
-                                            {% csrf_token %}\
-                                            <input type="hidden" name="prospectNo" id="prospectNo' + Line_No
-            + '" value="' + prospectNo + '">\
-                                            <input type="hidden" name="docNo" id="docNo' + Line_No + '" value="' +
-            docNo + '">\
-                                            <input type="hidden" name="lineNo" id="lineNo' + Line_No + '" value="' +
-            Line_No + '">\
-                            <input type="hidden" name="Vendor_No_" id="Vendor_No_' + Line_No + '" value="' + Vendor_No_
-            + '">\
-                                            <div class="form-group">\
-                                                <label>Unit Price</label>\
-                                                <div class="input-group">\
-                                                    <div class="input-group-prepend">\
-                                                        <div class="input-group-text">\
-                                                            <i class="fas fa-coins"></i>\
-                                                        </div>\
-                                                    </div>\
-                                                    <input type="text" class="form-control" placeholder="00.00" value=""\
-                                                        name="unitPrice" id="unitPrice' + Line_No + '">\
-                                                </div>\
-                                            </div>\
-                                            <div class="form-group my-2">\
-                                                <button type="submit" class="btn btn-primary btn-lg btn-block">\
-                                                    Submit <i class="fas fa-paper-plane"></i>\
-                                                </button>\
-                                            </div>\
-                                        </form>\
-                                    </div>\
-                                </div>\
-                            </div>\
-                        </div>' ; var row=$('<tr>');
-            row.append($('
-    <td>').text(Description));
-        row.append($('
-    <td>').text(Unit_of_Measure));
-        row.append($('
-    <td>').text(Quantity));
-        row.append($('
-    <td>').text(Unit_Price));
-        row.append($('
-    <td>').text(Amount));
-        if (Unit_Price > 0) {
-        var viewBtn = $('<a>').attr({
-            class: "btn btn-primary text-white financeModal",
-            type: "button",
-            "data-toggle": "modal",
-            "data-target": "#financialBid" + data[i].Line_No,
-            id: "SubmitBtnBG" + data[i].Line_No,
-            }).text("Update Bid");
-            } else {
-            var viewBtn = $('<a>').attr({
-                class: "btn btn-primary text-white financeModal",
-                type: "button",
-                "data-toggle": "modal",
-                "data-target": "#financialBid" + data[i].Line_No,
-                id: "SubmitBtnBG" + data[i].Line_No,
-                }).text("Bid");
-                }
-
-
-                if (Unit_Price > 0) {
-                viewBtn.text("Update Bid");
-                } else {
-                viewBtn.text("Bid");
-                }
-
-
-                var icon = $('<i>').addClass('fa fa-coins ml-1');
-                    viewBtn.append(icon);
-
-                    row.append($('
-    <td>').append(viewBtn));
-        openTableBody.append(row);
-        $('body').append(modalHtml);
-        }
-        // initialize DataTables for each table
-        if (!$.fn.DataTable.isDataTable('#open_table')) {
-        $('#open_table').DataTable({
-        "pageLength": 5,
-        "order": [
-        [0, "desc"]
-        ]
-        });
-        }
-
-        // Bind a click event handler to the button to open the modal
-        $('.financeModal').on('click', function () {
-        var lineNoToOpen = $(this).attr('id').substring(11);
-        $('#financialBid' + lineNoToOpen).modal('show');
-        });
-        },
-        error: function (xhr, status, error) {
-        console.log("Error:", error);
-        },
-        });
-        }
+$('.no_attachment').hide();
+$('.attach_step').hide();

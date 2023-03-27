@@ -37,12 +37,13 @@
         <img src="../../static/img/logo/2.png" class="logo" alt="Company Logo">
         <p>Hi {{user}},</p>
         <div class="message">
-            <p>Thanks for creating an account with us! Please use the link and Secret Code below to verify your account.
+            <p>Thanks for creating an account with us! Please use the link and Verification Code below to reset your
+                password.
             </p>
 
             <p>Verification Code: {{Secret}}</p>
 
-            <p><a href="http://{{domain}}{% url 'verify' %}">Verify your account now</a></p>
+            <p><a href="http://{{domain}}{% url 'FnResetPassword' %}">Reset your password now</a></p>
         </div>
         <p class="signature">Best regards,<br>LBDA</p>
     </div>

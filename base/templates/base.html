@@ -74,6 +74,10 @@
                                     class="fas fa-user"></i><span>Sign
                                     In</span></a>
                         </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#forgot"><span>Forgot
+                                    Password ?</span></a>
+                        </li>
                         {% else %}
                         <li class="nav-item">
                             <a href="/logout/" class="nav-link" data-toggle="tooltip" title="Sign Out"><i
@@ -135,7 +139,40 @@
                 </div>
             </div>
         </div>
-
+        <div class="modal fade" tabindex="-1" role="dialog" id="forgot">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Forgot Password <i class="fas fa-question-circle"></i></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" action="/FnResetEmail/" novalidate>
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label>Supplier Email <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fas fa-envelope"></i>
+                                        </div>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Email" name="emailAddress"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="form-group my-2">
+                                <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                    Forgot Password
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     {% include 'footer.html' %}
     <!-- General JS Scripts -->

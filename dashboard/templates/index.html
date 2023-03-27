@@ -31,7 +31,8 @@ OPEN TENDERS
                                         <th class="text-center">
                                             Tender No.
                                         </th>
-                                        <th>Title</th>
+                                        <th>Process Type</th>
+                                        <th>Tender Type</th>
                                         <th>Status</th>
                                         <th>Bidding Deadline</th>
                                         <th>Action</th>
@@ -41,7 +42,8 @@ OPEN TENDERS
                                     {% for tender in open_tenders %}
                                     <tr>
                                         <td>{{tender.No}}</td>
-                                        <td>{{tender.Title}}</td>
+                                        <td>{{tender.Process_Type}}</td>
+                                        <td>{{tender.TenderType}}</td>
                                         <td>
                                             <div class="badge badge-secondary">{{tender.Status}}</div>
                                         </td>

@@ -638,3 +638,7 @@ img {
 .button-88:active {
   transform: scale(0.95);
 }
+
+.brs {
+  color: var(--first-color) !important;
+}
