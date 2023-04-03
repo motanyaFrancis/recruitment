@@ -65,6 +65,7 @@ class TenderDetail(UserObjectMixins,View):
             
             task_get_procurement_methods = self.one_filter("/QyProcurementMethods","No","eq",pk)
             
+           
             res_file = self.one_filter("/QyDocumentAttachments","No_","eq",pk)
             allFiles = [x for x in res_file[1]]
             

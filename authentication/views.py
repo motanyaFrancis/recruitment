@@ -202,9 +202,10 @@ class FnResetPassword(UserObjectMixins,View):
             if password != password2:
                 messages.error(request, "Password mismatch")
                 return redirect('FnResetPassword')  
+            
+            response = self.make_soap_request('FnResetPassword',
+                                    reset_data['Email'], self.pass_encrypt(password), verificationToken)
             if response == True:
-                response = self.make_soap_request('FnResetPassword',
-                                        reset_data['Email'], self.pass_encrypt(password), verificationToken)
                 del request.session['resetMail']
                 messages.success(request, "Reset successful, login to continue")
                 return redirect('index')
