@@ -13,4 +13,5 @@ urlpatterns = [
     path('DeleteAttachment/', views.DeleteAttachment.as_view(), name='DeleteAttachment'),
     path('FinancialBid/<str:pk>/',views.FinancialBid.as_view(),name='FinancialBid'),
     path('Submit/<str:pk>/',views.Submit.as_view(),name='Submit'),
+    path('getDocs/<str:pk>/<str:id>/', views.viewDocs.as_view(), name='getDocs'),
 ]

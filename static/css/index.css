@@ -395,7 +395,7 @@ thead {
 
 .file-man-box .file-download {
   font-size: 30px;
-  color: #98a6ad;
+  color: #dc7633;
   position: absolute;
   bottom: 5px;
   right: 1px;
@@ -405,6 +405,8 @@ thead {
 
 .file-man-box .file-download:hover {
   color: #313a46;
+  cursor: pointer;
+  cursor: pointer;
 }
 
 .file-man-box .file-man-title {

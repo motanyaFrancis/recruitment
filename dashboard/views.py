@@ -10,6 +10,9 @@ from django.contrib import messages
 from asgiref.sync import sync_to_async
 from django.conf import settings as config
 from datetime import datetime
+import io as BytesIO
+import base64
+from django.http import HttpResponse
 
 # Create your views here.
 class Index(UserObjectMixins, View):
@@ -37,7 +40,7 @@ class Index(UserObjectMixins, View):
             logging.exception(e)
             messages.error(request, f'{e}')
             return redirect('index')
-        print(authenticated)
+
         ctx = {"open_tenders":open_tenders,
                "authenticated":authenticated,
                "ContactPage":ContactPage}
@@ -62,6 +65,9 @@ class TenderDetail(UserObjectMixins,View):
             
             task_get_procurement_methods = self.one_filter("/QyProcurementMethods","No","eq",pk)
             
+            res_file = self.one_filter("/QyDocumentAttachments","No_","eq",pk)
+            allFiles = [x for x in res_file[1]]
+            
             for x in task_get_procurement_methods[1]:
                 response = x
                 if authenticated == True and datetime.strptime(x['Quotation_Deadline'] + ' ' + x['Expected_Closing_Time'],'%Y-%m-%d %H:%M:%S') >= current_datetime:
@@ -79,7 +85,8 @@ class TenderDetail(UserObjectMixins,View):
             "response":response,
             'username':username,
             'lines':lines,
-            'applicable':applicable
+            'applicable':applicable,
+            "file":allFiles
         }
         return render(request,'tenders/detail.html',ctx)
 
@@ -431,3 +438,30 @@ class Submit(UserObjectMixins,View):
         except Exception as e:
             logging.exception(e)
             return JsonResponse({'success': False, 'error': f'{e}'})
+        
+        
+        
+class viewDocs(UserObjectMixins,View):
+    def post(self,request,pk,id):
+        docNo = pk
+        attachmentID = int(request.POST.get('attachmentID'))
+        File_Name = request.POST.get('File_Name')
+        File_Extension = request.POST.get('File_Extension')
+        tableID = int(id)
+
+        try:
+            response = self.download_attachment(docNo, attachmentID, tableID)
+            file_name = File_Name.split()
+            filenameFromApp = file_name[0] + "." + File_Extension
+            buffer = BytesIO.BytesIO()
+            content = base64.b64decode(response)
+            buffer.write(content)
+            responses = HttpResponse(
+                buffer.getvalue(),
+                content_type="application/ms-excel",
+            )
+            responses['Content-Disposition'] = f'inline;filename={filenameFromApp}'
+            return responses
+        except Exception as e:
+            messages.info(request, f'{e}')
+            return redirect('index')

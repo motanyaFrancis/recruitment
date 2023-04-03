@@ -151,6 +151,15 @@ class UserObjectMixins(object):
             client = Client(self.WEB_PORTAL, transport=Transport(session=session))
             response = executor.submit(client.service['FnDeleteDocumentAttachment'], *params).result()
         return response
+    def download_attachment(self, *params):
+        global session
+        if not session:
+            session = Session()
+            session.auth = HTTPBasicAuth(config.WEB_SERVICE_UID, config.WEB_SERVICE_PWD)
+        with ThreadPoolExecutor() as executor:
+            client = Client(self.WEB_PORTAL, transport=Transport(session=session))
+            response = executor.submit(client.service['FnGetDocumentAttachment'], *params).result()
+        return response
     
     def get_object(self,endpoint):
         response = self.sessions.get(endpoint).json()

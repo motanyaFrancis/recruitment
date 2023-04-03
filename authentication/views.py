@@ -21,15 +21,18 @@ class login_request(UserObjectMixins,View):
 
             for vendor in vendors[1]:
                 if vendor['EMail'] == email:
-                    if self.pass_decrypt(vendor['Password']) == password:
-                        request.session['UserId'] = vendor['No']
-                        request.session['state'] = "Vendor" 
-                        request.session['authenticated'] = True  
-                        request.session['Name'] = vendor['Name']
-                        request.session['Email'] = vendor['EMail']
-                        messages.success(request,f"Success. Logged in as {request.session['Name']}")             
-                        return redirect('dashboard')
-                    messages.error(request, "Invalid Credentials. Please reset your password")
+                    if vendor['Password'] != '':
+                        if self.pass_decrypt(vendor['Password']) == password:
+                            request.session['UserId'] = vendor['No']
+                            request.session['state'] = "Vendor" 
+                            request.session['authenticated'] = True  
+                            request.session['Name'] = vendor['Name']
+                            request.session['Email'] = vendor['EMail']
+                            messages.success(request,f"Success. Logged in as {request.session['Name']}")             
+                            return redirect('dashboard')
+                        messages.error(request, "Password mismatch")
+                        return redirect('index')
+                    messages.error(request, "Password not found. Please reset your password.")
                     return redirect('index')
                     
             prospect = self.one_filter("/QyProspectiveSuppliers","Email","eq",email) 
@@ -199,10 +202,13 @@ class FnResetPassword(UserObjectMixins,View):
             if password != password2:
                 messages.error(request, "Password mismatch")
                 return redirect('FnResetPassword')  
-            response = self.make_soap_request('FnResetPassword',
-                                    reset_data['Email'], self.pass_encrypt(password), verificationToken)
-            del request.session['resetMail']
-            messages.success(request, "Reset successful, login to continue")
+            if response == True:
+                response = self.make_soap_request('FnResetPassword',
+                                        reset_data['Email'], self.pass_encrypt(password), verificationToken)
+                del request.session['resetMail']
+                messages.success(request, "Reset successful, login to continue")
+                return redirect('index')
+            messages.success(request, f"{response}")
             return redirect('index')
         except Exception as e:
             messages.error(request, f"{e}")
