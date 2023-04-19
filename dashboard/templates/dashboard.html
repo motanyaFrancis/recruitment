@@ -43,24 +43,20 @@ DASHBOARD
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>E-Procurement</h4>
+                        <h4>E-Recruitment Portal</h4>
                     </div>
                     <div class="card-body">
                         <ul class="nav nav-tabs" id="myTab2" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active" id="home-tab2" data-toggle="tab" href="#home2" role="tab"
                                     aria-controls="home" aria-selected="true">
-                                    {% if state == 'Vendor' %}
-                                    New Tenders ({{all_tenders|length}})
-                                    {% elif state == 'Prospect' %}
-                                    New Tenders ({{open_tenders|length}})
-                                    {% endif %}
+                                    Vacant Positions ({{open_vacancy|length}})
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link brs" id="profile-tab2" data-toggle="tab" href="#profile2" role="tab"
                                     aria-controls="profile" aria-selected="false">Submitted
-                                    Tenders({{all_submitted|length}})</a>
+                                    Applications({{submitted|length}})</a>
                             </li>
                         </ul>
                         <div class="tab-content tab-bordered" id="myTab3Content">
@@ -70,94 +66,36 @@ DASHBOARD
                                     <table class="table table-striped" id="open_table">
                                         <thead>
                                             <tr>
-                                                <th class="text-center">
-                                                    Tender No.
-                                                </th>
-                                                <th>Process Type</th>
-                                                <th>Tender Type</th>
-                                                <th>Status</th>
-                                                <th>Bidding Deadline</th>
-                                                <th class="text-center">Action</th>
+                                                <th>Job Title</th>
+                                                <th>Job Grade</th>
+                                                <th>Appointment Type</th>
+                                                <th>Closing Date</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
-                                        {% if state == 'Vendor' %}
                                         <tbody>
-                                            {% for tender in all_tenders %}
+                                            {% for open in open_vacancy %}
                                             <tr>
-                                                <td>{{tender.No}}</td>
-                                                <td>{{tender.Process_Type}}</td>
-                                                <td>{{tender.TenderType}}</td>
+                                                <td>{{open.Description}}</td>
+                                                <td>{{open.Job_Grade}}</td>
                                                 <td>
-                                                    <div class="badge badge-secondary">{{tender.Status}}
-                                                    </div>
+                                                    <div class="badge badge-secondary">{{open.Appointment_Type}}</div>
                                                 </td>
-                                                <td>
-                                                    <span
-                                                        id="Quotation_Deadline{{tender.No}}">{{tender.Quotation_Deadline}}</span>
-                                                    at <span class="text-danger"
-                                                        id="Expected_Closing_Time{{tender.No}}">{{tender.Expected_Closing_Time}}</span>
-                                                </td>
-                                                <td><a href="/tdr/{{tender.No}}/" class="btn btn-primary">Detail</a>
-                                                </td>
+                                                <td id="open{{open.No_}}">{{open.End_Date}}</td>
+                                                <td><a href="/details/{{open.Job_ID}}/{{open.No_}}"
+                                                        class="btn btn-primary">Detail</a></td>
                                                 <script>
                                                     $(document).ready(function () {
-                                                        $("#Quotation_Deadline{{tender.No}}")
+                                                        $("#open{{open.No_}}")
                                                             .empty().append(moment(
-                                                                    '{{tender.Quotation_Deadline}}',
-                                                                    "YYYY-MM-DD")
+                                                                    '{{open.End_Date}}', "YYYY-MM-DD")
                                                                 .format(
                                                                     'Do MMM YYYY'));
-                                                        $("#Expected_Closing_Time{{tender.No}}")
-                                                            .empty().append(moment(
-                                                                    '{{tender.Expected_Closing_Time}}',
-                                                                    "h:mm:ss a")
-                                                                .format(
-                                                                    'h:mm a'));
                                                     })
                                                 </script>
                                             </tr>
                                             {% endfor %}
                                         </tbody>
-                                        {% elif state == 'Prospect' %}
-                                        <tbody>
-                                            {% for tender in open_tenders %}
-                                            <tr>
-                                                <td>{{tender.No}}</td>
-                                                <td>{{tender.Process_Type}}</td>
-                                                <td>{{tender.TenderType}}</td>
-                                                <td>
-                                                    <div class="badge badge-secondary">{{tender.Status}}
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span
-                                                        id="Quotation_Deadline{{tender.No}}">{{tender.Quotation_Deadline}}</span>
-                                                    at <span class="text-danger"
-                                                        id="Expected_Closing_Time{{tender.No}}">{{tender.Expected_Closing_Time}}</span>
-                                                </td>
-                                                <td class="text-center"><a href="/tdr/{{tender.No}}/"
-                                                        class="btn btn-primary">Detail</a>
-                                                </td>
-                                                <script>
-                                                    $(document).ready(function () {
-                                                        $("#Quotation_Deadline{{tender.No}}")
-                                                            .empty().append(moment(
-                                                                    '{{tender.Quotation_Deadline}}',
-                                                                    "YYYY-MM-DD")
-                                                                .format(
-                                                                    'Do MMM YYYY'));
-                                                        $("#Expected_Closing_Time{{tender.No}}")
-                                                            .empty().append(moment(
-                                                                    '{{tender.Expected_Closing_Time}}',
-                                                                    "h:mm:ss a")
-                                                                .format(
-                                                                    'h:mm a'));
-                                                    })
-                                                </script>
-                                            </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                        {% endif %}
                                     </table>
                                 </div>
                             </div>
@@ -166,61 +104,29 @@ DASHBOARD
                                     <table class="table table-striped" id="table-1">
                                         <thead>
                                             <tr>
-                                                <th class="text-center">
-                                                    Tender No.
-                                                </th>
-                                                <th>Status</th>
-                                                <th>Process Type</th>
-                                                <th>Sent for Evaluation</th>
-                                                <th>Tender Opening Date</th>
-                                                <th>Tender Closing Date</th>
-                                                <th>Tender Security Institution</th>
-                                                <th>Tender Security Amount</th>
-                                                <th class="text-center">Action</th>
+                                                <th>Job</th>
+                                                <th>Submitted</th>
+                                                <th>Qualified</th>
+                                                <th>Shortlisted</th>
+                                                <th>Cancel Application</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {% for submit in all_submitted %}
+                                            {% for submit in submitted %}
                                             <tr>
-                                                <td>{{submit.Tender_No_}}</td>
+                                                <td>{{submit.Job}}</td>
                                                 <td>
-                                                    <div class="badge badge-secondary">{{submit.Tender_Status}}</div>
+                                                    <div class="badge badge-secondary">{{submit.Submitted}}</div>
                                                 </td>
-                                                <td>{{submit.Type}}</td>
-                                                <td>
-                                                    {% if submit.Sent_for_Evaluation == True %}
-                                                    Yes
-                                                    {% elif submit.Sent_for_Evaluation == False %}
-                                                    No
-                                                    {% endif %}
+                                                <td>{{submit.Qualified}}</td>
+                                                <td>{{submit.Shortlist}}</td>
+                                                <td class="text-center">
+                                                    <form action="{% url 'FnWithdrawJobApplication' %}" method="post">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="needCode" value="{{res.Need_Code}}">
+                                                        <button type="submit" class="btn btn-danger">Cancel</button>
+                                                    </form>
                                                 </td>
-                                                <td id="TenderOpeningDate{{submit.Tender_No_}}">
-                                                    {{submit.TenderOpeningDate}}
-                                                </td>
-                                                <td id="TenderClosingDate{{submit.Tender_No_}}">
-                                                    {{submit.TenderOpeningDate}}
-                                                </td>
-                                                <td>{{submit.Tender_Security_Institution}}</td>
-                                                <td>{{submit.Tender_Security_Amount}}</td>
-                                                <td class="text-center"><a href="/tdr/{{submit.Tender_No_}}/"
-                                                        class="btn btn-primary">Detail</a>
-                                                </td>
-                                                <script>
-                                                    $(document).ready(function () {
-                                                        $("#TenderOpeningDate{{submit.Tender_No_}}")
-                                                            .empty().append(moment(
-                                                                    '{{submit.TenderOpeningDate}}',
-                                                                    "YYYY-MM-DD")
-                                                                .format(
-                                                                    'Do MMM YYYY'));
-                                                        $("#TenderClosingDate{{submit.Tender_No_}}")
-                                                            .empty().append(moment(
-                                                                    '{{submit.TenderClosingDate}}',
-                                                                    "YYYY-MM-DD, h:mm:ss a")
-                                                                .format(
-                                                                    'Do MMM YYYY, h:mm a'));
-                                                    })
-                                                </script>
                                             </tr>
                                             {% endfor %}
                                         </tbody>
@@ -232,72 +138,46 @@ DASHBOARD
                 </div>
             </div>
         </div>
-        {% if state == 'Vendor' %}
         <div class="row gx-1">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="headerTitle">New Procurement Requests</h4>
-                        <div class="card-header-action">
-                            <div class="dropdown">
-                                <a href="#" data-toggle="dropdown" class="btn btn-warning dropdown-toggle">Options</a>
-                                <div class="dropdown-menu">
-                                    <a href="#" class="dropdown-item has-icon" id="new-tab"><i class="fas fa-edit"></i>
-                                        Open
-                                        ({{total_open}})</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a href="#" class="dropdown-item has-icon" id="submitted-tab"><i
-                                            class="far fa-eye"></i>
-                                        My Submissions ({{total_submitted}})</a>
-                                </div>
-                            </div>
-                        </div>
+                        <h4 class="headerTitle">Summary</h4>
                     </div>
                     <div class="card-body">
                         <div class="tab-content">
                             <div class="tab-pane tab-panes active" id="new-content">
                                 <div class="row gx-2" id="card-container">
-                                    <div class="col-md-3 dynamic">
+                                    <div class="col-md-4 dynamic">
                                         <div class="card-box bg-blue">
                                             <div class="inner">
-                                                <h3> {{open_restricted|length}} </h3>
-                                                <p>Restricted Tenders </p>
+                                                <h3> {{open_vacancy|length}} </h3>
+                                                <p>Open Vacancies</p>
                                             </div>
                                             <div class="icon">
                                                 <i class="fa fa-briefcase" aria-hidden="true"></i>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3 dynamic">
+                                    <div class="col-md-4 dynamic">
                                         <div class="card-box bg-green">
                                             <div class="inner">
-                                                <h3> {{open_quotation|length}} </h3>
-                                                <p>Request For Quotation </p>
+                                                <h3> {{submitted|length}} </h3>
+                                                <p>Submitted Applications</p>
                                             </div>
                                             <div class="icon">
                                                 <i class="fa fa-file-invoice" aria-hidden="true"></i>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3 dynamic">
-                                        <div class="card-box bg-orange">
-                                            <div class="inner">
-                                                <h3> {{open_interest|length}} </h3>
-                                                <p>Expression of Interest </p>
-                                            </div>
-                                            <div class="icon">
-                                                <i class="fa fa-file-signature" aria-hidden="true"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 dynamic">
+                                    <div class="col-md-4 dynamic">
                                         <div class="card-box bg-red">
                                             <div class="inner">
-                                                <h3> {{open_proposal|length}} </h3>
-                                                <p> Request For Proposal </p>
+                                                <h3> Today </h3>
+                                                <p id="datetime"> Today </p>
                                             </div>
                                             <div class="icon">
-                                                <i class="fa fa-file"></i>
+                                                <i class="fa fa-calendar"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -370,8 +250,6 @@ DASHBOARD
                 </div>
             </div>
         </div>
-        {% endif %}
-
     </div>
 </section>
 <script>
@@ -413,6 +291,20 @@ DASHBOARD
                 ]
             });
         }
+        const options = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric',
+            hour12: true,
+            timeZone: 'UTC'
+        };
+        const date = new Date();
+        const formattedDateTime = date.toLocaleString('en-US', options);
+        document.getElementById("datetime").innerHTML = formattedDateTime;
+
     });
 </script>
 {% endblock %}

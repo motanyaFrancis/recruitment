@@ -1,203 +1,347 @@
-FnResetPassword (Return a Boolean)
+{% extends 'base.html' %}
+{% block title %}
+{{response.Process_Type}}
+{% endblock %}
+{% block head %}
+<script src="../../static/plugins/assets/modules/moment.min.js"></script>
+<style>
+    .accordion-header[aria-expanded="true"] .accordion-icon i:before {
+        content: "\f068";
+    }
 
-Add Verified to Vendors
+    .left-align {
+        text-align: left;
+    }
 
-how do i filter documents by user_id
+    .right-align {
+        text-align: right;
+    }
 
-QyProspectiveSupplierTender is not modifying for vendors
+    .p-4 {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-QySupplierTenderLines is duplicated when i modify
+    .controlBtn {
+        display: flex;
+        justify-content: center;
+    }
 
-<div class="row" id="step1">
-    <div class="col-md-12">
-        <h5 class="modal-title text-center">{{response.Process_Type}} Security
-        </h5>
-        <div class="money-spinner mx-auto text-center" id="security_spinner" style="display: none;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" alt="Loading Gif"
-                style="height: 100px; width: 100px;" class="img-fluid">
-        </div>
-        <form method="POST" novalidate id="securityForm">
-            {% csrf_token %}
-            <input type="hidden" name="Process_Type" id="Process_Type" value="{{response.Process_Type}}">
-            <input type="hidden" name="TenderType" id="TenderType" value="{{response.TenderType}}">
-            <input type="hidden" name="docNo" id="docNo" value="{{response.No}}">
-            <input type="hidden" name="myAction" id="myAction" value="insert">
 
-            <div class="form-group">
-                <label>Security Institution</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">
-                            <i class="fas fa-university"></i>
-                        </div>
-                    </div>
-                    <input type="text" class="form-control" name="securityInstitution" id="securityInstitution"
-                        required>
-                </div>
-            </div>
-            <div class="form-group">
-                <label>Security Amount</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">
-                            <i class="fas fa-lock"></i>
-                        </div>
-                    </div>
-                    <input type="text" class="form-control" placeholder="00.00" name="securityAmount"
-                        id="securityAmount" required>
-                </div>
-            </div>
-            <div class="form-group controlBtn my-2">
-                <button type="submit" class="btn btn-primary mr-1 w-50" id="submitSecurity">
-                    Submit <span class="icon"><i class="fas fa-paper-plane"></i></span>
-                </button>
-                <button type="button" class="btn btn-warning ml-1" id="nextOne">
-                    Next <i class="fas fa-forward"></i>
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
-<div class="row" id="step2" style="display: none;">
-    <div class="col-md-12">
-        <h5 class="modal-title text-center">Financial Bid
-        </h5>
-        <div class="money-spinner mx-auto text-center" id="financial_spinner" style="display: none;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" alt="Loading Gif"
-                style="height: 100px; width: 100px;" class="img-fluid">
-        </div>
-        <div class="table-responsive">
-            <table class="table table-striped" id="open_table">
-                <thead>
-                    <tr>
-                        <th class="text-center">
-                            Description
-                        </th>
-                        <th>Unit of Measure</th>
-                        <th>Quantity</th>
-                        <th>Unit Price</th>
-                        <th>Amount</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td> </td>
-                        <td> </td>
-                        <td> </td>
-                        <td> </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="form-group controlBtn my-2">
-            <button type="button" class="btn btn-primary mr-1" id="prevOne">
-                <i class="fas fa-backward"></i> Prev
-            </button>
-            <button type="button" class="btn btn-warning ml-1" id="nextTwo">
-                Next <i class="fas fa-forward"></i>
-            </button>
-        </div>
-    </div>
-</div>
-<div class="row" id="step3" style="display:none">
-    <div class="col-md-12 p-2" style="border: 2px dotted black;" id="techStep">
-        <h5 class="modal-title text-center">{{response.Process_Type}} Technical
-            Requirements
-        </h5>
-        <div class="money-spinner mx-auto text-center" id="attachment_spinner" style="display: none;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" alt="Loading Gif"
-                style="height: 100px; width: 100px;" class="img-fluid">
-        </div>
-        <form method="post" id="attachmentsForm" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="form-group" id="attachmentCodeRow">
-                <label>Select Document to Upload <span class="text-danger">*</span></label>
-                <select class="custom-select" name="attachmentCode" id="attachmentCode">
-                    <option class="after" value="" disabled>--Select--</option>
-                </select>
-            </div>
-            <div class="custom-file" id="attachmentsRow">
-                <input type="file" class="custom-file-input" name="attachments" id="attachments">
-                <label class="custom-file-label" for="customFile">Choose
-                    file</label>
-            </div>
-            <div style="display:flex; justify-content:space-between;" class="my-3">
-                <button type="submit" class="btn btn-primary btn-lg mr-1" id="attachSubmit" style="flex:1;">
-                    Upload <i class="fas fa-file-upload"></i>
-                </button>
-                <button class="btn btn-dark mr-1" type="button" id="attachmentBtn" style="flex:1;display:none">
-                    View <span id="attachementCount"></span> Attachments <i class="fas fa-eye"></i>
-                </button>
-            </div>
-        </form>
-        <div class="row" id="leave_attachments_row" style="display:none">
+    #regForm {
+        background-color: #ffffff;
+        margin: 100px auto;
+        font-family: Raleway;
+        padding: 40px;
+    }
+
+    /* Hide all steps by default: */
+    .tab {
+        display: none;
+    }
+
+    /* Make circles that indicate the steps of the form: */
+    .step {
+        height: 15px;
+        width: 15px;
+        margin: 0 2px;
+        background-color: #bbbbbb;
+        border: none;
+        border-radius: 50%;
+        display: inline-block;
+        opacity: 0.5;
+    }
+
+    .step.active {
+        opacity: 1;
+    }
+
+    /* Mark the steps that are finished and valid: */
+    .step.finish {
+        background-color: #04AA6D;
+    }
+</style>
+{% endblock %}
+{% block user %}
+{% if authenticated == True %}
+{% include 'topbar.html' %}
+{% endif %}
+{% endblock %}
+
+{% block navigation %}
+<li class="nav-item active">
+    <a href="#" type="button" class="nav-link" disabled>
+        <i class="fas fa-fire br"></i>
+        {{response.TenderType}}
+    </a>
+</li>
+
+{% if authenticated == True %}
+<li class="nav-item">
+    <a href="/dashboard/" class="nav-link"><i class="fas fa-home"></i><span>Dashboard</span></a>
+</li>
+{% else %}
+<li class="nav-item">
+    <a href="/" class="nav-link"><i class="fas fa-home"></i><span>Home</span></a>
+</li>
+{% endif %}
+{% endblock %}
+{% block main %}
+<section>
+    <div class="section-body">
+        <div class="row">
             <div class="col-md-12">
-                <h5 class="">
-                    Attached Files <i class="las la-folder-open text-success"></i>
-                </h5>
-                <div class="row" id="attachments-container">
+                <div class="card mb-3">
+                    <div class="p-4 text-white text-lg bg-info rounded-top">
+                        <h2 class="left-align">{{response.TenderType}}</h2>
+                        <p class="right-align text-uppercase">{{response.Process_Type}} Reference No - <span
+                                class="text-medium">{{response.RefNo}}</span></p>
+                    </div>
+                    <div class="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2 bg-secondary">
+                        <div class="w-100 text-center py-1 px-2"><span class="text-medium">{{response.Process_Type}}
+                                Status:</span> {{response.Status}}
+                        </div>
+                        <div class="w-100 text-center py-1 px-2"><span class="text-medium">{{response.Process_Type}}
+                                Deadline Date:</span> <span
+                                id="Quotation_Deadline">{{response.Quotation_Deadline}}</span>
+                        </div>
+                        <div class="w-100 text-center py-1 px-2"><span class="text-medium"> Expected Closing
+                                Time:</span> <span id="Expected_Closing_Time">{{response.Expected_Closing_Time}}</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="accordion">
+                                    <div class="accordion">
+                                        <div class="accordion">
+                                            <div class="accordion-header" role="button" data-toggle="collapse"
+                                                data-target="#panel-body-2">
+                                                <h4>
+                                                    <span class="accordion-icon"><i class="fas fa-plus"></i></span>
+                                                    {{response.Title}}
+                                                </h4>
+                                            </div>
+                                            <div class="accordion-body collapse" id="panel-body-2"
+                                                data-parent="#accordion">
+                                                <p class="mb-0">
+                                                    {% if response.Instructions %}
+                                                    <h5 class="text-bold my-3">{{response.Process_Type}} Description
+                                                    </h5>
+                                                    <p>
+                                                        {{response.Instructions}}.
+                                                    </p>
+                                                    {% endif %}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% if file|length > 0 %}
+                                    <div class="accordion">
+                                        <div class="accordion-header" role="button" data-toggle="collapse"
+                                            data-target="#panel-body-3">
+                                            <h4>
+                                                <span class="accordion-icon"><i class="fas fa-plus"></i></span>
+                                                Download {{response.Process_Type}} Attachments
+                                            </h4>
+                                        </div>
+                                        <div class="accordion-body collapse" id="panel-body-3" data-parent="#accordion">
+                                            <p class="mb-0">
+                                                <div class="row m-2">
+                                                    {% for data in file %}
+                                                    <div class="col-lg-2 col-xl-2">
+                                                        <div class="file-man-box">
+                                                            <div class="file-img-box"><img
+                                                                    src="../../../static/icons/file-download.png"
+                                                                    alt="icon">
+                                                            </div>
+                                                            <form action="{% url 'getDocs' data.No_ data.Table_ID %}"
+                                                                method="POST">
+                                                                {% csrf_token %}
+                                                                <input type="hidden" name="attachmentID"
+                                                                    value="{{data.AuxiliaryIndex2}}">
+                                                                <input type="hidden" name="File_Name"
+                                                                    value="{{data.File_Name}}">
+                                                                <input type="hidden" name="File_Extension"
+                                                                    value="{{data.File_Extension}}">
+                                                                <button class="file-download mx-1"><i
+                                                                        class="fa fa-download"></i></button>
+                                                            </form>
+                                                            <div class="file-man-title">
+                                                                <h5 class="mb-0 text-overflow">
+                                                                    {{data.File_Name}}.{{data.File_Extension}}</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {% endfor %}
+                                                </div>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive" id="itemsTable">
+                            <h6>Procurement Items</h6>
+                            <table class="table table-striped" id="line_table">
+                                <thead>state
+                                    <tr>
+                                        <th>Description</th>
+                                        <th>Unit of Measure</th>
+                                        <th>Quantity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for line in lines %}
+                                    <tr>
+                                        <td>{{line.Description}}</td>
+                                        <td>{{line.UnitofMeasure}}</td>
+                                        <td>{{line.Quantity}} </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                {% if response.Status == 'New' and applicable == True %}
+                                <div class="applyBtn mr-auto text-center">
+                                    <button type="button" class="btn btn-primary my-3 w-50" id="bid_collapse"> <span
+                                            id="submit_first">Submit</span>
+                                        Bid <i class="fas fa-coins"></i></button>
+                                </div>
+                                {% elif authenticated == False %}
+                                <div class="alert alert-warning alert-has-icon mt-4">
+                                    <div class="alert-icon">
+                                        <i class="fas fa-exclamation-circle"></i>
+                                    </div>
+                                    <div class="alert-body">
+                                        <div class="alert-title">Hello!</div>
+                                        To submit bid, we kindly ask that you <a href="#" class="text-danger"
+                                            data-toggle="modal" data-target="#signIn">sign
+                                            in </a> to your account. Don't have an account? No worries! You can
+                                        easily create one by clicking the <a href="/register/" class="text-dark">sign
+                                            up </a>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="container" id="bidding_row" style="display: none;">
+                            <div class="money-spinner mx-auto text-center" id="spinner" style="display: none;">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif"
+                                    alt="Loading Gif" style="height: 100px; width: 100px;" class="img-fluid">
+                            </div>
+                            <div class="tab">
+                                <h5 class="modal-title text-center">{{response.Process_Type}} Security
+                                </h5>
+                                <form method="POST" novalidate id="securityForm">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="Process_Type" id="Process_Type"
+                                        value="{{response.Process_Type}}">
+                                    <input type="hidden" name="TenderType" id="TenderType"
+                                        value="{{response.TenderType}}">
+                                    <input type="hidden" name="docNo" id="docNo" value="{{response.No}}">
+                                    <input type="hidden" name="myAction" id="myAction" value="insert">
 
-                </div>
-            </div>
-        </div>
-        <div class="form-group controlBtn my-2">
-            <button type="button" class="btn btn-primary mr-1" id="prev2">
-                <i class="fas fa-backward"></i> Prev
-            </button>
-            <button type="button" class="btn btn-warning ml-1" id="next3" style="display:none">
-                Next <i class="fas fa-forward"></i>
-            </button>
-        </div>
-    </div>
-    <div class="col-md-12 p-2 my-3" style="border: 2px dotted black;" id="step4" style="display: none;">
-
-        <div class="money-spinner mx-auto text-center" id="submit_spinner" style="display: none;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" alt="Loading Gif"
-                style="height: 100px; width: 100px;" class="img-fluid">
-        </div>
-
-
-        <div class="form-group controlBtn my-2">
-            <button type="button" class="btn btn-primary mr-1" id="prev3">
-                <i class="fas fa-backward"></i> Prev
-            </button>
-        </div>
-    </div>
-</div>
-
-
-<div class="tab no_attachment">
-    <h5 class="modal-title text-center">{{response.Process_Type}} Technical
-        Requirements
-    </h5>
-    <form method="post" id="attachmentsForm" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="form-group" id="attachmentCodeRow">
-            <label>Select Document to Upload <span class="text-danger">*</span></label>
-            <select class="custom-select" name="attachmentCode" id="attachmentCode">
-                <option class="after" value="" disabled>--Select--</option>
-            </select>
-        </div>
-        <div class="custom-file" id="attachmentsRow">
-            <input type="file" class="custom-file-input" name="attachments" id="attachments">
-            <label class="custom-file-label" for="customFile">Choose
-                file</label>
-        </div>
-        <div style="display:flex; justify-content:space-between;" class="my-3">
-            <button type="submit" class="btn btn-primary btn-lg mr-1" id="attachSubmit" style="flex:1;">
-                Upload <i class="fas fa-file-upload"></i>
-            </button>
-            <!-- <button class="btn btn-dark mr-1" type="button" id="attachmentBtn"
+                                    <div class="form-group">
+                                        <label>Security Institution</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="fas fa-university"></i>
+                                                </div>
+                                            </div>
+                                            <input type="text" class="form-control" name="securityInstitution"
+                                                id="securityInstitution" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Security Amount</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="fas fa-lock"></i>
+                                                </div>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="00.00"
+                                                name="securityAmount" id="securityAmount" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group controlBtn my-2">
+                                        <button type="submit" class="btn btn-primary mr-1 w-50" id="submitSecurity">
+                                            Submit <span class="icon"><i class="fas fa-paper-plane"></i></span>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab">
+                                <h5 class="modal-title text-center">Financial Bid
+                                </h5>
+                                <div class="table-responsive">
+                                    <table class="table table-striped" id="open_table">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">
+                                                    line ID
+                                                </th>
+                                                <th>
+                                                    Description
+                                                </th>
+                                                <th>Unit of Measure</th>
+                                                <th>Quantity</th>
+                                                <th>Unit Price</th>
+                                                <th>Amount</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-center"></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td> </td>
+                                                <td> </td>
+                                                <td> </td>
+                                                <td> </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab">
+                                <h5 class="modal-title text-center">{{response.Process_Type}} Technical
+                                    Requirements
+                                </h5>
+                                <form method="post" id="attachmentsForm" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="form-group" id="attachmentCodeRow">
+                                        <label>Select Document to Upload <span class="text-danger">*</span></label>
+                                        <select class="custom-select" name="attachmentCode" id="attachmentCode">
+                                            <option class="after" value="" disabled>--Select--</option>
+                                        </select>
+                                    </div>
+                                    <div class="custom-file" id="attachmentsRow">
+                                        <input type="file" class="custom-file-input" name="attachments"
+                                            id="attachments">
+                                        <label class="custom-file-label" for="customFile">Choose
+                                            file</label>
+                                    </div>
+                                    <div style="display:flex; justify-content:space-between;" class="my-3">
+                                        <button type="submit" class="btn btn-primary btn-lg mr-1" id="attachSubmit"
+                                            style="flex:1;">
+                                            Upload <i class="fas fa-file-upload"></i>
+                                        </button>
+                                        <!-- <button class="btn btn-dark mr-1" type="button" id="attachmentBtn"
                                             style="flex:1;display:none">
                                             View <span id="attachementCount"></span> Attachments <i
                                                 class="fas fa-eye"></i>
                                         </button> -->
-        </div>
-    </form>
-    <!-- <div class="row" id="leave_attachments_row" style="display:none">
+                                    </div>
+                                </form>
+                                <!-- <div class="row" id="leave_attachments_row" style="display:none">
                                     <div class="col-md-12">
                                         <h5 class="">
                                             Attached Files <i class="las la-folder-open text-success"></i>
@@ -207,15 +351,608 @@ QySupplierTenderLines is duplicated when i modify
                                         </div>
                                     </div>
                                 </div> -->
-</div>
+                            </div>
+                            <div class="tab">
+                                <div class="col-md-12 text-center" id="app_sent" style="display: none;">
+                                    <div class="card bg-info text-white d-inline-block">
+                                        <div class="card-body text-center">
+                                            <i class="fas fa-check-circle fa-7x mb-4" style="font-size: 3rem;"></i>
+                                            <h4 class="card-title">Sent</h4>
+                                            <p class="card-text">Thank you for submitting your application. We will
+                                                review it and get back to you shortly.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <form method="post" id="submitForm">
+                                    <h5 class="modal-title text-center"> Submit {{response.Process_Type}}
+                                    </h5>
+                                    {% csrf_token %}
+                                    <input type="hidden" name="Process_Type1" id="Process_Type1"
+                                        value="{{response.Process_Type}}">
+                                    <input type="hidden" name="TenderType1" id="TenderType1"
+                                        value="{{response.TenderType}}">
+                                    <div style="display:flex; justify-content:space-between;" class="my-3">
+                                        <button type="submit" class="btn btn-primary btn-lg mr-1" style="flex:1;">
+                                            Submit {{response.Process_Type}} <i class="fas fa-paper-plane"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div style="overflow:auto; margin-top: 1rem">
+                                <div style="float:right;">
+                                    <button type="button" class="btn btn-danger" id="bid_closing">Close <i
+                                            class="fas fa-times"></i></button>
+                                    <button type="button" id="prevBtn" class="btn btn-primary" onclick="nextPrev(-1)"><i
+                                            class="fas fa-backward"></i> Previous</button>
+                                    <button type="button" id="nextBtn" class="btn btn-warning" onclick="nextPrev(1)"> <i
+                                            class="fas fa-backward"></i> Next <i class="fas fa-forward"></i></button>
+                                </div>
+                            </div>
+                            <!-- Circles which indicates the steps of the form: -->
+                            <div style="text-align:center;margin-top:40px;">
+                                <span class="step"></span>
+                                <span class="step"></span>
+                                <span class="step"></span>
+                                <span class="step"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+<script>
+    $(document).ready(function () {
+        var documentID = '{{response.No}}';
+        var Process_Type = '{{response.Process_Type}}';
+
+        if (!$.fn.DataTable.isDataTable('#line_table')) {
+            $('#line_table').DataTable({
+                "pageLength": 5,
+                "order": [
+                    [0, "desc"]
+                ]
+            });
+        }
+
+        const $bid_collapse = $('#bid_collapse');
+        const $bid_closing = $('#bid_closing');
+        const $itemsTable = $('#itemsTable');
+        const $bidding_row = $('#bidding_row');
+        var tenderSubmitted = false;
+
+        $bid_collapse.click(function () {
+            $itemsTable.toggle(1000);
+            $bidding_row.toggle(1500);
+            $bid_collapse.hide();
+        })
+        $bid_closing.click(function () {
+            $bidding_row.toggle(1000);
+            $itemsTable.toggle(1200);
+            $bid_collapse.show(1500);
+        })
+
+        //Get the tender security data
+        SecurityData(documentID);
+        const $securityForm = $('#securityForm');
+        const $spinner = $('#spinner');
+
+        function isFloat(str) {
+            return !isNaN(parseFloat(str));
+        }
+
+        function SecurityData(pk) {
+            $.ajax({
+                url: "/FnCreateProspectiveSupplier/",
+                type: "GET",
+                data: {
+                    tenderNo: pk,
+                },
+                dataType: "json",
+                success: function (data) {
+                    if (data['success'] == true) {
+                        $('#myAction').val('modify');
+                        $('#securityInstitution').val(data['response'][
+                            'Tender_Security_Institution'
+                        ]);
+                        $('#securityAmount').val(data['response']['Tender_Security_Amount']);
+                        if (data['response']['Response_Submitted'] == false) {
+                            $('#submitSecurity').text('Update');
+                        } else {
+                            $('#submitSecurity').hide();
+                            $('#securityAmount').prop('disabled', true);
+                            $('#securityInstitution').prop('disabled', true);
+                            tenderSubmitted = true;
+                            $('#submit_first').empty().append('View')
+                            $('#submitForm').hide();
+                            $('#app_sent').show();
+                        }
+
+                    } else {
+                        console.log(data['response'])
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log("Error:", error);
+                },
+            });
+        }
+        $securityForm.on("submit", (e) => {
+            e.preventDefault();
+            if ($('#securityInstitution').val() === '' || $('#securityAmount').val() === '') {
+                alert('Please fill in all required fields.');
+                return false;
+            }
+            var securityAmount = $('#securityAmount').val();
+
+            if (isFloat(securityAmount) != true) {
+                alert('Security Amount has to be a number');
+                return false;
+            }
+            $spinner.show();
+            $.ajax({
+                url: "/FnCreateProspectiveSupplier/",
+                type: "POST",
+                data: {
+                    Process_Type: $('#Process_Type').val(),
+                    docNo: $('#docNo').val(),
+                    securityInstitution: $('#securityInstitution').val(),
+                    securityAmount: securityAmount,
+                    myAction: $('#myAction').val(),
+                    TenderType: $('#TenderType').val(),
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                },
+                success: function (data) {
+                    $('#securityInstitution, #securityAmount').val('');
+                    $spinner.hide();
+                    if (data['success'] == true) {
+                        iziToast.show({
+                            theme: 'dark',
+                            backgroundColor: '#239B56',
+                            icon: 'las la-check-circle',
+                            title: 'Yeah',
+                            message: data['message'],
+                            position: 'topRight',
+                            progressBarColor: '#F4F6F7',
+                        });
+                        SecurityData(documentID);
+                        FinancialData(documentID);
+                        nextPrev(1);
+                    } else {
+                        iziToast.show({
+                            theme: 'dark',
+                            icon: 'las la-exclamation',
+                            title: 'Error',
+                            message: data['error'],
+                            position: 'topRight',
+                            progressBarColor: '#ff0800',
+                        });
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log(xhr.responseText);
+                    $spinner.hide();
+                }
+            });
+
+        });
+        //load lines data
+        FinancialData(documentID);
+
+        function FinancialData(pk) {
+            $.ajax({
+                url: "/FinancialBid/" + pk + "/",
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    var openTableBody = $('#open_table tbody');
+                    openTableBody.empty();
+
+                    for (var i = 0; i < data.length; i++) {
+                        var Line_No = data[i].Line_No;
+                        var prospectNo = data[i].Response_No;
+                        var docNo = data[i].Tender_No_;
+                        var Description = data[i].Description;
+                        var Unit_of_Measure = data[i].Unit_of_Measure;
+                        var Quantity = data[i].Quantity;
+                        var Unit_Price = parseFloat(data[i].Unit_Price);
+                        var Amount = parseFloat(data[i].Amount);
+                        var Vendor_No_ = data[i].Vendor_No_;
+                        var modalHtml =
+                            '<div class="modal fade" tabindex="-1" role="dialog" id="financialBid' +
+                            Line_No + '">\
+                            <div class="modal-dialog modal-lg" role="document">\
+                                <div class="modal-content">\
+                                    <div class="modal-header">\
+                                        <h5 class="modal-title"> Financial Bid - ' + Line_No + '</h5>\
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">\
+                                            <span aria-hidden="true">&times;</span>\
+                                        </button>\
+                                    </div>\
+                                    <div class="modal-body">\
+                                        <div class="money-spinner mx-auto text-center" id="line_spinner' +
+                            Line_No + '" style="display: none;">\
+                                            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif"\
+                                                alt="Loading Gif" style="height: 100px; width: 100px;" class="img-fluid">\
+                                        </div>\
+                                        <form id="financialBidForm' + Line_No + '">\
+                                            {% csrf_token %}\
+                                            <input type="hidden" name="prospectNo" id="prospectNo' + Line_No +
+                            '" value="' +
+                            prospectNo + '">\
+                                            <input type="hidden" name="docNo" id="docNo' + Line_No + '" value="' +
+                            docNo + '">\
+                                            <input type="hidden" name="lineNo" id="lineNo' + Line_No + '" value="' +
+                            Line_No + '">\
+                            <input type="hidden" name="Vendor_No_" id="Vendor_No_' + Line_No + '" value="' +
+                            Vendor_No_ + '">\
+                                            <div class="form-group">\
+                                                <label>Unit Price</label>\
+                                                <div class="input-group">\
+                                                    <div class="input-group-prepend">\
+                                                        <div class="input-group-text">\
+                                                            <i class="fas fa-coins"></i>\
+                                                        </div>\
+                                                    </div>\
+                                                    <input type="text" class="form-control" placeholder="00.00" value=""\
+                                                        name="unitPrice" id="unitPrice' + Line_No + '">\
+                                                </div>\
+                                            </div>\
+                                            <div class="form-group my-2">\
+                                                <button type="submit" class="btn btn-primary btn-lg btn-block">\
+                                                    Submit <i class="fas fa-paper-plane"></i>\
+                                                </button>\
+                                            </div>\
+                                        </form>\
+                                    </div>\
+                                </div>\
+                            </div>\
+                        </div>';
+
+                        var row = $('<tr>');
+                        row.append($('<td>').text(Line_No));
+                        row.append($('<td>').text(Description));
+                        row.append($('<td>').text(Unit_of_Measure));
+                        row.append($('<td>').text(Quantity));
+                        row.append($('<td>').text(Unit_Price));
+                        row.append($('<td>').text(Amount));
 
 
-<div style="text-align:center;margin-top:40px;">
-    <span class="step"></span>
-    <span class="step"></span>
-    <span class="step attach_step"></span>
-    <span class="step"></span>
-</div>
+                        if (Unit_Price > 0 && tenderSubmitted == false) {
+                            var viewBtn = $('<a>').attr({
+                                class: "btn btn-warning text-white financeModal",
+                                type: "button",
+                                "data-toggle": "modal",
+                                "data-target": "#financialBid" + Line_No,
+                                id: "SubmitBtnBG" + Line_No,
+                            }).text("Update Bid" + ' ');
+                        } else if (tenderSubmitted == true) {
+                            var viewBtn = $('<a>').attr({
+                                class: "btn btn-success text-white",
+                            }).text("Submitted" + ' ');
 
-$('.no_attachment').hide();
-$('.attach_step').hide();
+                        } else {
+                            var viewBtn = $('<a>').attr({
+                                class: "btn btn-primary text-white financeModal",
+                                type: "button",
+                                "data-toggle": "modal",
+                                "data-target": "#financialBid" + Line_No,
+                                id: "SubmitBtnBG" + Line_No,
+                            }).text("Bid" + ' ');
+
+                        }
+
+                        var icon = $('<i>').addClass('fa fa-coins');
+                        viewBtn.append(icon);
+
+                        row.append($('<td>').append(viewBtn));
+                        openTableBody.append(row);
+                        $('body').append(modalHtml);
+
+                    }
+
+                    // initialize DataTables for each table
+                    if (!$.fn.DataTable.isDataTable('#open_table')) {
+                        $('#open_table').DataTable({
+                            "pageLength": 5,
+                            "order": [
+                                [0, "desc"]
+                            ]
+                        });
+                    }
+
+                    // Bind a click event handler to the button to open the modal
+                    $('.financeModal').on('click', function () {
+                        var lineNoToOpen = $(this).attr('id').substring(11);
+                        $('#financialBid' + lineNoToOpen).modal('show');
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.log("Error:", error);
+                },
+            });
+        }
+
+        function showSpinner(lineNo) {
+            $('#line_spinner' + lineNo).show();
+        }
+
+        function hideSpinner(lineNo) {
+            $('#line_spinner' + lineNo).hide();
+        }
+
+        function hideModal(lineNo) {
+            $('#financialBid' + lineNo).modal('hide');
+        }
+        $(document).on("submit", "form[id^='financialBidForm']", function (e) {
+            e.preventDefault();
+
+            // Get the CSRF token
+            var csrf_token = $(this).find("[name='csrfmiddlewaretoken']").val();
+
+            // Get the parameter values
+            var prospectNo = $(this).find("[name='prospectNo']").val();
+            var docNo = $(this).find("[name='docNo']").val();
+            var lineNo = $(this).find("[name='lineNo']").val();
+            var unitPrice = $(this).find("[name='unitPrice']").val();
+            var Vendor_No_ = $(this).find("[name='Vendor_No_']").val();
+
+            showSpinner(lineNo);
+
+            $.ajax({
+                url: "/FinancialBid/" + docNo + "/",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    prospectNo: prospectNo,
+                    docNo: docNo,
+                    lineNo: lineNo,
+                    unitPrice: unitPrice,
+                    Vendor_No_: Vendor_No_,
+                    csrfmiddlewaretoken: csrf_token
+                },
+                success: function (data) {
+                    hideSpinner(lineNo);
+                    hideModal(lineNo);
+                    FinancialData(documentID);
+                    if (data['success'] == true) {
+                        iziToast.show({
+                            theme: 'dark',
+                            backgroundColor: '#239B56',
+                            icon: 'las la-check-circle',
+                            title: 'Yeah',
+                            message: data['message'],
+                            position: 'topRight',
+                            progressBarColor: '#F4F6F7',
+                        });
+                    } else {
+                        iziToast.show({
+                            theme: 'dark',
+                            icon: 'las la-exclamation',
+                            title: 'Error',
+                            message: data['error'],
+                            position: 'topRight',
+                            progressBarColor: '#ff0800',
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log(data);
+                    hideSpinner(lineNo);
+                    hideModal(lineNo);
+                },
+            });
+        });
+
+        //load attachments
+        const $attachmentForm = $('#attachmentsForm');
+        const $attachmentBtn = $('#attachmentBtn');
+        TechnicalRequirementsData(documentID);
+
+        function TechnicalRequirementsData(pk) {
+            $("#attachmentsForm select[name='attachmentCode']").find('.after').nextAll().remove();
+            $.ajax({
+                url: "/TechnicalRequirements/" + pk + "/",
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    if (data.length > 0) {
+                        let options = '';
+                        for (var i = 0; i < data.length; i++) {
+                            options += '<option value=' + data[i].DocumentCode + '>' + data[i]
+                                .DocumentName +
+                                '</option>';
+                        }
+                        $("#attachmentsForm select[name='attachmentCode']").find('.after').after(
+                            options);
+                    } else {}
+                },
+                error: function (xhr, status, error) {
+                    console.log("Error:", error);
+                },
+            });
+        }
+        $attachmentForm.on("submit", (e) => {
+            e.preventDefault();
+            if ($('#attachmentCode').val() === '') {
+                alert('Please fill in all required fields.');
+                return false;
+            }
+            $spinner.show();
+            var formData = new FormData($attachmentForm[0]);
+            let attachments = $('#attachments')[0];
+            var attachmentCode = $('#attachmentCode').val();
+
+            for (let i = 0; i < attachments.files.length; i++) {
+                formData.append('attachment', attachments.files[i]);
+            }
+
+            formData.append('attachmentCode', attachmentCode);
+
+            $.ajax({
+                url: "/Attachments/" + documentID + "/",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
+                },
+                success: function (data) {
+                    $('#attachments').val('');
+                    $spinner.hide();
+                    if (data['success'] == true) {
+                        iziToast.show({
+                            theme: 'dark',
+                            backgroundColor: '#239B56',
+                            icon: 'las la-check-circle',
+                            title: 'Yeah',
+                            message: "Uploaded successfully",
+                            position: 'topRight',
+                            progressBarColor: '#F4F6F7',
+                        });
+                        //Load_Attachments(documentID);
+                        TechnicalRequirementsData(documentID);
+                    } else {
+                        iziToast.show({
+                            theme: 'dark',
+                            icon: 'las la-exclamation',
+                            title: 'Error',
+                            message: "Upload failed: " + data,
+                            position: 'topRight',
+                            progressBarColor: '#ff0800',
+                        });
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log(xhr.responseText);
+                    $spinner.hide();
+                }
+            });
+        });
+
+        //Load_Attachments(documentID);
+
+
+        //$attachmentBtn.click(function () {
+        //  $('#leave_attachments_row').toggle(1000);
+        // })
+
+        //submit form
+        const $submitForm = $('#submitForm');
+        $submitForm.on("submit", (e) => {
+            e.preventDefault();
+            $spinner.show();
+            $.ajax({
+                url: "/Submit/" + documentID + "/",
+                type: "POST",
+                data: {
+                    Process_Type: $('#Process_Type1').val(),
+                    TenderType: $('#TenderType1').val(),
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                },
+                success: function (data) {
+                    $spinner.hide();
+                    SecurityData(documentID);
+                    if (data['success'] == true) {
+                        iziToast.show({
+                            theme: 'dark',
+                            backgroundColor: '#239B56',
+                            icon: 'las la-check-circle',
+                            title: 'Yeah',
+                            message: data['message'],
+                            position: 'topRight',
+                            progressBarColor: '#F4F6F7',
+                        });
+                        $('#submit_first').empty().append('View');
+                        $submitForm.hide();
+                        $('#app_sent').show();
+                    } else {
+                        iziToast.show({
+                            theme: 'dark',
+                            icon: 'las la-exclamation',
+                            title: 'Error',
+                            message: data['error'],
+                            position: 'topRight',
+                            progressBarColor: '#ff0800',
+                        });
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log(xhr.responseText);
+                    iziToast.show({
+                        theme: 'dark',
+                        icon: 'las la-exclamation',
+                        title: 'Error',
+                        message: data['error'],
+                        position: 'topRight',
+                        progressBarColor: '#ff0800',
+                    });
+                    $spinner.hide();
+                }
+            });
+
+        });
+
+        $("#Quotation_Deadline")
+            .empty().append(moment(
+                    '{{response.Quotation_Deadline}}', "YYYY-MM-DD")
+                .format(
+                    'Do MMM YYYY'));
+        $("#Expected_Closing_Time")
+            .empty().append(moment(
+                    '{{response.Expected_Closing_Time}}',
+                    "h:mm:ss a")
+                .format(
+                    'h:mm a'));
+    })
+    var currentTab = 0; // Current tab is set to be the first tab (0)
+    showTab(currentTab); // Display the current tab
+
+    function showTab(n) {
+        // This function will display the specified tab of the form...
+        var x = document.getElementsByClassName("tab");
+        x[n].style.display = "block";
+        //... and fix the Previous/Next buttons:
+        if (n == 0) {
+            document.getElementById("prevBtn").style.display = "none";
+        } else {
+            document.getElementById("prevBtn").style.display = "inline";
+        }
+        if (n == (x.length - 1)) {
+            document.getElementById("nextBtn").style.display = "none";
+        } else {
+            document.getElementById("nextBtn").style.display = "inline";
+            document.getElementById("nextBtn").innerHTML = "Next";
+        }
+        //... and run a function that will display the correct step indicator:
+        fixStepIndicator(n)
+    }
+
+
+    function nextPrev(n) {
+        var x = document.getElementsByClassName("tab");
+        // comment out the validation check
+        // if (n == 1 && !validateForm()) return false;
+        x[currentTab].style.display = "none";
+        currentTab = currentTab + n;
+        if (currentTab >= x.length) {
+            document.getElementById("regForm").submit();
+            return false;
+        }
+        showTab(currentTab);
+    }
+
+    function fixStepIndicator(n) {
+        // This function removes the "active" class of all steps...
+        var i, x = document.getElementsByClassName("step");
+        for (i = 0; i < x.length; i++) {
+            x[i].className = x[i].className.replace(" active", "");
+        }
+        //... and adds the "active" class on the current step:
+        x[n].className += " active";
+    }
+</script>
+{% endblock %}

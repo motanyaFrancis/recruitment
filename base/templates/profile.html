@@ -15,15 +15,11 @@ My Profile
 {% block navigation %}
 <li class="nav-item active">
     <a href="#" type="button" class="nav-link">
-        <i class="fas fa-user-circlebr"></i>
+        <i class="fas fa-user br"></i>
         Profile
     </a>
 </li>
-<li class="nav-item">
-    <a href="/" class="nav-link"><i class="fas fa-home"></i><span>Home</span></a>
-</li>
 {% endblock %}
-
 {% block main %}
 <section class="section contact">
     {% include 'alerts.html' %}
@@ -40,137 +36,1828 @@ My Profile
                 </ol>
             </nav>
         </div>
-        <div class="row mt-sm-4">
-            <div class="col-12 col-md-12 col-lg-12">
-                <div class="card profile-widget">
-                    <div class="profile-widget-header">
-                        <img alt="image" src="../../static/img/logo/pp.png"
-                            class="rounded-circle profile-widget-picture">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tabs">
+                    <input type="radio" id="tab1" name="tab-control" checked>
+                    <input type="radio" id="tab2" name="tab-control">
+                    <input type="radio" id="tab3" name="tab-control">
+                    <input type="radio" id="tab4" name="tab-control">
+                    <input type="radio" id="tab5" name="tab-control">
+                    <input type="radio" id="tab6" name="tab-control">
+                    <input type="radio" id="tab7" name="tab-control">
+                    <ul>
+                        <li title="Personal Information">
+                            <label for="tab1" role="button">
+                                <i class="las la-user-check"></i>
+                                <br>
+                                <span>Personal Information</span>
+                            </label>
+                        </li>
+
+                        <li title="Education/Training">
+                            <label for="tab2" role="button">
+                                <i class="las la-user-graduate"></i>
+                                <br>
+                                <span>Education/Training</span>
+                            </label>
+                        </li>
+                        <li title="Work Experience">
+                            <label for="tab3" role="button">
+                                <i class="las la-briefcase"></i>
+                                <br>
+                                <span>Work Experience</span>
+                            </label>
+                        </li>
+                        <li title="Professional Courses">
+                            <label for="tab4" role="button">
+                                <i class="las la-award"></i>
+                                <br>
+                                <span>Professional Courses</span>
+                            </label>
+                        </li>
+                        <li title="Professional Memberships">
+                            <label for="tab5" role="button">
+                                <i class="las la-user-graduate"></i>
+                                <br>
+                                <span>Professional Memberships</span>
+                            </label>
+                        </li>
+                        <li title="Hobbies">
+                            <label for="tab6" role="button">
+                                <i class="las la-briefcase"></i>
+                                <br>
+                                <span>Hobbies</span>
+                            </label>
+                        </li>
+                        <li title="Referees">
+                            <label for="tab7" role="button">
+                                <i class="las la-award"></i>
+                                <br>
+                                <span>Referees</span>
+                            </label>
+                        </li>
+                    </ul>
+
+                    <div class="buttons my-4">
+                        <button id="prevBtn" class="btn"><i class="las la-angle-double-left"></i>Prev</button>
+                        <button id="nextBtn" class="btn">Next <i class="las la-angle-double-right"></i></button>
                     </div>
-                    <div class="profile-widget-description">
-                        <div class="profile-widget-name">{{username}} <div
-                                class="text-muted d-inline font-weight-normal">
-                                <div class="slash"></div> {{state}}
-                            </div>
-                        </div>
-                        Kobby Technologies (www.kobby.co.ke) was founded in 2015 as a provider of consultancy services
-                        that help organizations get the maximum value from their IT investment. We are a young,
-                        progressive, and dynamic firm whose consultants have a wealth of experience of over 10 years in
-                        ICT disciplines and who are driven by the desire to provide consultancy advice that is
-                        responsive to our client's needs. We build relationships by providing services based on quality
-                        and integrity. We are particularly focused on ensuring that our work and the development of our
-                        business benefit the countries in which we work. In addition, we have a strategy and client
-                        service philosophy that ensures that our clients receive high-quality service delivery.
-                    </div>
-                </div>
-                <div class="card">
-                    <form method="post" class="needs-validation" novalidate="">
-                        <div class="card-header">
-                            <h4>Edit Profile</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="form-group col-md-6 col-12">
-                                    <label>Supplier Name</label>
-                                    <input type="text" class="form-control" value="Enock Doe" required="">
+                    <div class="content">
+                        <section>
+                            <h2 class="my-4 text-center mx-auto">Personal Information</h2>
+                            <form action="{% url 'FnApplicantDetails' %}" method="post" novalidate>
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="form-group col-4">
+                                        <label for="frist_name">First Name <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" placeholder="{{applicant.First_Name}}"
+                                            value="{{applicant.First_Name}}" name="firstName" autofocus required>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label for="frist_name">Middle Name <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" placeholder="{{applicant.Middle_Name}}"
+                                            value="{{applicant.Middle_Name}}" name="middleName" autofocus required>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label for="frist_name">Last Name <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" placeholder="{{applicant.Last_Name}}"
+                                            value="{{applicant.Last_Name}}" name="lastName" autofocus required>
+                                    </div>
                                 </div>
-                                <div class="form-group col-md-6 col-12">
-                                    <label>Country <span class="text-danger">*</span></label>
-                                    <select class="form-control select2" name="countryRegionCode" required>
-                                        <option selected disabled value="0">--select--</option>
-                                        {% for country in countries %}
-                                        <option value="{{country.Code}}">{{country.Name}}</option>
-                                        {% endfor %}
-                                    </select>
+                                <div class="row">
+                                    <div class="form-group col-4">
+                                        <label for="frist_name">ID No/Passport No. <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" placeholder="{{applicant.ID_Number}}"
+                                            value="{{applicant.ID_Number}}" name="idNumber" autofocus required>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label>Gender <span class="text-danger">*</span></label>
+                                        <select class="form-control select2" name="gender" required>
+                                            {% if applicant.Gender == 'Male' %}
+                                            <option value="1" selected>Male</option>
+                                            <option value="2">Female</option>
+                                            {% elif applicant.Gender == 'Female' %}
+                                            <option value="2" selected>Female</option>
+                                            <option value="1">Male</option>
+                                            {% else %}
+                                            <option selected disabled value="0">
+                                                --select--</option>
+                                            <option value="1">Male</option>
+                                            <option value="2">Female</option>
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label>Citizenship <span class="text-danger">*</span></label>
+                                        <select class="form-control select2" id="country" name="citizenship" required>
+                                            <option selected value="{{applicant.Citizenship}}">{{applicant.Citizenship}}
+                                            </option>
+                                            {% for country in country %}
+                                            {% if country.Code != applicant.Citizenship %}
+                                            <option value="{{country.Code}}">{{country.Name}}</option>
+                                            {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-6 col-12">
-                                    <label for="frist_name">Contact Person Name <span
-                                            class="text-danger">*</span></label>
-                                    <input id="contactPersonName" type="text" class="form-control"
-                                        name="contactPersonName" autofocus required>
+                                <div class="row" id="countyRow" style="display:none">
+                                    <div class="col-md-6">
+                                        <label class="form-label">County</label>
+                                        <select class="form-select" id="county" name="countyCode" disabled>
+                                            <option selected disabled value="0">
+                                                --select--</option>
+                                            {% for county in county %}
+                                            <option value="{{county.CountyCode}}">{{county.Description}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Ethnic Origin</label>
+                                        <select class="form-select" name="ethnicOrigin" id="ethnicOrigin" disabled>
+                                            <option selected disabled value="0">
+                                                --select--</option>
+                                            {% for tribe in tribes %}
+                                            <option value="{{tribe.No}}">
+                                                {{tribe.Name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="form-group col-md-6 col-12">
-                                    <label for="last_name">Contact Person Phone No. (07 XX XX XX XX) <span
-                                            class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="contactPhoneNo" required>
+                                <div class="row">
+                                    <div class="form-group col-4">
+                                        <label>Marital Status <span class="text-danger">*</span></label>
+                                        <select class="form-control select2" name="maritalStatus" required required>
+                                            {% if applicant.Marital_Status == 'Single' %}
+                                            <option selected value="1">{{applicant.Marital_Status}}</option>
+                                            <option value="2">Married</option>
+                                            <option value="3">Separated</option>
+                                            <option value="4">Divorced</option>
+                                            <option value="5">Widow(er)</option>
+                                            <option value="6">Other</option>
+                                            {% elif applicant.Marital_Status == 'Married' %}
+                                            <option selected value="2">{{applicant.Marital_Status}}</option>
+                                            <option value="1">Single</option>
+                                            <option value="3">Separated</option>
+                                            <option value="4">Divorced</option>
+                                            <option value="5">Widow(er)</option>
+                                            <option value="6">Other</option>
+                                            {% elif applicant.Marital_Status == 'Separated' %}
+                                            <option selected value="3">{{applicant.Marital_Status}}</option>
+                                            <option value="1">Single</option>
+                                            <option value="2">Married</option>
+                                            <option value="4">Divorced</option>
+                                            <option value="5">Widow(er)</option>
+                                            <option value="6">Other</option>
+                                            {% elif applicant.Marital_Status == 'Divorced' %}
+                                            <option selected value="4">{{applicant.Marital_Status}}</option>
+                                            <option value="1">Single</option>
+                                            <option value="2">Married</option>
+                                            <option value="3">Separated</option>
+                                            <option value="5">Widow(er)</option>
+                                            <option value="6">Other</option>
+                                            {% elif applicant.Marital_Status == 'Widow(er)' %}
+                                            <option selected value="5">{{applicant.Marital_Status}}</option>
+                                            <option value="1">Single</option>
+                                            <option value="2">Married</option>
+                                            <option value="3">Separated</option>
+                                            <option value="4">Divorced</option>
+                                            <option value="6">Other</option>
+                                            {% elif applicant.Marital_Status == 'Other' %}
+                                            <option selected value="6">{{applicant.Marital_Status}}</option>
+                                            <option value="1">Single</option>
+                                            <option value="2">Married</option>
+                                            <option value="3">Separated</option>
+                                            <option value="4">Divorced</option>
+                                            <option value="5">Widow(er)</option>
+                                            {% else %}
+                                            <option selected disabled value="0">
+                                                --select--</option>
+                                            <option value="1">Single</option>
+                                            <option value="2">Married</option>
+                                            <option value="3">Separated</option>
+                                            <option value="4">Divorced</option>
+                                            <option value="5">Widow(er)</option>
+                                            <option value="6">Other</option>
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label for="frist_name">Date of Birth<span class="text-danger">*</span></label>
+                                        <input type="date" class="form-control" value="{{applicant.Date_Of_Birth}}"
+                                            name="dob" autofocus required>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label>Disabled <span class="text-danger">*</span></label>
+                                        <select class="form-control select2" name="disabled" id="disabled" required>
+                                            <option selected value="{{applicant.Citizenship}}">{{applicant.Citizenship}}
+                                            </option>
+                                            {% if applicant.Disabled == 'Yes' %}
+                                            <option selected value="1">Yes</option>
+                                            <option value="0">No</option>
+                                            {% elif applicant.Disabled == 'No' %}
+                                            <option selected value="0">No</option>
+                                            <option value="1">Yes</option>
+                                            {% else %}
+                                            <option selected value="0">--select--</option>
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                            {% endif %}
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-12">
-                                    <label for="last_name">Contact Person Email <span
-                                            class="text-danger">*</span></label>
-                                    <input type="email" class="form-control" name="contactMail" required>
+                                <div class="row hiddenRow">
+                                    <div class="form-group col-12">
+                                        <label for="frist_name">NCPWD Reg No.</label>
+                                        <input type="number" class="form-control" name="disabilityGrade"
+                                            value="{{applicant.Disability_Grade}}" id="disability" disabled autofocus>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-12">
-                                    <label>Bio</label>
-                                    <textarea class="form-control summernote-simple">
-                                        Kobby Technologies (www.kobby.co.ke) was founded in 2015 as a provider of consultancy 
-                                        services that help organizations get the maximum value from their IT investment.
-                                         We are a young, progressive, and dynamic firm whose consultants have a wealth
-                                          of experience of over 10 years in ICT disciplines and who are driven by the 
+                                <div class="row">
+                                    <div class="form-group col-4">
+                                        <label for="frist_name">Phone Number</label>
+                                        <input type="number" class="form-control" name="phoneNumber"
+                                            value="{{applicant.Cellular_Phone_Number}}" required autofocus>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label for="frist_name">Postal Address</label>
+                                        <input type="text" class="form-control" value="{{applicant.Postal_Address}}"
+                                            name="postalAddress" autofocus>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label for="frist_name">Postal Code</label>
+                                        <input type="text" class="form-control" value="{{applicant.Post_Code}}"
+                                            name="postalCode" autofocus>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-12">
+                                        <label for="frist_name">Residential Address</label>
+                                        <input type="text" class="form-control" name="residentialAddress"
+                                            value="{{applicant.Residential_Address}}" autofocus>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn button-88 my-3 w-100">Submit <i
+                                        class="las la-arrow-right"></i></button>
+                            </form>
+                        </section>
+                        <section>
+                            <h2 class="my-4 text-center mx-auto">Education/Training</h2>
+                            <form method="post" id="AcademicForm">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="form-group col-4">
+                                        <label for="frist_name">Start Date<span class="text-danger">*</span></label>
+                                        <input type="date" class="form-control" name="startDate" id="Aca_startDate"
+                                            autofocus required>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label for="frist_name">End Date<span class="text-danger">*</span></label>
+                                        <input type="date" class="form-control" name="endDate" id="Aca_endDate"
+                                            autofocus required>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label>Education Type <span class="text-danger">*</span></label>
+                                        <select class="form-control select2" name="educationType" id="Aca_educationType"
+                                            required>
+                                            <option selected disabled value="0">
+                                                --select--</option>
+                                            <option selected value="0">Choose...</option>
+                                            <option value="1">Primary</option>
+                                            <option value="2">High School</option>
+                                            <option value="3">College</option>
+                                            <option value="4">University</option>
+                                            <option value="5">Professional</option>
+                                            <option value="6">Vocational</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-4">
+                                        <label>Education Level <span class="text-danger">*</span></label>
+                                        <select class="form-control select2" name="educationLevel"
+                                            id="Aca_educationLevel" required>
+                                            <option selected value="0">Choose...</option>
+                                            <option value="1">Certificate</option>
+                                            <option value="2">Diploma</option>
+                                            <option value="3">Higher/Post Graduate Diploma</option>
+                                            <option value="4">Bachelors Degree</option>
+                                            <option value="5">Masters Degree</option>
+                                            <option value="6">Doctorate</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label>Field Of Study <span class="text-danger">*</span></label>
+                                        <select class="form-control select2" name="fieldOfStudy" id="Aca_fieldOfStudy"
+                                            required>
+                                            <option selected disabled value="">Choose...</option>
+                                            {% for Study in Study %}
+                                            <option value="{{Study.Code}}">{{Study.Description}}</option>
+                                            {% empty %}
+                                            <option value="0">No Field of Study</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label>Qualification <span class="text-danger">*</span></label>
+                                        <select class="form-control select2" name="qualificationCode"
+                                            id="AcademicQualificationCode" required>
+                                            <option selected disabled value="">Choose...</option>
+                                            {% for qualifications in qualifications %}
+                                            <option value="{{qualifications.Code}}">{{qualifications.Description}}
+                                            </option>
+                                            {% endfor %}
+                                            <option value="Other">OTHER QUALIFICATION</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row" style="display: none;" id="otherAcademicRow">
+                                    <div class="form-group col-12">
+                                        <label for="frist_name">Other Qualification</label>
+                                        <input type="text" class="form-control" name="otherQualification"
+                                            id="otherAcademic" disabled autofocus>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-4">
+                                        <label for="frist_name">Institution Name</label>
+                                        <input type="text" class="form-control" name="institutionName"
+                                            id="Aca_institutionName" autofocus required>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label>Proficiency Level <span class="text-danger">*</span></label>
+                                        <select class="form-control select2" name="proficiencyLevel"
+                                            id="Aca_proficiencyLevel" required>
+                                            <option selected disabled value="">Choose...</option>
+                                            <option value="1">Not Rated</option>
+                                            <option value="2">First Class</option>
+                                            <option value="3">Second Class(Upper)</option>
+                                            <option value="4">Second Class(Lower)</option>
+                                            <option value="5">Second Class</option>
+                                            <option value="6">Pass</option>
+                                            <option value="7">Distinction</option>
+                                            <option value="8">Credit</option>
+                                            <option value="9">MBA</option>
+                                            <option value="10">PhD</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label>Country<span class="text-danger">*</span></label>
+                                        <select class="form-control select2" name="country" id="Aca_country" required>
+                                            <option selected disabled value="">Choose...</option>
+                                            {% for res in country %}
+                                            <option value="{{res.Code}}">{{res.Name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-6">
+                                        <label>Highest Level<span class="text-danger">*</span></label>
+                                        <select class="form-control select2" name="isHighestLevel" id="isHighestLevel"
+                                            required>
+                                            <option selected disabled value="">Choose...</option>
+                                            <option value="False">No</option>
+                                            <option value="True">Yes</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-6">
+                                        <label for="frist_name">Grade</label>
+                                        <input type="text" class="form-control" name="grade" id="Aca_grade" autofocus
+                                            required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-12">
+                                        <label>Description</label>
+                                        <textarea class="form-control summernote-simple" name="description"
+                                            id="Aca_description">
+
                                       </textarea>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group mb-0 col-12">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" name="remember" class="custom-control-input"
-                                            id="newsletter">
-                                        <label class="custom-control-label" for="newsletter">Subscribe to
-                                            newsletter</label>
-                                        <div class="text-muted form-text">
-                                            You will get new information about products, offers and promotions
+                                <div class="money-spinner mx-auto text-center" id="money-spinner" style="display: none">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif"
+                                        alt="Loading Gif" style="height: 100px;" class="img-fluid">
+                                </div>
+                                <p id="output" class="my-3" style="color:#e51e25;font-weight: bolder;"></p>
+                                <button type="submit" class="btn button-88 w-100 my-3">Save</button>
+                            </form>
+                            <table id="AcademicQualificationsTable" class="table table-striped">
+                                <thead>
+                                    <tr id="tops">
+                                        <th id="long">Start Date</th>
+                                        <th>End Date</th>
+                                        <th>Education Type</th>
+                                        <th>Education Level</th>
+                                        <th>Qualification Name</th>
+                                        <th>Action</th>
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+                        <section>
+                            <h2 class="my-4 text-center mx-auto">Work Experience</h2>
+                            <form method="POST" id="JobExperienceForm">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="form-group col-4">
+                                        <label for="">Job Title</label>
+                                        <input type="text" class="form-control" name="jobTitle" id="job_jobTitle"
+                                            autofocus required>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label>Current Employment<span class="text-danger">*</span></label>
+                                        <select class="form-control select2" name="isPresentEmployment"
+                                            id="isPresentEmployment" required>
+                                            <option selected disabled value="">Choose...</option>
+                                            <option value="False">No</option>
+                                            <option value="True">Yes</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label for="">Start Date</label>
+                                        <input type="date" class="form-control" id="job_startDate" class="form-control"
+                                            autofocus required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-4">
+                                        <label for="">End Date</label>
+                                        <input type="date" class="form-control" name="endDate" id="job_endDate"
+                                            autofocus required>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label>Employer</label>
+                                        <input type="text" class="form-control" name="employer" id="job_employer"
+                                            required autofocus>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label>Industry<span class="text-danger">*</span></label>
+                                        <select class="form-control select2" name="industry" id="job_industry" required>
+                                            <option selected disabled value="">Choose...</option>
+                                            {% for industry in industry %}
+                                            <option value="{{industry.Code}}">{{industry.Description}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-4">
+                                        <label>Hierarchy Level<span class="text-danger">*</span></label>
+                                        <select class="form-control select2" name="hierarchyLevel"
+                                            id="job_hierarchyLevel" required>
+                                            <option selected disabled value="">Choose...</option>
+                                            <option value="1">Executive/Director</option>
+                                            <option value="2">Senior-Level Manager</option>
+                                            <option value="3">Middle-Level Manager</option>
+                                            <option value="4">First-Level Manager</option>
+                                            <option value="5">Supervisor</option>
+                                            <option value="6">Consultant</option>
+                                            <option value="7">Support Staff</option>
+                                            <option value="8">Intern</option>
+                                            <option value="9">Trainee/Attachee</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label>Functional Area<span class="text-danger">*</span></label>
+                                        <select class="form-control select2" id="job_functionalArea"
+                                            name="functionalArea" required>
+                                            <option selected disabled value="">Choose...</option>
+                                            {% for area in functional_areas %}
+                                            <option value="{{area.Code}}">{{area.Description}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label>Country<span class="text-danger">*</span></label>
+                                        <select class="form-control select2" id="job_country" name="country" required>
+                                            <option selected disabled value="">Choose...</option>
+                                            {% for res in country %}
+                                            <option value="{{res.Code}}">{{res.Name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-4">
+                                        <label for="">Location</label>
+                                        <input type="text" class="form-control" name="location" id="job_location"
+                                            autofocus>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label for="">Employer Email</label>
+                                        <input type="email" class="form-control" name="employerEmail"
+                                            id="job_employerEmail" autofocus>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label for="">Employer Postal Address</label>
+                                        <input type="text" class="form-control" name="employerPostalAddress"
+                                            id="job_employerPostalAddress" autofocus>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-12">
+                                        <label>Description</label>
+                                        <textarea class="form-control summernote-simple" name="description" rows="3"
+                                            id="job_description">
+
+                                      </textarea>
+                                    </div>
+                                </div>
+                                <div class="money-spinner mx-auto text-center" id="job-spinner" style="display: none">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif"
+                                        alt="Loading Gif" style="height: 100px;" class="img-fluid">
+                                </div>
+                                <p id="jobOutput" class="my-3" style="color:#e51e25;font-weight: bolder;"></p>
+                                <button type="submit" class="btn button-88 my-3 w-100">Add</button>
+                            </form>
+                            <table id="ExperienceTable" class="table table-striped ">
+                                <thead>
+                                    <tr id="tops">
+                                        <th id="long">Start Date</th>
+                                        <th>End Date</th>
+                                        <th>Employer</th>
+                                        <th>Job Title</th>
+                                        <th>Present Employment</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+                        <section>
+                            <h2 class="my-4 text-center mx-auto">Professional Courses</h2>
+                            <form method="post" id="proQualificationForm">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="form-group col-6">
+                                        <label>Qualification<span class="text-danger">*</span></label>
+                                        <select class="form-control select2" id="proQualificationCode"
+                                            name="qualificationCode" required>
+                                            <option selected disabled value="">Choose...</option>
+                                            {% for qualifications in qualifications %}
+                                            <option value="{{qualifications.Code}}">{{qualifications.Description}}
+                                            </option>
+                                            {% endfor %}
+                                            <option value="Other">OTHER QUALIFICATION</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-6">
+                                        <label>Section Level<span class="text-danger">*</span></label>
+                                        <select class="form-control select2" name="sectionLevel" id="pro_sectionLevel"
+                                            required>
+                                            <option selected value="0">Choose...</option>
+                                            <option value="1">Level 1</option>
+                                            <option value="2">Level 2</option>
+                                            <option value="3">Level 3</option>
+                                            <option value="4">Level 4</option>
+                                            <option value="5">Level 5</option>
+                                            <option value="6">Level 6</option>
+                                            <option value="7">Level 7</option>
+                                            <option value="8">Level 8</option>
+                                            <option value="9">Level 9</option>
+                                            <option value="10">Level 10</option>
+                                        </select>
+                                    </div>
+                                    <div class="row" style="display:none" id="proQulificationRor">
+                                        <div class="form-group col-12">
+                                            <label for="frist_name">Grade</label>
+                                            <input type="text" class="form-control" name="otherQualification"
+                                                id="proQulification" disabled autofocus>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="card-footer text-right">
-                            <button class="btn btn-primary">Save Changes</button>
-                        </div>
-                    </form>
+                                <div class="money-spinner mx-auto text-center" id="pro-spinner" style="display: none">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif"
+                                        alt="Loading Gif" style="height: 100px;" class="img-fluid">
+                                </div>
+                                <p id="proOutput" class="my-3" style="color:#e51e25;font-weight: bolder;"></p>
+
+                                <button type="submit" class="btn button-88 my-3 w-100">Add</button>
+                            </form>
+                            <table id="proCoursesTable" class="table table-striped">
+                                <thead>
+                                    <tr id="tops">
+                                        <th>Qualification Name</th>
+                                        <th>Section Level</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+                        <section>
+                            <h2 class="my-4 text-center mx-auto">Professional Memberships</h2>
+                            <form method="post" id="professionalBodyForm">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="form-group col-6">
+                                        <label>Professional Body<span class="text-danger">*</span></label>
+                                        <select class="form-control select2" name="professionalBody"
+                                            id="ms_professionalBody" required>
+                                            <option selected disabled value="">Choose...</option>
+                                            {% for pro_bodies in pro_bodies %}
+                                            <option value="{{pro_bodies.Name}}">{{pro_bodies.Description2}}</option>
+                                            {% endfor %}
+                                            <option value="Other">OTHER PROFESSIONAL BODY</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-6">
+                                        <label for="">Membership No</label>
+                                        <input type="text" class="form-control" name="membershipNo" id="ms_membershipNo"
+                                            required autofocus>
+                                    </div>
+                                </div>
+                                <div class="row" id="otherProfessionalBodyRow" style="display:none">
+                                    <div class="form-group col-12">
+                                        <label for="">Other Professional Body</label>
+                                        <input type="text" class="form-control" name="otherProfessionalBody"
+                                            id="otherProfessionalBody" disabled autofocus>
+                                    </div>
+                                </div>
+                                <div class="money-spinner mx-auto text-center" id="member-spinner"
+                                    style="display: none">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif"
+                                        alt="Loading Gif" style="height: 100px;" class="img-fluid">
+                                </div>
+                                <p id="msOutput" class="my-3" style="color:#e51e25;font-weight: bolder;"></p>
+
+                                <button type="submit" class="btn button-88 my-3 w-100">Add</button>
+
+                            </form>
+                            <table id="proMembersTable" class="table table-striped">
+                                <thead>
+                                    <tr id="tops">
+                                        <th>Professional Body</th>
+                                        <th>Membership No.</th>
+                                        <th>Description</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+                        <section>
+                            <h2 class="my-4 text-center mx-auto">Hobbies</h2>
+                            <form method="post" id="hobbyForm">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="form-group col-12">
+                                        <label>Hobby</label>
+                                        <textarea class="form-control summernote-simple" name="hobby" id="j_hobby">
+
+                                      </textarea>
+                                    </div>
+
+                                </div>
+                                <div class="money-spinner mx-auto text-center" id="hobby-spinner" style="display: none">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif"
+                                        alt="Loading Gif" style="height: 100px;" class="img-fluid">
+                                </div>
+                                <p id="hobbyOutput" class="my-3" style="color:#e51e25;font-weight: bolder;"></p>
+                                <button type="submit" class="btn button-88 my-3 w-100">Add</button>
+                            </form>
+                            <table id="hobbyTable" class="table table-striped">
+                                <thead>
+                                    <tr id="tops">
+                                        <th>Hobbies</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </section>
+                        <section>
+                            <h2 class="my-4 text-center mx-auto">Referees</h2>
+                            <form method="post" id="refForm">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="form-group col-4">
+                                        <label for="">Full Name</label>
+                                        <input type="text" class="form-control" name="names" id="j_names" autofocus
+                                            required>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label for="">Designation</label>
+                                        <input type="text" class="form-control" name="designation" id="j_designation"
+                                            autofocus required>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label for="">Company</label>
+                                        <input type="text" class="form-control" name="company" id="j_company" autofocus
+                                            required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-6">
+                                        <label for="">Mobile No.</label>
+                                        <input type="text" class="form-control" name="telephoneNo" id="j_telephoneNo"
+                                            autofocus required>
+                                    </div>
+                                    <div class="form-group col-6">
+                                        <label for="">Email</label>
+                                        <input type="text" class="form-control" name="email" id="j_email" autofocus
+                                            required>
+                                    </div>
+                                </div>
+                                <div class="money-spinner mx-auto text-center" id="ref-spinner" style="display: none">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif"
+                                        alt="Loading Gif" style="height: 100px;" class="img-fluid">
+                                </div>
+                                <p id="innerefree" class="my-3" style="color:#e51e25;font-weight: bolder;"></p>
+                                <button type="submit" class="btn button-88 my-3 w-100">Add</button>
+                            </form>
+                            <table id="refereeTable" class="table table-striped">
+                                <thead>
+                                    <tr id="tops">
+                                        <th>Name</th>
+                                        <th>Designation</th>
+                                        <th>Company</th>
+                                        <th>Mobile No</th>
+                                        <th>Email</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
 <script>
+    const nextBtn = document.getElementById("nextBtn");
+    const prevBtn = document.getElementById("prevBtn");
+    const tabs = document.querySelectorAll(".tabs > input");
+    const lastTab = tabs.length - 1;
+    let currentTab = 0;
+
+    function showHideNextBtn() {
+        if (currentTab === lastTab) {
+            nextBtn.style.display = "none";
+        } else {
+            nextBtn.style.display = "";
+        }
+    }
+
+    function showHidePrevBtn() {
+        if (currentTab === 0) {
+            prevBtn.style.display = "none";
+        } else {
+            prevBtn.style.display = "";
+        }
+    }
+
+    showHideNextBtn();
+    showHidePrevBtn();
+
+    nextBtn.addEventListener("click", function () {
+        currentTab++;
+        if (currentTab > lastTab) {
+            currentTab = 0;
+        }
+        tabs[currentTab].checked = true;
+        showHideNextBtn();
+        showHidePrevBtn();
+    });
+
+    prevBtn.addEventListener("click", function () {
+        currentTab--;
+        if (currentTab < 0) {
+            currentTab = lastTab;
+        }
+        tabs[currentTab].checked = true;
+        showHideNextBtn();
+        showHidePrevBtn();
+    });
+
+
+    function loadAcademicData() {
+        $.ajax({
+            url: '{% url "AcademicQualifications" %}',
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+                var tableBody = $('#AcademicQualificationsTable tbody');
+                tableBody.empty(); // clear existing rows if any
+                // iterate through the data and append to the table
+                for (var i = 0; i < data[1].length; i++) {
+                    var Start_Date = data[1][i].Start_Date;
+                    var End_Date = data[1][i].End_Date;
+                    var Education_Type = data[1][i].Education_Type;
+                    var Education_Level = data[1][i].Education_Level;
+                    var Qualification_Name = data[1][i].Qualification_Name
+                    let Line_No = data[1][i].Line_No_;
+
+                    var row = $('<tr>');
+                    row.append($('<td>').text(Start_Date));
+                    row.append($('<td>').text(End_Date));
+                    row.append($('<td>').text(Education_Type));
+                    row.append($('<td>').text(Education_Level));
+                    row.append($('<td>').text(Qualification_Name));
+                    var form = $('<form>').attr({
+                        method: 'POST',
+                        action: '{% url "FnApplicantAcademicQualification" %}'
+                    }).append('{% csrf_token %}');
+
+                    var a_startDate = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'startDate',
+                        value: Start_Date
+                    });
+                    var a_endDate = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'endDate',
+                        value: End_Date
+                    });
+                    var educationType = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'educationType',
+                        value: "0"
+                    });
+                    var educationLevel = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'educationLevel',
+                        value: "0"
+                    });
+                    var fieldOfStudy = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'fieldOfStudy',
+                        value: "None"
+                    });
+                    var a_qualificationCode = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'qualificationCode',
+                        value: "0"
+                    });
+                    var institutionName = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'institutionName',
+                        value: "0"
+                    });
+                    var proficiencyLevel = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'proficiencyLevel',
+                        value: "0"
+                    });
+                    var a_country = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'country',
+                        value: "KE"
+                    });
+                    var region = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'region',
+                        value: "KE"
+                    });
+                    var isHighestLevel = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'isHighestLevel',
+                        value: "False"
+                    });
+                    var grade = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'grade',
+                        value: "0"
+                    });
+                    var a_otherQualification = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'otherQualification',
+                        value: "0"
+                    });
+                    var a_description = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'description',
+                        value: "0"
+                    });
+                    var a_lineNoInput = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'lineNo',
+                        value: Line_No
+                    });
+                    var a_myActionInput = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'myAction',
+                        value: 'delete'
+                    });
+                    var a_submitBtn = $('<button>').attr({
+                        type: 'submit',
+                        class: 'btn btn-danger'
+                    }).text('delete');
+                    form.submit(function (event) {
+                        event.preventDefault(); // prevent default form submission
+                        $.ajax({
+                            url: form.attr('action'),
+                            type: form.attr('method'),
+                            data: form.serialize(),
+                            success: function (data) {
+                                loadAcademicData();
+                                if (data['success'] == true) {
+                                    iziToast.show({
+                                        theme: 'dark',
+                                        backgroundColor: '#239B56',
+                                        icon: 'las la-check-circle',
+                                        message: data['message'] + " " +
+                                            "deleted",
+                                        position: 'topRight',
+                                        progressBarColor: '#F4F6F7',
+                                    });
+                                } else {
+                                    iziToast.show({
+                                        theme: 'dark',
+                                        icon: 'las la-exclamation',
+                                        title: 'Error',
+                                        message: data['message'],
+                                        position: 'topRight',
+                                        progressBarColor: '#ff0800',
+                                    });
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.log("Error:", error);
+                                iziToast.show({
+                                    theme: 'dark',
+                                    icon: 'las la-exclamation',
+                                    title: 'Error',
+                                    message: 'CSRF verification failed. Request aborted.',
+                                    position: 'topRight',
+                                    progressBarColor: '#ff0800',
+                                });
+                            }
+                        });
+                    });
+
+                    var td = $('<td>').append(form.append(a_startDate, a_endDate, educationType,
+                        educationLevel,
+                        fieldOfStudy, a_qualificationCode, institutionName, proficiencyLevel,
+                        a_country, region, isHighestLevel, grade, a_otherQualification,
+                        a_description, a_lineNoInput, a_myActionInput, a_submitBtn));
+                    row.append(td);
+                    tableBody.append(row);
+                }
+                // initialize DataTables for each table
+                if (!$.fn.DataTable.isDataTable('#AcademicQualificationsTable')) {
+                    $('#AcademicQualificationsTable').DataTable({
+                        "pageLength": 5,
+                        "order": [
+                            [0, "desc"]
+                        ]
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log("Error:", error);
+            },
+        });
+    }
+
+    function loadExperienceData() {
+        $.ajax({
+            url: '{% url "QyApplicantJobExperience" %}',
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+                var tableBody = $('#ExperienceTable tbody');
+                tableBody.empty(); // clear existing rows if any
+                // iterate through the data and append to the table
+                for (var i = 0; i < data[1].length; i++) {
+                    var Start_Date = data[1][i].Start_Date;
+                    var End_Date = data[1][i].End_Date;
+                    var Employer = data[1][i].Employer;
+                    var Job_Title = data[1][i].Job_Title;
+                    var Present_Employment = data[1][i].Present_Employment
+                    let lineNo = data[1][i].Line_No;
+
+                    var row = $('<tr>');
+                    row.append($('<td>').text(Start_Date));
+                    row.append($('<td>').text(End_Date));
+                    row.append($('<td>').text(Employer));
+                    row.append($('<td>').text(Job_Title));
+                    row.append($('<td>').text(Present_Employment));
+                    var form = $('<form>').attr({
+                        method: 'POST',
+                        action: '{% url "JobExperience" %}'
+                    }).append('{% csrf_token %}');
+
+                    var e_startDate = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'startDate',
+                        value: Start_Date
+                    });
+                    var e_endDate = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'endDate',
+                        value: End_Date
+                    });
+                    var e_employer = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'employer',
+                        value: Employer
+                    });
+                    var e_industry = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'industry',
+                        value: "None"
+                    });
+                    var e_hierarchyLevel = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'hierarchyLevel',
+                        value: "0"
+                    });
+                    var e_functionalArea = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'functionalArea',
+                        value: "0"
+                    });
+                    var e_jobTitle = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'jobTitle',
+                        value: "0"
+                    });
+                    var e_isPresentEmployment = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'isPresentEmployment',
+                        value: "False"
+                    });
+                    var e_country = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'country',
+                        value: "KE"
+                    });
+                    var e_location = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'location',
+                        value: "0"
+                    });
+                    var e_employerEmail = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'employerEmail',
+                        value: "none@gmail.com"
+                    });
+                    var e_employerPostalAddress = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'employerPostalAddress',
+                        value: "0"
+                    });
+                    var e_description = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'description',
+                        value: "0"
+                    });
+                    var e_lineNoInput = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'lineNo',
+                        value: lineNo
+                    });
+                    var e_myActionInput = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'myAction',
+                        value: 'delete'
+                    });
+                    var e_submitBtn = $('<button>').attr({
+                        type: 'submit',
+                        class: 'btn btn-danger'
+                    }).text('delete');
+
+                    // Handle form submission
+                    form.submit(function (event) {
+                        event.preventDefault(); // prevent default form submission
+                        $.ajax({
+                            url: form.attr('action'),
+                            type: form.attr('method'),
+                            data: form.serialize(),
+                            success: function (data) {
+                                loadExperienceData();
+                                if (data['success'] == true) {
+                                    iziToast.show({
+                                        theme: 'dark',
+                                        backgroundColor: '#239B56',
+                                        icon: 'las la-check-circle',
+                                        message: data['message'] + " " +
+                                            "deleted",
+                                        position: 'topRight',
+                                        progressBarColor: '#F4F6F7',
+                                    });
+                                } else {
+                                    iziToast.show({
+                                        theme: 'dark',
+                                        icon: 'las la-exclamation',
+                                        title: 'Error',
+                                        message: data['message'],
+                                        position: 'topRight',
+                                        progressBarColor: '#ff0800',
+                                    });
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.log("Error:", error);
+                                iziToast.show({
+                                    theme: 'dark',
+                                    icon: 'las la-exclamation',
+                                    title: 'Error',
+                                    message: 'CSRF verification failed. Request aborted.',
+                                    position: 'topRight',
+                                    progressBarColor: '#ff0800',
+                                });
+                            }
+                        });
+                    });
+
+                    var td = $('<td>').append(form.append(e_startDate, e_endDate, e_employer,
+                        e_industry, e_hierarchyLevel, e_functionalArea, e_jobTitle,
+                        e_isPresentEmployment, e_country, e_location, e_employerEmail,
+                        e_employerPostalAddress, e_description, e_lineNoInput, e_myActionInput,
+                        e_submitBtn));
+                    row.append(td);
+                    tableBody.append(row)
+
+                }
+                // initialize DataTables for each table
+                if (!$.fn.DataTable.isDataTable('#ExperienceTable')) {
+                    $('#ExperienceTable').DataTable({
+                        "pageLength": 5,
+                        "order": [
+                            [0, "desc"]
+                        ]
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log("Error:", error);
+            },
+        });
+    }
+
+    function loadProCoursesData() {
+        $.ajax({
+            url: '{% url "QyApplicantJobProfessionalCourses" %}',
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+                var tableBody = $('#proCoursesTable tbody');
+                tableBody.empty(); // clear existing rows if any
+                // iterate through the data and append to the table
+                for (var i = 0; i < data[1].length; i++) {
+                    var Qualification_Name = data[1][i].Qualification_Name;
+                    var Section_Level = data[1][i].Section_Level;
+                    let Line_No = data[1][i].Line_No_;
+
+                    var row = $('<tr>');
+                    row.append($('<td>').text(Qualification_Name));
+                    row.append($('<td>').text(Section_Level));
+                    var form = $('<form>').attr({
+                        method: 'POST',
+                        action: '{% url "FnApplicantProfessionalCourse" %}'
+                    }).append('{% csrf_token %}');
+
+                    var qualificationCode = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'qualificationCode',
+                        value: "None"
+                    });
+                    var sectionLevel = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'sectionLevel',
+                        value: Section_Level
+                    });
+                    var otherQualification = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'otherQualification',
+                        value: "None"
+                    });
+                    var pro_lineNoInput = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'lineNo',
+                        value: Line_No
+                    });
+                    var pro_myActionInput = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'myAction',
+                        value: 'delete'
+                    });
+                    var pro_submitBtn = $('<button>').attr({
+                        type: 'submit',
+                        class: 'btn btn-danger'
+                    }).text('delete');
+
+                    // Handle form submission
+                    form.submit(function (event) {
+                        event.preventDefault(); // prevent default form submission
+                        $.ajax({
+                            url: form.attr('action'),
+                            type: form.attr('method'),
+                            data: form.serialize(),
+                            success: function (data) {
+                                loadProCoursesData();
+                                if (data['success'] == true) {
+                                    iziToast.show({
+                                        theme: 'dark',
+                                        backgroundColor: '#239B56',
+                                        icon: 'las la-check-circle',
+                                        message: data['message'] + " " +
+                                            "deleted",
+                                        position: 'topRight',
+                                        progressBarColor: '#F4F6F7',
+                                    });
+                                } else {
+                                    iziToast.show({
+                                        theme: 'dark',
+                                        icon: 'las la-exclamation',
+                                        title: 'Error',
+                                        message: data['message'],
+                                        position: 'topRight',
+                                        progressBarColor: '#ff0800',
+                                    });
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.log("Error:", error);
+                                iziToast.show({
+                                    theme: 'dark',
+                                    icon: 'las la-exclamation',
+                                    title: 'Error',
+                                    message: 'CSRF verification failed. Request aborted.',
+                                    position: 'topRight',
+                                    progressBarColor: '#ff0800',
+                                });
+                            }
+                        });
+                    });
+
+                    var td = $('<td>').append(form.append(qualificationCode, sectionLevel,
+                        otherQualification,
+                        pro_lineNoInput, pro_myActionInput, pro_submitBtn));
+                    row.append(td);
+
+                    tableBody.append(row);
+                }
+                // initialize DataTables for each table
+                if (!$.fn.DataTable.isDataTable('#proCoursesTable')) {
+                    $('#proCoursesTable').DataTable({
+                        "pageLength": 5,
+                        "order": [
+                            [0, "desc"]
+                        ]
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log("Error:", error);
+            },
+        });
+    }
+
+    function loadMembershipData() {
+        $.ajax({
+            url: '{% url "QyApplicantProfessionalMemberships" %}',
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+                var tableBody = $('#proMembersTable tbody');
+                tableBody.empty(); // clear existing rows if any
+                // iterate through the data and append to the table
+                for (var i = 0; i < data[1].length; i++) {
+                    var Professional_Body = data[1][i].Professional_Body;
+                    var MembershipNo = data[1][i].MembershipNo;
+                    var Description = data[1][i].Description;
+                    let Line_No = data[1][i].Line_No_;
+
+                    var row = $('<tr>');
+
+                    row.append($('<td>').text(Professional_Body));
+                    row.append($('<td>').text(MembershipNo));
+                    row.append($('<td>').text(Description));
+
+                    // Create the form with inputs and submit button
+                    var form = $('<form>').attr({
+                        method: 'POST',
+                        action: '{% url "FnApplicantProfessionalMembership" %}'
+                    }).append('{% csrf_token %}');
+
+                    var professionalBody = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'professionalBody',
+                        value: Professional_Body
+                    });
+                    var Member_lineNo = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'lineNo',
+                        value: Line_No
+                    });
+                    var membershipNo = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'membershipNo',
+                        value: membershipNo
+                    });
+                    var otherProfessionalBody = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'otherProfessionalBody',
+                        value: "None"
+                    });
+                    var member_myAction = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'myAction',
+                        value: 'delete'
+                    });
+                    var Member_submitBtn = $('<button>').attr({
+                        type: 'submit',
+                        class: 'btn btn-danger'
+                    }).text('delete');
+                    // Handle form submission
+                    form.submit(function (event) {
+                        event.preventDefault(); // prevent default form submission
+                        $.ajax({
+                            url: form.attr('action'),
+                            type: form.attr('method'),
+                            data: form.serialize(),
+                            success: function (data) {
+                                loadMembershipData();
+                                if (data['success'] == true) {
+                                    iziToast.show({
+                                        theme: 'dark',
+                                        backgroundColor: '#239B56',
+                                        icon: 'las la-check-circle',
+                                        message: data['message'] + " " +
+                                            "deleted",
+                                        position: 'topRight',
+                                        progressBarColor: '#F4F6F7',
+                                    });
+                                } else {
+                                    iziToast.show({
+                                        theme: 'dark',
+                                        icon: 'las la-exclamation',
+                                        title: 'Error',
+                                        message: data['message'],
+                                        position: 'topRight',
+                                        progressBarColor: '#ff0800',
+                                    });
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.log("Error:", error);
+                                iziToast.show({
+                                    theme: 'dark',
+                                    icon: 'las la-exclamation',
+                                    title: 'Error',
+                                    message: 'CSRF verification failed. Request aborted.',
+                                    position: 'topRight',
+                                    progressBarColor: '#ff0800',
+                                });
+                            }
+                        });
+                    });
+
+                    var td = $('<td>').append(form.append(professionalBody, Member_lineNo, membershipNo,
+                        otherProfessionalBody,
+                        member_myAction, Member_submitBtn));
+                    row.append(td);
+                    tableBody.append(row);
+
+                }
+                // initialize DataTables for each table
+                if (!$.fn.DataTable.isDataTable('#proMembersTable')) {
+                    $('#proMembersTable').DataTable({
+                        "pageLength": 5,
+                        "order": [
+                            [0, "desc"]
+                        ]
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log("Error:", error);
+            },
+        });
+    }
+
+    function loadHobby() {
+        $.ajax({
+            url: '{% url "QyApplicantHobbies" %}',
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+                var tableBody = $('#hobbyTable tbody');
+                tableBody.empty(); // clear existing rows if any
+                // iterate through the data and append to the table
+                for (var i = 0; i < data[1].length; i++) {
+                    var Hobbies = data[1][i].Hobbies;
+                    var MembershipNo = data[1][i].MembershipNo;
+                    var Description = data[1][i].Description;
+                    var Line_No = data[1][i].Line_No;
+
+                    var row = $('<tr>');
+
+                    row.append($('<td>').text(Hobbies));
+                    // Create the form with inputs and submit button
+                    var form = $('<form>').attr({
+                        method: 'POST',
+                        action: '{% url "FnApplicantHobby" %}'
+                    }).append('{% csrf_token %}');
+
+                    var hobbyInput = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'hobby',
+                        value: Hobbies
+                    });
+                    var lineNoInput = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'lineNo',
+                        value: Line_No
+                    });
+                    var myActionInput = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'myAction',
+                        value: 'delete'
+                    });
+                    var submitBtn = $('<button>').attr({
+                        type: 'submit',
+                        class: 'btn btn-danger'
+                    }).text('delete');
+
+                    // Handle form submission
+                    form.submit(function (event) {
+                        event.preventDefault(); // prevent default form submission
+                        $.ajax({
+                            url: form.attr('action'),
+                            type: form.attr('method'),
+                            data: form.serialize(),
+                            success: function (data) {
+                                loadHobby();
+                                if (data['success'] == true) {
+                                    iziToast.show({
+                                        theme: 'dark',
+                                        backgroundColor: '#239B56',
+                                        icon: 'las la-check-circle',
+                                        message: data['message'] + " " +
+                                            "deleted",
+                                        position: 'topRight',
+                                        progressBarColor: '#F4F6F7',
+                                    });
+                                } else {
+                                    iziToast.show({
+                                        theme: 'dark',
+                                        icon: 'las la-exclamation',
+                                        title: 'Error',
+                                        message: data['message'],
+                                        position: 'topRight',
+                                        progressBarColor: '#ff0800',
+                                    });
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.log("Error:", error);
+                                iziToast.show({
+                                    theme: 'dark',
+                                    icon: 'las la-exclamation',
+                                    title: 'Error',
+                                    message: 'CSRF verification failed. Request aborted.',
+                                    position: 'topRight',
+                                    progressBarColor: '#ff0800',
+                                });
+                            }
+                        });
+                    });
+
+                    var td = $('<td>').append(form.append(hobbyInput, lineNoInput, myActionInput,
+                        submitBtn));
+                    row.append(td);
+
+                    // Append the new row to the table
+                    $('#hobbyTable tbody').append(row);
+                }
+                // initialize DataTables for each table
+                if (!$.fn.DataTable.isDataTable('#hobbyTable')) {
+                    $('#hobbyTable').DataTable({
+                        "pageLength": 5,
+                        "order": [
+                            [0, "desc"]
+                        ]
+                    });
+                }
+
+            },
+            error: function (xhr, status, error) {
+                console.log("Error:", error);
+            },
+        });
+    }
+
+
+    function loadRefereeData() {
+        $.ajax({
+            url: '{% url "QyApplicantReferees" %}',
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+                var tableBody = $('#refereeTable tbody');
+                tableBody.empty(); // clear existing rows if any
+                // iterate through the data and append to the table
+                for (var i = 0; i < data[1].length; i++) {
+                    var Names = data[1][i].Names;
+                    var Designation = data[1][i].Designation;
+                    var Company = data[1][i].Company;
+                    var Telephone_No = data[1][i].Telephone_No;
+                    var E_Mail = data[1][i].E_Mail
+                    var Line_No = data[1][i].Line_No_;
+
+                    var row = $('<tr>');
+                    row.append($('<td>').text(Names));
+                    row.append($('<td>').text(Designation));
+                    row.append($('<td>').text(Company));
+                    row.append($('<td>').text(Telephone_No));
+                    row.append($('<td>').text(E_Mail));
+                    // Create the form with inputs and submit button
+                    var form = $('<form>').attr({
+                        method: 'POST',
+                        action: '{% url "FnApplicantReferee" %}'
+                    }).append('{% csrf_token %}');
+
+                    var namesInput = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'names',
+                        value: Names
+                    });
+
+                    var designationInput = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'designation',
+                        value: Designation
+                    });
+                    var companyInput = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'company',
+                        value: Company
+                    });
+                    var telephoneNoInput = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'telephoneNo',
+                        value: Telephone_No
+                    });
+                    var emailInput = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'email',
+                        value: E_Mail
+                    });
+
+                    var Ref_lineNo = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'lineNo',
+                        value: Line_No
+                    });
+                    var Ref_myActionInput = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'myAction',
+                        value: 'delete'
+                    });
+                    var Ref_submitBtn = $('<button>').attr({
+                        type: 'submit',
+                        class: 'btn btn-danger'
+                    }).text('delete');
+                    // Handle form submission
+                    form.submit(function (event) {
+                        event.preventDefault(); // prevent default form submission
+                        $.ajax({
+                            url: form.attr('action'),
+                            type: form.attr('method'),
+                            data: form.serialize(),
+                            success: function (data) {
+                                loadRefereeData();
+                                if (data['success'] == true) {
+                                    iziToast.show({
+                                        theme: 'dark',
+                                        backgroundColor: '#239B56',
+                                        icon: 'las la-check-circle',
+                                        message: data['message'] + " " +
+                                            "deleted",
+                                        position: 'topRight',
+                                        progressBarColor: '#F4F6F7',
+                                    });
+                                } else {
+                                    iziToast.show({
+                                        theme: 'dark',
+                                        icon: 'las la-exclamation',
+                                        title: 'Error',
+                                        message: data['message'],
+                                        position: 'topRight',
+                                        progressBarColor: '#ff0800',
+                                    });
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.log("Error:", error);
+                                iziToast.show({
+                                    theme: 'dark',
+                                    icon: 'las la-exclamation',
+                                    title: 'Error',
+                                    message: 'CSRF verification failed. Request aborted.',
+                                    position: 'topRight',
+                                    progressBarColor: '#ff0800',
+                                });
+                            }
+                        });
+                    });
+                    var td = $('<td>').append(form.append(namesInput, designationInput, companyInput,
+                        telephoneNoInput, emailInput, Ref_lineNo, Ref_myActionInput, Ref_submitBtn));
+                    row.append(td);
+                    tableBody.append(row);
+                }
+                // initialize DataTables for each table
+                if (!$.fn.DataTable.isDataTable('#refereeTable')) {
+                    $('#refereeTable').DataTable({
+                        "pageLength": 5,
+                        "order": [
+                            [0, "desc"]
+                        ]
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log("Error:", error);
+            },
+        });
+    }
+    //Disability Jquery
     $(document).ready(function () {
-        const $messageForm = $('#messageForm');
-        const $messageSpinner = $('#messageSpinner');
+        $('#countyRow').hide();
 
-        $messageForm.on('submit', (e) => {
-            e.preventDefault();
+        // Attach a change event listener to the country select
+        $('#country').on('change', function () {
+            // Get the selected value
+            var selectedValue = $(this).val();
 
-            if ($('#message').val() === '' || $('#subject').val() === '') {
-                alert('Message and Subject can not be empty');
-                return false;
+            // If the selected value is 'KE', show the county row and enable the county select
+            if (selectedValue === 'KE') {
+                $('#countyRow').show(1000);
+                $('#county').prop('disabled', false);
+                $('#ethnicOrigin').prop('disabled', false);
+            } else {
+                // Otherwise, hide the county row and disable the county select
+                $('#countyRow').hide(500);
+                $('#county').prop('disabled', true);
+                $('#ethnicOrigin').prop('disabled', true);
             }
-            $messageSpinner.show(200);
+        });
+
+        loadAcademicData();
+        loadExperienceData();
+        loadProCoursesData();
+        loadMembershipData();
+        loadHobby();
+        loadRefereeData();
+        //DOB Validations
+        var dobInput = $('input[name="dob"]');
+
+        // Disable dates before 1930
+        dobInput.attr('min', '1930-01-01');
+
+        // Disable dates for people under 17 years old
+        var today = new Date();
+        var minDate = new Date(today.getFullYear() - 17, today.getMonth(), today.getDate());
+        var dd = minDate.getDate();
+        var mm = minDate.getMonth() + 1;
+        var yyyy = minDate.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        var formattedMinDate = yyyy + '-' + mm + '-' + dd;
+        dobInput.attr('max', formattedMinDate);
+
+        // DOB End
+        var disabledSelect = $('#disabled');
+        var disabilityInput = $('#disability');
+        $('.hiddenRow').hide();
+
+
+        // Check initial value of the select on page load
+        if (disabledSelect.val() == '1') {
+            disabilityInput.prop('disabled', false);
+            $('.hiddenRow').show(1000);
+        }
+
+        // Attach event listener to the select element
+        disabledSelect.on('change', function () {
+            if (this.value === '1') {
+                disabilityInput.prop('disabled', false);
+                $('.hiddenRow').show(1000);
+            } else {
+                disabilityInput.prop('disabled', true);
+                $('.hiddenRow').hide(500);
+            }
+        });
+
+        // Academic Qualification JS
+        $('#AcademicQualificationCode').on('change', function () {
+            if (this.value == "Other") {
+                $('#otherAcademic').prop('disabled', false);
+                $('#otherAcademicRow').show(500);
+            } else {
+                $('#otherAcademic').prop('disabled', true);
+                $('#otherAcademicRow').hide(500);
+            }
+        });
+        $(document).on('submit', '#AcademicForm', function (e) {
+            e.preventDefault();
+            $('#money-spinner').show(500);
             $.ajax({
                 type: 'POST',
-                url: '/SendMessage/',
+                url: '{% url "FnApplicantAcademicQualification" %}',
                 data: {
-                    name: $('#name').val(),
-                    email: $('#email').val(),
-                    subject: $('#subject').val(),
-                    message: $('#message').val(),
+                    startDate: $("#Aca_startDate").val(),
+                    endDate: $("#Aca_endDate").val(),
+                    educationType: $("#Aca_educationType").val(),
+                    educationLevel: $("#Aca_educationLevel").val(),
+                    fieldOfStudy: $("#Aca_fieldOfStudy").val(),
+                    qualificationCode: $("#AcademicQualificationCode").val(),
+                    institutionName: $("#Aca_institutionName").val(),
+                    proficiencyLevel: $("#Aca_proficiencyLevel").val(),
+                    country: $("#Aca_country").val(),
+                    region: $("#Aca_region").val(),
+                    isHighestLevel: $("#isHighestLevel").val(),
+                    grade: $("#Aca_grade").val(),
+                    otherQualification: $("#otherAcademic").val(),
+                    description: $("#Aca_description").val(),
+                    lineNo: 0,
+                    myAction: 'insert',
                     csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
                 },
                 success: function (data) {
-                    $('#name, #email, #subject, #message').val('');
-                    $messageSpinner.hide();
+                    $("#Aca_startDate").val("")
+                    $("#Aca_endDate").val("")
+                    $("#Aca_educationType").val("")
+                    $("#Aca_educationLevel").val("")
+                    $("#Aca_fieldOfStudy").val("")
+                    $("#AcademicQualificationCode").val("")
+                    $("#Aca_institutionName").val("")
+                    $("#Aca_proficiencyLevel").val("")
+                    $("#Aca_country").val("")
+                    $("#Aca_region").val("")
+                    $("#isHighestLevel").val("")
+                    $("#Aca_grade").val("")
+                    $("#otherAcademic").val("")
+                    $("#Aca_description").val("");
+                    $('#money-spinner').hide(500);
                     if (data['success'] == true) {
                         iziToast.show({
                             theme: 'dark',
                             backgroundColor: '#239B56',
                             icon: 'las la-check-circle',
-                            title: 'Yeah',
-                            message: data['message'],
+                            message: data['message'] + " " +
+                                "Saved. Add More",
                             position: 'topRight',
                             progressBarColor: '#F4F6F7',
                         });
@@ -179,18 +1866,294 @@ My Profile
                             theme: 'dark',
                             icon: 'las la-exclamation',
                             title: 'Error',
-                            message: data['error'],
+                            message: data['message'],
                             position: 'topRight',
                             progressBarColor: '#ff0800',
                         });
                     }
+                    loadAcademicData();
+                }
+            })
+        });
+        // **** End****
+
+        //Work Experience
+        var isPresentEmployment = document.getElementById("isPresentEmployment");
+        var endDate = document.getElementById("job_endDate");
+
+        isPresentEmployment.addEventListener("change", function () {
+            if (isPresentEmployment.value === "True") {
+                endDate.disabled = true;
+            } else {
+                endDate.disabled = false;
+            }
+        });
+        $(document).on('submit', '#JobExperienceForm', function (e) {
+            e.preventDefault();
+            $('#job-spinner').show(500);
+            $.ajax({
+                type: 'POST',
+                url: '{% url "JobExperience" %}',
+                data: {
+                    startDate: $("#job_startDate").val(),
+                    endDate: $("#job_endDate").val(),
+                    employer: $("#job_employer").val(),
+                    industry: $("#job_industry").val(),
+                    hierarchyLevel: $("#job_hierarchyLevel").val(),
+                    functionalArea: $("#job_functionalArea").val(),
+                    jobTitle: $("#job_jobTitle").val(),
+                    isPresentEmployment: $("#isPresentEmployment").val(),
+                    country: $("#job_country").val(),
+                    location: $("#job_location").val(),
+                    employerEmail: $("#job_employerEmail").val(),
+                    employerPostalAddress: $("#job_employerPostalAddress").val(),
+                    description: $("#job_description").val(),
+                    lineNo: 0,
+                    myAction: 'insert',
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
                 },
-                error: function (error) {
-                    console.log(error)
-                    $messageSpinner.hide();
+                success: function (data) {
+                    $("#job_startDate").val("")
+                    $("#job_endDate").val("")
+                    $("#job_employer").val("")
+                    $("#job_industry").val("")
+                    $("#job_hierarchyLevel").val("")
+                    $("#job_functionalArea").val("")
+                    $("#job_jobTitle").val("")
+                    $("#isPresentEmployment").val("")
+                    $("#job_country").val("")
+                    $("#job_location").val("")
+                    $("#job_employerEmail").val("")
+                    $("#job_employerPostalAddress").val("")
+                    $("#job_description").val("")
+                    $('#job-spinner').hide(500);
+                    loadExperienceData();
+                    if (data['success'] == true) {
+                        iziToast.show({
+                            theme: 'dark',
+                            backgroundColor: '#239B56',
+                            icon: 'las la-check-circle',
+                            message: data['message'] + " " +
+                                "Saved. Add More",
+                            position: 'topRight',
+                            progressBarColor: '#F4F6F7',
+                        });
+                    } else {
+                        iziToast.show({
+                            theme: 'dark',
+                            icon: 'las la-exclamation',
+                            title: 'Error',
+                            message: data['message'],
+                            position: 'topRight',
+                            progressBarColor: '#ff0800',
+                        });
+                    }
+
+                }
+            })
+        });
+
+        // Professional Qualification JS
+        $(document).ready(function () {
+            $('#proQualificationCode').on('change', function () {
+                if (this.value == "Other") {
+                    $('#proQulification').prop('disabled', false);
+                    $('#proQulificationRor').show(500);
+                } else {
+                    $('#proQulification').prop('disabled', true);
+                    $('#proQulificationRor').hide(500);
                 }
             });
+        })
+
+        $(document).on('submit', '#proQualificationForm', function (e) {
+            e.preventDefault();
+            $('#pro-spinner').show(500);
+            $.ajax({
+                type: 'POST',
+                url: '{% url "FnApplicantProfessionalCourse" %}',
+                data: {
+                    qualificationCode: $("#proQualificationCode").val(),
+                    sectionLevel: $("#pro_sectionLevel").val(),
+                    otherQualification: $("#proQulification").val(),
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                    lineNo: 0,
+                    myAction: 'insert',
+                },
+                success: function (data) {
+                    $("#proQualificationCode").val("")
+                    $("#pro_sectionLevel").val("")
+                    $("#proQulification").val("")
+                    if (data['success'] == true) {
+                        iziToast.show({
+                            theme: 'dark',
+                            backgroundColor: '#239B56',
+                            icon: 'las la-check-circle',
+                            message: data['message'] + " " +
+                                "Saved. Add More",
+                            position: 'topRight',
+                            progressBarColor: '#F4F6F7',
+                        });
+                    } else {
+                        iziToast.show({
+                            theme: 'dark',
+                            icon: 'las la-exclamation',
+                            title: 'Error',
+                            message: data['message'],
+                            position: 'topRight',
+                            progressBarColor: '#ff0800',
+                        });
+                    }
+                    $('#pro-spinner').hide(500);
+                    loadProCoursesData();
+                }
+            })
         });
-    })
+        // **** End****
+        // ProfessionalMembership JS
+        $('#ms_professionalBody').on('change', function () {
+            if (this.value == "Other") {
+                $('#otherProfessionalBody').prop('disabled', false);
+                $('#otherProfessionalBodyRow').show(500);
+            } else {
+                $('#otherProfessionalBody').prop('disabled', true);
+                $('#otherProfessionalBodyRow').hide(500);
+            }
+        });
+
+        $(document).on('submit', '#professionalBodyForm', function (e) {
+            e.preventDefault();
+            $('#member-spinner').show(500);
+            $.ajax({
+                type: 'POST',
+                url: '{% url "FnApplicantProfessionalMembership" %}',
+                data: {
+                    professionalBody: $("#ms_professionalBody").val(),
+                    membershipNo: $("#ms_membershipNo").val(),
+                    otherProfessionalBody: $("#otherProfessionalBody").val(),
+                    lineNo: 0,
+                    myAction: 'insert',
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                },
+                success: function (data) {
+                    $("#ms_professionalBody").val("")
+                    $("#ms_membershipNo").val("")
+                    $("#otherProfessionalBody").val("")
+                    if (data['success'] == true) {
+                        iziToast.show({
+                            theme: 'dark',
+                            backgroundColor: '#239B56',
+                            icon: 'las la-check-circle',
+                            message: data['message'] + " " +
+                                "Saved. Add More",
+                            position: 'topRight',
+                            progressBarColor: '#F4F6F7',
+                        });
+                    } else {
+                        iziToast.show({
+                            theme: 'dark',
+                            icon: 'las la-exclamation',
+                            title: 'Error',
+                            message: data['message'],
+                            position: 'topRight',
+                            progressBarColor: '#ff0800',
+                        });
+                    }
+                    $('#member-spinner').hide(500);
+                    loadMembershipData();
+                }
+            })
+        });
+        // **** End****
+        // Hobby JS
+
+        $(document).on('submit', '#hobbyForm', function (e) {
+            e.preventDefault();
+            $('#hobby-spinner').show(500);
+            $.ajax({
+                type: 'POST',
+                url: '{% url "FnApplicantHobby" %}',
+                data: {
+                    hobby: $("#j_hobby").val(),
+                    lineNo: 0,
+                    myAction: 'insert',
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                },
+                success: function (data) {
+                    $("#j_hobby").val("")
+                    $('#hobby-spinner').hide(500);
+                    loadHobby();
+                    if (data['success'] == true) {
+                        iziToast.show({
+                            theme: 'dark',
+                            backgroundColor: '#239B56',
+                            icon: 'las la-check-circle',
+                            message: data['message'] + " " +
+                                "Saved. Add More Hobbies",
+                            position: 'topRight',
+                            progressBarColor: '#F4F6F7',
+                        });
+                    } else {
+                        iziToast.show({
+                            theme: 'dark',
+                            icon: 'las la-exclamation',
+                            title: 'Error',
+                            message: data['message'],
+                            position: 'topRight',
+                            progressBarColor: '#ff0800',
+                        });
+                    }
+                }
+            })
+        });
+        // **** End****
+        // Hobby JS
+        $(document).on('submit', '#refForm', function (e) {
+            e.preventDefault();
+            $('#ref-spinner').show(500);
+            $.ajax({
+                type: 'POST',
+                url: '{% url "FnApplicantReferee" %}',
+                data: {
+                    names: $("#j_names").val(),
+                    designation: $("#j_designation").val(),
+                    company: $("#j_company").val(),
+                    telephoneNo: $("#j_telephoneNo").val(),
+                    email: $("#j_email").val(),
+                    lineNo: 0,
+                    myAction: 'insert',
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                },
+                success: function (data) {
+                    $("#j_designation").val("");
+                    $("#j_company").val("");
+                    $("#j_telephoneNo").val("");
+                    $("#j_email").val("");
+                    if (data['success'] == true) {
+                        iziToast.show({
+                            theme: 'dark',
+                            backgroundColor: '#239B56',
+                            icon: 'las la-check-circle',
+                            message: data['message'] + " " +
+                                "Saved. Add More Referees",
+                            position: 'topRight',
+                            progressBarColor: '#F4F6F7',
+                        });
+                    } else {
+                        iziToast.show({
+                            theme: 'dark',
+                            icon: 'las la-exclamation',
+                            title: 'Error',
+                            message: data['message'],
+                            position: 'topRight',
+                            progressBarColor: '#ff0800',
+                        });
+                    }
+                    $('#ref-spinner').hide(500);
+                    loadRefereeData();
+                }
+            })
+        });
+    });
 </script>
 {% endblock %}

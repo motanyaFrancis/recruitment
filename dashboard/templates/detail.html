@@ -1,0 +1,646 @@
+{% extends 'base.html' %}
+{% block title %}
+{{response.Process_Type}}
+{% endblock %}
+{% block head %}
+<script src="../../static/plugins/assets/modules/moment.min.js"></script>
+<style>
+    .accordion-header[aria-expanded="true"] .accordion-icon i:before {
+        content: "\f068";
+    }
+
+    .left-align {
+        text-align: left;
+    }
+
+    .right-align {
+        text-align: right;
+    }
+
+    .p-4 {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .controlBtn {
+        display: flex;
+        justify-content: center;
+    }
+
+
+    #regForm {
+        background-color: #ffffff;
+        margin: 100px auto;
+        font-family: Raleway;
+        padding: 40px;
+    }
+
+    /* Hide all steps by default: */
+    .tab {
+        display: none;
+    }
+
+    /* Make circles that indicate the steps of the form: */
+    .step {
+        height: 15px;
+        width: 15px;
+        margin: 0 2px;
+        background-color: #bbbbbb;
+        border: none;
+        border-radius: 50%;
+        display: inline-block;
+        opacity: 0.5;
+    }
+
+    .step.active {
+        opacity: 1;
+    }
+
+    /* Mark the steps that are finished and valid: */
+    .step.finish {
+        background-color: #04AA6D;
+    }
+</style>
+{% endblock %}
+{% block user %}
+{% if authenticated == True %}
+{% include 'topbar.html' %}
+{% endif %}
+{% endblock %}
+
+{% block navigation %}
+<li class="nav-item active">
+    <a href="#" type="button" class="nav-link" disabled>
+        <i class="fas fa-fire br"></i>
+        Job Vacancy {{res.Job_ID}}
+    </a>
+</li>
+{% endblock %}
+{% block main %}
+<section>
+    <div class="section-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="p-4 text-white text-lg bg-info rounded-top">
+                        <h2 class="left-align">{{res.Description}}</h2>
+                    </div>
+                    <div class="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2 bg-secondary">
+                        <div class="w-100 text-center py-1 px-2"><span class="text-medium">
+                                Education Level:</span> {{Qualifications.Education_Level}}
+                        </div>
+                        <div class="w-100 text-center py-1 px-2"><span class="text-medium">
+                                Appointment Type:</span> <span>{{res.Appointment_Type}}</span>
+                        </div>
+                        <div class="w-100 text-center py-1 px-2"><span class="text-medium"> Year(s) Relevant Work
+                                Experience
+                                :</span> {{experience.No__of_Years}}
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row" id="itemsTable">
+                            <div class="col-md-12">
+                                {% if res.Job_Description  %}
+                                <h4 class="section-title">Job description</h4>
+                                <p>
+                                    {{res.Job_Description}}
+                                </p>
+                                {% endif %}
+                                {% if RESPOs|length > 0 %}
+                                <h4 class="section-title mt-3">Job Specifications</h4>
+                                <ol>
+                                    {% for res in RESPOs %}
+                                    <li>{{res.Description}}</li>
+                                    {% endfor %}
+                                </ol>
+                                {% endif %}
+                                {% if qualify|length > 0 %}
+                                <h4 class="section-title mt-3">Qualifications</h4>
+                                <ol>
+                                    {% for qualify in qualify %}
+                                    <li><span>{{qualify.Education_Level}}</span> - {{qualify.Field_Name}}</li>
+                                    {% endfor %}
+                                </ol>
+                                {% endif %}
+
+                                {% if Course|length > 0 %}
+                                <h4 class="section-title mt-3">Professional Courses</h4>
+                                <ol>
+                                    {% for res in Course %}
+                                    <li>{{res.Qualification_Name}}</li>
+                                    {% endfor %}
+                                </ol>
+                                {% endif %}
+
+                                {% if JobMembeship|length > 0 %}
+                                <h4 class="section-title mt-3">Professional Memberships</h4>
+                                <ol>
+                                    {% for res in JobMembeship %}
+                                    <li> <span>{{res.Name}}</span> - {{res.Description}}</li>
+                                    {% endfor %}
+                                </ol>
+                                {% endif %}
+
+                                {% if Skill|length > 0 %}
+                                <h4 class="section-title mt-3">Key Competencies and Skills</h4>
+                                <ol>
+                                    {% for res in Skill %}
+                                    <li> {{res.Description}} </li>
+                                    {% endfor %}
+                                </ol>
+                                {% endif %}
+
+                                {% if Position|length > 0 %}
+                                <h4 class="section-title mt-3">Reporting To</h4>
+                                <ol>
+                                    {% for res in Position %}
+                                    <li> {{res.Description}} </li>
+                                    {% endfor %}
+                                </ol>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                {% if authenticated == True %}
+                                <div class="applyBtn mr-auto text-center">
+                                    <button type="button" class="btn btn-primary my-3 w-50" id="bid_collapse"> <span
+                                            id="submit_first">Apply Job</span>
+                                    </button>
+                                </div>
+                                {% elif authenticated == False %}
+                                <div class="alert alert-warning alert-has-icon mt-4">
+                                    <div class="alert-icon">
+                                        <i class="fas fa-exclamation-circle"></i>
+                                    </div>
+                                    <div class="alert-body">
+                                        <div class="alert-title">Hello!</div>
+                                        To submit application, we kindly ask that you <a href="#" class="text-danger"
+                                            data-toggle="modal" data-target="#signIn">sign
+                                            in </a> to your account. Don't have an account? No worries! You can
+                                        easily create one by clicking the <a href="/register/" class="text-dark">sign
+                                            up </a>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="container" id="bidding_row" style="display: none;">
+                            <div class="money-spinner mx-auto text-center" id="spinner" style="display: none;">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif"
+                                    alt="Loading Gif" style="height: 100px; width: 100px;" class="img-fluid">
+                            </div>
+                            <div class="tab">
+                                <h5 class="modal-title text-center">Required Attachments
+                                </h5>
+                                <div class="alert alert-warning alert-has-icon mt-4">
+                                    <div class="alert-icon">
+                                        <i class="fas fa-exclamation-circle"></i>
+                                    </div>
+                                    <div class="alert-body">
+                                        <div class="alert-title">Disclaimer!</div>
+                                        Please upload PDF attachments only and they should not exceed 5MB in size.
+                                    </div>
+                                </div>
+                                <form method="post" id="attachmentsForm" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="form-group" id="attachmentCodeRow">
+                                        <label>Select Document to Upload <span class="text-danger">*</span></label>
+                                        <select class="custom-select" name="attachmentCode" id="attachmentCode">
+                                            <option class="after" value="" disabled>--Select--</option>
+                                        </select>
+                                    </div>
+                                    <div class="custom-file" id="attachmentsRow">
+                                        <input type="file" class="form-control" name="attachments" id="attachments"
+                                            accept="application/pdf">
+                                    </div>
+                                    <div style="display:flex; justify-content:space-between;" class="my-3">
+                                        <button type="submit" class="btn btn-primary btn-lg mr-1" id="attachSubmit"
+                                            style="flex:1;">
+                                            Upload <i class="fas fa-file-upload"></i>
+                                        </button>
+                                        <button class="btn btn-dark mr-1" type="button" id="attachmentBtn"
+                                            style="flex:1;display:none">
+                                            View <span id="attachementCount"></span> Attachments <i
+                                                class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                                <div class="row" id="leave_attachments_row" style="display:none">
+                                    <div class="col-md-12">
+                                        <h5 class="">
+                                            Attached Files <i class="las la-folder-open text-success"></i>
+                                        </h5>
+                                        <div class="row" id="attachments-container">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="tab">
+                                <div class="col-md-12 text-center" id="app_sent" style="display: none;">
+                                    <div class="card bg-info text-white d-inline-block">
+                                        <div class="card-body text-center">
+                                            <i class="fas fa-check-circle fa-7x mb-4" style="font-size: 3rem;"></i>
+                                            <h4 class="card-title">Sent</h4>
+                                            <p class="card-text">Thank you for submitting your application. We will
+                                                review it and get back to you shortly.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <form method="post" id="submitForm">
+                                    <h5 class="modal-title text-center"> Submit Application
+                                    </h5>
+                                    {% csrf_token %}
+                                    <div style="display:flex; justify-content:space-between;" class="my-3">
+                                        <button type="submit" class="btn btn-primary btn-lg mr-1" style="flex:1;">
+                                            Submit {{response.Process_Type}} <i class="fas fa-paper-plane"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div style="overflow:auto; margin-top: 1rem">
+                                <div style="float:right;">
+                                    <button type="button" class="btn btn-danger" id="bid_closing">Close <i
+                                            class="fas fa-times"></i></button>
+                                    <button type="button" id="prevBtn" class="btn btn-primary" onclick="nextPrev(-1)"><i
+                                            class="fas fa-backward"></i> Previous</button>
+                                    <button type="button" id="nextBtn" class="btn btn-warning" onclick="nextPrev(1)"> <i
+                                            class="fas fa-backward"></i> Next <i class="fas fa-forward"></i></button>
+                                </div>
+                            </div>
+                            <!-- Circles which indicates the steps of the form: -->
+                            <div style="text-align:center;margin-top:40px;">
+                                <span class="step"></span>
+                                <span class="step"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+<script>
+    $(document).ready(function () {
+
+        const $bid_collapse = $('#bid_collapse');
+        const $bid_closing = $('#bid_closing');
+        const $itemsTable = $('#itemsTable');
+        const $bidding_row = $('#bidding_row');
+        var tenderSubmitted = false;
+
+        $bid_collapse.click(function () {
+            $itemsTable.toggle(1000);
+            $bidding_row.toggle(1500);
+            $bid_collapse.hide();
+        })
+        $bid_closing.click(function () {
+            $bidding_row.toggle(1000);
+            $itemsTable.toggle(1200);
+            $bid_collapse.show(1500);
+        })
+        const $spinner = $('#spinner');
+
+
+        //load attachments
+        const $attachmentForm = $('#attachmentsForm');
+        const $attachmentBtn = $('#attachmentBtn');
+        var Job_ID = '{{res.Job_ID}}'
+        var No_ = '{{res.No_}}'
+
+        TechnicalRequirementsData(Job_ID, No_);
+
+        function TechnicalRequirementsData(Job_ID, no) {
+            $("#attachmentsForm select[name='attachmentCode']").find('.after').nextAll().remove();
+            $.ajax({
+                url: "/TechnicalRequirements/" + Job_ID + "/" + no + "/",
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    if (data.length > 0) {
+                        let options = '';
+                        for (var i = 0; i < data.length; i++) {
+                            options += '<option value=' + data[i].Attachment + '>' + data[i]
+                                .Description +
+                                '</option>';
+                        }
+                        $("#attachmentsForm select[name='attachmentCode']").find('.after').after(
+                            options);
+                    } else {}
+                },
+                error: function (xhr, status, error) {
+                    console.log("Error:", error);
+                },
+            });
+        }
+
+        $attachmentForm.on("submit", (e) => {
+            e.preventDefault();
+            if ($('#attachmentCode').val() === '') {
+                alert('Please fill in all required fields.');
+                return false;
+            }
+            $spinner.show();
+
+            var formData = new FormData($attachmentForm[0]);
+            let attachments = $('#attachments')[0];
+            var attachmentCode = $('#attachmentCode').val();
+
+            for (let i = 0; i < attachments.files.length; i++) {
+                if (attachments.files[i].size > 5 * 1024 *
+                    1024) { // check if the file size is greater than 5MB
+                    iziToast.show({
+                        theme: 'dark',
+                        icon: 'las la-exclamation',
+                        title: 'Error',
+                        message: 'File size should not exceed 5MB',
+                        position: 'topRight',
+                        progressBarColor: '#ff0800',
+                    });
+                    $spinner.hide();
+                    return false;
+                }
+                formData.append('attachment', attachments.files[i]);
+            }
+
+            formData.append('attachmentCode', attachmentCode);
+
+            $.ajax({
+                url: "/Attachments/" + No_ + "/",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
+                },
+                success: function (data) {
+                    $('#attachments').val('');
+                    $spinner.hide();
+                    if (data['success'] == true) {
+                        iziToast.show({
+                            theme: 'dark',
+                            backgroundColor: '#239B56',
+                            icon: 'las la-check-circle',
+                            title: 'Yeah',
+                            message: "Uploaded successfully",
+                            position: 'topRight',
+                            progressBarColor: '#F4F6F7',
+                        });
+                        Load_Attachments(No_);
+                        TechnicalRequirementsData(Job_ID, No_);
+                    } else {
+                        iziToast.show({
+                            theme: 'dark',
+                            icon: 'las la-exclamation',
+                            title: 'Error',
+                            message: "Upload failed: " + data,
+                            position: 'topRight',
+                            progressBarColor: '#ff0800',
+                        });
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log(xhr.responseText);
+                    $spinner.hide();
+                }
+            });
+        });
+
+
+        Load_Attachments(No_);
+
+
+        $attachmentBtn.click(function () {
+            $('#leave_attachments_row').toggle(1000);
+        })
+
+        function Load_Attachments(no) {
+            $.ajax({
+                url: "/Attachments/" + No_ + "/",
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    var containerDiv = $("#attachments-container");
+                    containerDiv.empty(); // clear the container div
+                    let fileCount = data.length
+                    if (fileCount > 0) {
+                        $('#attachementCount').empty().append(fileCount);
+                        $attachmentBtn.show();
+                        for (var i = 0; i < data.length; i++) {
+                            var docID = data[i].AuxiliaryIndex2;
+                            var tableID = data[i].Table_ID;
+                            var attachmentID = data[i].AuxiliaryIndex2;
+                            var File_Name = data[i].File_Name;
+                            var File_Extension = data[i].File_Extension;
+                            // create a new div for this attachment
+                            var attachmentDiv = $("<div>", {
+                                class: "col-lg-4 col-xl-3"
+                            });
+                            var fileManBoxDiv = $("<div>", {
+                                class: "file-man-box"
+                            });
+                            // create the form for deleting the attachment
+                            var deleteForm = $("<form>", {
+                                method: "POST"
+                            });
+
+                            deleteForm.append($("<input>", {
+                                type: "hidden",
+                                name: "docID",
+                                value: docID
+                            }));
+                            deleteForm.append($("<input>", {
+                                type: "hidden",
+                                name: "tableID",
+                                value: tableID
+                            }));
+                            var deleteButton = $("<button>", {
+                                class: "file-close",
+                                id: "file-close"
+                            }).append($("<i>", {
+                                class: "fa fa-times-circle"
+                            }));
+                            deleteButton.on("click", function (event) {
+                                event.preventDefault();
+                                $spinner.show();
+
+                                $.ajax({
+                                    url: '{% url "DeleteAttachment" %}',
+                                    type: 'POST',
+                                    data: {
+                                        docID: docID,
+                                        tableID: tableID,
+                                        leaveCode: Job_ID,
+                                        csrfmiddlewaretoken: $(
+                                                'input[name=csrfmiddlewaretoken]'
+                                            )
+                                            .val()
+                                    },
+                                    success: function (data) {
+                                        $spinner.hide();
+                                        if (data['success'] == true) {
+                                            iziToast.show({
+                                                theme: 'dark',
+                                                backgroundColor: '#239B56',
+                                                icon: 'las la-check-circle',
+                                                message: data[
+                                                    'message'],
+                                                position: 'topRight',
+                                                progressBarColor: '#F4F6F7',
+                                            });
+                                            Load_Attachments(no);
+                                            TechnicalRequirementsData(
+                                                Job_ID, no);
+                                        } else {
+                                            iziToast.show({
+                                                theme: 'dark',
+                                                icon: 'las la-exclamation',
+                                                title: 'Error',
+                                                message: data[
+                                                    'message'],
+                                                position: 'topRight',
+                                                progressBarColor: '#ff0800',
+                                            });
+                                        }
+                                    },
+                                    error: function (error) {
+                                        $spinner.hide();
+                                        console.log(error)
+                                    }
+                                });
+                            });
+                            fileManBoxDiv.append(deleteButton);
+
+                            // create the div for the file icon
+                            var fileImgBoxDiv = $("<div>", {
+                                class: "file-img-box"
+                            }).append($("<img>", {
+                                src: "../../static/img/logo/f1.png",
+                                alt: "icon"
+                            }));
+                            fileManBoxDiv.append(fileImgBoxDiv);
+                            // create the div for the file name
+                            var fileManTitleDiv = $("<div>", {
+                                class: "file-man-title"
+                            }).append($("<h5>", {
+                                class: "mb-0 text-overflow"
+                            }).text(File_Name + "." + File_Extension));
+                            fileManBoxDiv.append(fileManTitleDiv);
+                            attachmentDiv.append(fileManBoxDiv);
+                            containerDiv.append(attachmentDiv);
+                        }
+                    } else {
+                        $attachmentBtn.hide();
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    console.log("Error:", error);
+                },
+            });
+        }
+        //submit form
+        const $submitForm = $('#submitForm');
+        $submitForm.on("submit", (e) => {
+            e.preventDefault();
+            $spinner.show();
+            $.ajax({
+                url: "/Submit/" + No_ + "/",
+                type: "POST",
+                data: {
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                },
+                success: function (data) {
+                    $spinner.hide();
+                    if (data['success'] == true) {
+                        iziToast.show({
+                            theme: 'dark',
+                            backgroundColor: '#239B56',
+                            icon: 'las la-check-circle',
+                            message: data['message'],
+                            position: 'topRight',
+                            progressBarColor: '#F4F6F7',
+                        });
+                        $submitForm.hide();
+                        $('#app_sent').show();
+                        window.location.href = "/dashboard";
+                    } else {
+                        iziToast.show({
+                            theme: 'dark',
+                            icon: 'las la-exclamation',
+                            title: 'Error',
+                            message: data['error'],
+                            position: 'topRight',
+                            progressBarColor: '#ff0800',
+                        });
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log(xhr.responseText);
+                    iziToast.show({
+                        theme: 'dark',
+                        icon: 'las la-exclamation',
+                        title: 'Error',
+                        message: data['error'],
+                        position: 'topRight',
+                        progressBarColor: '#ff0800',
+                    });
+                    $spinner.hide();
+                }
+            });
+
+        });
+    })
+    var currentTab = 0; // Current tab is set to be the first tab (0)
+    showTab(currentTab); // Display the current tab
+
+    function showTab(n) {
+        // This function will display the specified tab of the form...
+        var x = document.getElementsByClassName("tab");
+        x[n].style.display = "block";
+        //... and fix the Previous/Next buttons:
+        if (n == 0) {
+            document.getElementById("prevBtn").style.display = "none";
+        } else {
+            document.getElementById("prevBtn").style.display = "inline";
+        }
+        if (n == (x.length - 1)) {
+            document.getElementById("nextBtn").style.display = "none";
+        } else {
+            document.getElementById("nextBtn").style.display = "inline";
+            document.getElementById("nextBtn").innerHTML = "Next";
+        }
+        //... and run a function that will display the correct step indicator:
+        fixStepIndicator(n)
+    }
+
+
+    function nextPrev(n) {
+        var x = document.getElementsByClassName("tab");
+        // comment out the validation check
+        // if (n == 1 && !validateForm()) return false;
+        x[currentTab].style.display = "none";
+        currentTab = currentTab + n;
+        if (currentTab >= x.length) {
+            document.getElementById("regForm").submit();
+            return false;
+        }
+        showTab(currentTab);
+    }
+
+    function fixStepIndicator(n) {
+        // This function removes the "active" class of all steps...
+        var i, x = document.getElementsByClassName("step");
+        for (i = 0; i < x.length; i++) {
+            x[i].className = x[i].className.replace(" active", "");
+        }
+        //... and adds the "active" class on the current step:
+        x[n].className += " active";
+    }
+</script>
+{% endblock %}

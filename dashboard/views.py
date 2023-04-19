@@ -10,7 +10,6 @@ from django.contrib import messages
 from asgiref.sync import sync_to_async
 from django.conf import settings as config
 from datetime import datetime
-import io as BytesIO
 import base64
 from django.http import HttpResponse
 
@@ -28,54 +27,66 @@ class Index(UserObjectMixins, View):
             else:
                 authenticated = False
             
-            response = self.double_filtered_data("/QyProcurementMethods","Status","eq",'New',
-                        "and","TenderType","eq",'Open Tender')
-            open_tenders = [x for x in response[1] 
-                                if x['SubmittedToPortal'] == True and
-                                    datetime.strptime(x['Release_Date'] + 
-                                    ' ' + x['Release_Time'],'%Y-%m-%d %H:%M:%S') <= current_datetime
-                                    and datetime.strptime(x['Quotation_Deadline'] + ' ' 
-                                + x['Expected_Closing_Time'],'%Y-%m-%d %H:%M:%S') >= current_datetime]
+            open_vacancies = config.O_DATA.format("/QyRecruitmentRequests")
+            response = self.get_object(open_vacancies)
+            open_vacancy = [job for job in response['value'] 
+                if job['Submitted_To_Portal'] == True and
+                    datetime.strptime(job['End_Date'], '%Y-%m-%d') >= current_datetime]
+
         except Exception as e:
             logging.exception(e)
             messages.error(request, f'{e}')
             return redirect('index')
 
-        ctx = {"open_tenders":open_tenders,
+        ctx = {
+                "open_vacancy":open_vacancy,
                "authenticated":authenticated,
-               "ContactPage":ContactPage}
+               "ContactPage":ContactPage
+        }
         return render(request,'index.html',ctx)
     
-class TenderDetail(UserObjectMixins,View):
-    def get(self, request,pk):
+class Detail(UserObjectMixins,View):
+    def get(self, request,pk,no):
         try:
             ctx = {}
             response = {}
             username = 'None'
-            current_datetime = datetime.now()  
-            applicable = False
+            Dashboard = False
+            Profile = False
+            ContactPage = False
             if 'authenticated' in request.session:
                 authenticated = request.session['authenticated']
                 if 'Name' in request.session:
                     username = request.session['Name']
                 else:
-                    username = request.session['Email']
+                    username = request.session['E_Mail']
             else:
                 authenticated = False
             
-            task_get_procurement_methods = self.one_filter("/QyProcurementMethods","No","eq",pk)
+            RecruitmentRequests = self.one_filter("/QyRecruitmentRequests","Job_ID","eq",pk)
+            for x in RecruitmentRequests[1]:
+                res = x
+            AcademicQualifications = self.one_filter("/QyJobAcademicQualifications","Job_ID","eq",pk)
+            for Qualifications in AcademicQualifications[1]:
+                if Qualifications['Job_ID'] == pk:
+                    response = Qualifications
+            qualify = [x for x in AcademicQualifications[1]]
+            JobExperience = self.one_filter('/QyJobExperienceQualifications','Job_ID','eq',pk)
+            for Experience in JobExperience[1]:
+                if Experience['Job_ID'] == pk:
+                    E_response = Experience    
             
-           
-            res_file = self.one_filter("/QyDocumentAttachments","No_","eq",pk)
-            allFiles = [x for x in res_file[1]]
-            
-            for x in task_get_procurement_methods[1]:
-                response = x
-                if authenticated == True and datetime.strptime(x['Quotation_Deadline'] + ' ' + x['Expected_Closing_Time'],'%Y-%m-%d %H:%M:%S') >= current_datetime:
-                    applicable = True
-                                  
-            procurement_lines = self.one_filter('/QyProcurementMethodLines','RequisitionNo','eq',pk)
-            lines = [x for x in procurement_lines[1]]
+            JobResponsibilities = self.one_filter('/QyJobResponsibilities','Code','eq',pk)
+            RESPOs = [x for x in JobResponsibilities[1]]
+            JobKnowledgeSkills = self.one_filter('/QyJobKnowledgeSkills','Code','eq',pk)
+            Skill = [x for x in JobKnowledgeSkills[1]]
+            ProfessionalCourses = self.one_filter('/QyProfessionalCourses','Job_ID','eq',pk)
+            Course = [x for x in ProfessionalCourses[1]]
+            ProfessionalMemberships = self.one_filter('/QyJobProfessionalMembeships','Job_ID','eq',pk)
+            Member = [x for x in ProfessionalMemberships[1]]
+            Supervising = self.one_filter('/QyJobPositionsSupervising','Job_ID','eq',pk)
+            Position = [x for x in Supervising[1]]
+              
 
         except Exception as e:
             logging.exception(e)
@@ -85,213 +96,73 @@ class TenderDetail(UserObjectMixins,View):
             'authenticated':authenticated,
             "response":response,
             'username':username,
-            'lines':lines,
-            'applicable':applicable,
-            "file":allFiles
+            "experience": E_response,
+            "Qualifications": response,
+            "res": res,
+            "Skill": Skill,
+            "RESPOs": RESPOs,
+            "Course": Course,
+            "JobMembeship": Member,
+            "Position": Position,
+            "email":username,
+            "Dashboard":Dashboard,
+            "Profile":Profile,
+            "qualify":qualify,
+            "ContactPage":ContactPage
         }
-        return render(request,'tenders/detail.html',ctx)
+        return render(request,'detail.html',ctx)
 
 
 class Dashboard(UserObjectMixins,View):
     def get(self,request):
         try:
             ctx = {}
-            state = 'Prospect'
             ContactPage = False
             current_datetime = datetime.now()  
+            username = request.session['full_name']
+            email = request.session['E_Mail']
+            Dashboard = True
+            Profile = False
+            submitted_list = []
+            
+
             if 'authenticated' in request.session:
                 authenticated = request.session['authenticated']
             else:
                 authenticated = False
-            if 'Name' in request.session:
-                username = request.session['Name']
-            else:
-                username = request.session['Email']
-            ProcURL = config.O_DATA.format("/QyProcurementMethods?$filter=SubmittedToPortal%20eq%20true")
+            
+            applied_jobs = self.one_filter("/QyApplicantJobApplied","Application_No_","eq",request.session['No_'])
+            submitted = [x for x in applied_jobs[1]] 
+            
+            for jobs in applied_jobs[1]:            
+                submitted_list.append(jobs['Job_ID'])       
+
+            ProcURL = config.O_DATA.format("/QyRecruitmentRequests?$filter=Submitted_To_Portal%20eq%20true")
             response = self.get_object(ProcURL)
-            open_tenders = [x for x in response['value'] if x['TenderType'] == 'Open Tender'
-                            and x['Status'] == 'New' and datetime.strptime(x['Quotation_Deadline'] 
-                                + ' ' + x['Expected_Closing_Time'],'%Y-%m-%d %H:%M:%S') >= current_datetime
-                            and datetime.strptime(x['Release_Date'] + 
-                                    ' ' + x['Release_Time'],'%Y-%m-%d %H:%M:%S') <= current_datetime]
-            open_restricted = [x for x in response['value'] if x['TenderType'] == 'Restricted Tender'
-                               and x['Status'] == 'New' and datetime.strptime(x['Quotation_Deadline'] + 
-                                    ' ' + x['Expected_Closing_Time'],'%Y-%m-%d %H:%M:%S') >= current_datetime
-                               and datetime.strptime(x['Release_Date'] + 
-                                    ' ' + x['Release_Time'],'%Y-%m-%d %H:%M:%S') <= current_datetime]
-            open_quotation = [x for x in response['value'] if x['Process_Type'] == 'RFQ' and x['Status'] == 'New' 
-                              and datetime.strptime(x['Quotation_Deadline'] + ' ' 
-                                + x['Expected_Closing_Time'],'%Y-%m-%d %H:%M:%S') >= current_datetime
-                              and datetime.strptime(x['Release_Date'] + 
-                                    ' ' + x['Release_Time'],'%Y-%m-%d %H:%M:%S') <= current_datetime]
-            open_interest = [x for x in response['value'] if x['Process_Type'] == 'EOI' and x['Status'] == 'New' 
-                            and datetime.strptime(x['Quotation_Deadline'] + ' ' 
-                                                  + x['Expected_Closing_Time'],'%Y-%m-%d %H:%M:%S') >= current_datetime
-                            and datetime.strptime(x['Release_Date'] + 
-                                    ' ' + x['Release_Time'],'%Y-%m-%d %H:%M:%S') <= current_datetime]
-            open_proposal = [x for x in response['value'] if x['Process_Type'] == 'RFP' 
-                             and x['Status'] == 'New' and datetime.strptime(x['Quotation_Deadline'] +
-                                ' ' + x['Expected_Closing_Time'],'%Y-%m-%d %H:%M:%S') >= current_datetime
-                             and datetime.strptime(x['Release_Date'] + 
-                                    ' ' + x['Release_Time'],'%Y-%m-%d %H:%M:%S') <= current_datetime]
-            total_open = len([x for x in response['value'] if x['Status'] == 'New' 
-                              and datetime.strptime(x['Quotation_Deadline'] + ' ' + 
-                                 x['Expected_Closing_Time'],'%Y-%m-%d %H:%M:%S') >= current_datetime
-                              and datetime.strptime(x['Release_Date'] + 
-                                    ' ' + x['Release_Time'],'%Y-%m-%d %H:%M:%S') <= current_datetime])
-            total_closed = len([x for x in response['value'] if x['Status'] == 'Archived'])
-            
-            all_tenders = [x for x in response['value'] if x['Status'] == 'New' 
-                           and datetime.strptime(x['Quotation_Deadline'] + ' ' 
-                                                 + x['Expected_Closing_Time'],'%Y-%m-%d %H:%M:%S') >= current_datetime
-                           and datetime.strptime(x['Release_Date'] + 
-                                    ' ' + x['Release_Time'],'%Y-%m-%d %H:%M:%S') <= current_datetime]
-            
-            
-            if 'UserId' in request.session:
-                VendorNo = request.session['UserId']
-                submitted = self.one_filter("/QyProspectiveSupplierTender","Vendor_No","eq",VendorNo)
-                all_submitted = [x for x in submitted[1]]
-                submitted_open = [x for x in submitted[1] if x['Type'] == 'Tender']
-                submitted_restricted = [x for x in submitted[1] if x['Type'] == 'Restricted']
-                submitted_quotation = [x for x in submitted[1] if x['Type'] == 'RFQ']
-                submitted_interest = [x for x in submitted[1] if x['Type'] == 'EOI']
-                submitted_proposal = [x for x in submitted[1] if x['Type'] == 'RFP']
-                total_submitted = len([x for x in submitted[1]])
-            if 'state' in request.session:
-                state = request.session['state']
-                
+            open_vacancy = [job for job in response['value'] 
+                if job['Submitted_To_Portal'] == True and
+                    datetime.strptime(job['End_Date'], '%Y-%m-%d') >= current_datetime and 
+                        job['Job_ID'] not in submitted_list]
+
+                   
         except Exception as e:
             logging.exception(e)
             messages.error(request, f'{e}')
             return redirect('index')
         ctx = {
             'authenticated':authenticated,
-            "open_tenders":open_tenders,
-            'username':username,
-            'open_restricted':open_restricted,
-            'open_quotation':open_quotation,
-            'open_interest':open_interest,
-            'open_proposal':open_proposal,
-            'submitted_open':submitted_open,
-            'submitted_restricted':submitted_restricted,
-            'submitted_quotation':submitted_quotation,
-            'submitted_interest':submitted_interest,
-            'submitted_proposal':submitted_proposal,
-            'total_submitted':total_submitted,
-            'total_open':total_open,
-            'total_closed':total_closed,
-            'state':state,
             'ContactPage':ContactPage,
-            'all_tenders':all_tenders,
-            'all_submitted':all_submitted
+            "open_vacancy":open_vacancy,
+            'username':username,
+            "email":email,
+            "submitted":submitted,
+            "Dashboard":Dashboard,
+            "Profile":Profile
         }
         return render(request,'dashboard.html',ctx)
     
-class FnCreateProspectiveSupplier(UserObjectMixins,View):
-    def get(self,request):
-        try:
-            response = {}
-            tenderNo = request.GET.get('tenderNo')
-            user_id = request.session['UserId']
-            task_get_procurement_methods = self.double_filtered_data("/QyProspectiveSupplierTender",
-                                    "Tender_No_","eq",tenderNo,'and','Vendor_No','eq',user_id)
-            
-            for x in task_get_procurement_methods[1]:
-                response = x
-                return JsonResponse({'success': True,'response':response}, safe=False)
-            return JsonResponse({'success': False,'response':str(0)}, safe=False)
-        except Exception as e:
-            logging.exception(e)
-            return JsonResponse({'error': str(e)}, safe=False)
-        
-    def post(self,request):
-        try:
-            if 'UserId' in request.session:
-                vendNo = request.session['UserId']
-                Process_Type = request.POST.get('Process_Type')
-                TenderType = request.POST.get('TenderType')
-                docNo = request.POST.get('docNo')
-                securityInstitution = request.POST.get('securityInstitution')
-                securityAmount = request.POST.get('securityAmount')
-                myAction = request.POST.get('myAction')
-                
-                if Process_Type == 'Tender' and TenderType== 'Open Tender':
-                    procurementMethod = 1
-                elif Process_Type == 'Tender' and TenderType== "Restricted Tender":
-                    procurementMethod = 5
-                elif Process_Type == 'RFQ':
-                    procurementMethod = 2
-                elif Process_Type== 'EOI':
-                    procurementMethod = 4
-                elif Process_Type == 'RFP':
-                    procurementMethod = 3
-                    
-                if 'state' in request.session:
-                    if request.session['state'] == 'Vendor':
-                        userType = 'vendor'
-                    elif request.session['state'] == 'Prospect':
-                        userType = 'prospective'
-                         
-                response = self.make_soap_request('FnSupplierResponseHeader',vendNo,
-                                                        procurementMethod,docNo,userType,
-                                                            securityInstitution,float(securityAmount),myAction)
-                if response != 'None' and response !='': 
-                    return JsonResponse({'success': True, 'message': str(response)})
-                return JsonResponse({'success': False, 'error': str(response)})
-            return JsonResponse({'success': False, 'error': 'Session Expired. Please Login Again'})
-        except Exception as e:
-            logging.exception(e)
-            return JsonResponse({'success': False, 'error': str(e)})
-class Listing(UserObjectMixins,View):
-    def get(self,request,type):
-        try:
-            ctx = {}
-            state = 'Prospect'
-            if 'authenticated' in request.session:
-                authenticated = request.session['authenticated']
-            else:
-                authenticated = False
-            if 'Name' in request.session:
-                username = request.session['Name']
-            else:
-                username = request.session['Email']
-            ProcURL = config.O_DATA.format("/QyProcurementMethods?$filter=SubmittedToPortal%20eq%20true")
-            response = self.get_object(ProcURL)
-            open_tenders = [x for x in response['value'] if x['TenderType'] == type and x['Status'] == 'New']
 
-            total_open = len([x for x in response['value'] if x['Status'] == 'New'])
-
-            if 'UserId' in request.session:
-                VendorNo = request.session['UserId']
-                submitted = self.one_filter("/QyProspectiveSupplierTender","Vendor_No","eq",VendorNo)
-                submitted_open = [x for x in submitted[1] if x['Type'] == 'Tender']
-                submitted_restricted = [x for x in submitted[1] if x['Type'] == 'Restricted']
-                submitted_quotation = [x for x in submitted[1] if x['Type'] == 'RFQ']
-                submitted_interest = [x for x in submitted[1] if x['Type'] == 'EOI']
-                submitted_proposal = [x for x in submitted[1] if x['Type'] == 'RFP']
-                total_submitted = len([x for x in submitted[1]])
-            if 'state' in request.session:
-                state = request.session['state']
                 
-        except Exception as e:
-            logging.exception(e)
-            messages.error(request, f'{e}')
-            return redirect('index')
-        ctx = {
-            'authenticated':authenticated,
-            "open_tenders":open_tenders,
-            'username':username,
-            'submitted_open':submitted_open,
-            'submitted_restricted':submitted_restricted,
-            'submitted_quotation':submitted_quotation,
-            'submitted_interest':submitted_interest,
-            'submitted_proposal':submitted_proposal,
-            'total_submitted':total_submitted,
-            'total_open':total_open,
-            'state':state,'type':type
-        }
-        return render(request,'tenders/list.html',ctx)                 
 def Logout(request):
     try:
         request.session.flush()
@@ -300,35 +171,37 @@ def Logout(request):
     except Exception as e:
         print(e)
         return redirect('index')
+    
 class TechnicalRequirements(UserObjectMixins,View):
-    async def get(self,request,pk):
+    async def get(self,request,pk,no):
         try:
             required_files = []       
             async with aiohttp.ClientSession() as session:
                 task_get_docs = asyncio.ensure_future(self.simple_one_filtered_data(session,
-                                         "/QyProcurementRequiredDocuments","QuoteNo","eq",pk))
+                                         "/QyJobAttachments","Job_ID","eq",pk))
                 task_get_attached = asyncio.ensure_future(self.simple_one_filtered_data(session,
-                                                                '/QyDocumentAttachments','No_','eq',pk))
+                                                                '/QyDocumentAttachments','No_','eq',no))
                 response = await asyncio.gather(task_get_docs,task_get_attached)
     
                 attached = [x for x in response[1]]  
                 required_files = [x for x in response[0]]
                 if attached:
-                    required_files = [d for d in required_files if all(d.get('DocumentCode') != a.get('File_Name') for a in attached)]
+                    required_files = required_files = [d for d in required_files if all(
+                d.get('Attachment') != a.get('File_Name') for a in attached)]
                 else:
                     required_files = required_files
                 return JsonResponse(required_files, safe=False)
-
         except Exception as e:
             logging.exception(e)
             return JsonResponse({'error': str(e)}, safe=False)
+        
 class Attachments(UserObjectMixins,View):
-    async def get(self,request,pk):
+    async def get(self,request,no):
         try:
             Attachments = []         
             async with aiohttp.ClientSession() as session:
                 task_get_leave_attachments = asyncio.ensure_future(self.simple_one_filtered_data(session,
-                                         "/QyDocumentAttachments","No_","eq",pk))
+                                         "/QyDocumentAttachments","No_","eq",no))
 
                 response = await asyncio.gather(task_get_leave_attachments)
 
@@ -337,17 +210,19 @@ class Attachments(UserObjectMixins,View):
         except Exception as e:
             logging.exception(e)
             return JsonResponse({'error': str(e)}, safe=False)
-    async def post(self, request, pk):
+    async def post(self, request,no):
         try:
-            userID = await sync_to_async(request.session.__getitem__)('UserId')
+            applicantNo = await sync_to_async(request.session.__getitem__)('No_')
             attachments = request.FILES.getlist('attachment')
-            tableID =52177788 
+            tableID =52177523 
             fileName = request.POST.get("attachmentCode")
             response = False
+            
             for file in attachments:
                 attachment = base64.b64encode(file.read())
-                response = self.upload_attachment(pk, fileName, attachment,
-                                                tableID, userID)
+                response = self.make_soap_request('FnUploadAttachedDocument',
+                                                  no, fileName, attachment,
+                                                tableID, applicantNo)
             if response is not None:
                 if response == True:
                     message = "Uploaded {} attachments successfully".format(len(attachments))
@@ -360,13 +235,15 @@ class Attachments(UserObjectMixins,View):
             error = "Upload failed: {}".format(e)
             logging.exception(e)
             return JsonResponse({'success': False, 'error': error})
+        
 class DeleteAttachment(UserObjectMixins,View):
     def post(self,request):
         try:
             docID = int(request.POST.get('docID'))
             tableID= int(request.POST.get('tableID'))
             leaveCode = request.POST.get('leaveCode')
-            response = self.delete_attachment(leaveCode,docID,tableID)
+            response = self.make_soap_request("FnDeleteDocumentAttachment",
+                                              leaveCode,docID,tableID)
             if response == True:
                 return JsonResponse({'success': True, 'message': 'Deleted successfully'})
             return JsonResponse({'success': False, 'message': f'{response}'})
@@ -375,94 +252,37 @@ class DeleteAttachment(UserObjectMixins,View):
             logging.exception(e)
             return JsonResponse({'success': False, 'error': error})
 
-class FinancialBid(UserObjectMixins,View):
-    def get(self,request,pk):
-        try:
-            response = {}
-            if 'UserId' in request.session:
-                user_id = request.session['UserId']
-                state = request.session['state']
-                if state == 'Vendor':
-                    task_get_procurement_methods = self.double_filtered_data("/QySupplierTenderLines","Tender_No_","eq",pk, 
-                                                                'and', 'Vendor_No_', 'eq', user_id)
-                elif state == 'Prospect':
-                    task_get_procurement_methods = self.double_filtered_data("/QySupplierTenderLines","Tender_No_","eq",pk,
-                                                                'and', 'Response_No', 'eq', user_id)
-                response = [x for x in task_get_procurement_methods[1]]
-                return JsonResponse(response, safe=False)
-        except Exception as e:
-            logging.exception(e)
-            return JsonResponse({'error': str(e)}, safe=False)
-    def post(self, request,pk):
-        try:
-            vendorNo = request.POST.get('Vendor_No_')
-            prospectNo = request.POST.get('prospectNo')
-            docNo = pk
-            lineNo = request.POST.get('lineNo')
-            unitPrice = request.POST.get('unitPrice')
-            
-            response = self.make_soap_request('FnSupplierResponseLine',
-                                              prospectNo,docNo,vendorNo,lineNo,unitPrice)  
-            
-            if response == True:          
-                return JsonResponse({'success': True, 'message': 'added successfully'})
-            return JsonResponse({'success': False, 'error': f'{response}'})
-        except Exception as e:
-            logging.exception(e)
-            return JsonResponse({'error': str(e)}, safe=False)  
+
     
 class Submit(UserObjectMixins,View):
-    def post(self,request,pk):
+    def post(self,request,no):
         try:
-            prospectNo = request.session['UserId']
-            Process_Type = request.POST.get('Process_Type')
-            TenderType = request.POST.get('TenderType')
-            
-            if Process_Type == 'Tender' and TenderType== 'Open Tender':
-                procurementMethod = 1
-            elif Process_Type == 'Tender' and TenderType== "Restricted Tender":
-                procurementMethod = 5
-            elif Process_Type == 'RFQ':
-                procurementMethod = 2
-            elif Process_Type== 'EOI':
-                procurementMethod = 4
-            elif Process_Type == 'RFP':
-                procurementMethod = 3
-            
-            docID = pk
-            response = self.make_soap_request('FnSupplierSubmitResponse',prospectNo,
-                                            procurementMethod,docID)
-            print(response)
+            applicantNo = request.session['No_']
+
+            response = self.make_soap_request('FnApplicantApplyJob',applicantNo,no)
+  
             if response == True:
                 return JsonResponse({'success': True, 'message': 'Submitted successfully'})
             return JsonResponse({'success': False, 'message': f'Not sent, try again'})
         except Exception as e:
             logging.exception(e)
             return JsonResponse({'success': False, 'error': f'{e}'})
-        
-        
-        
-class viewDocs(UserObjectMixins,View):
-    def post(self,request,pk,id):
-        docNo = pk
-        attachmentID = int(request.POST.get('attachmentID'))
-        File_Name = request.POST.get('File_Name')
-        File_Extension = request.POST.get('File_Extension')
-        tableID = int(id)
-
+              
+class FnWithdrawJobApplication(UserObjectMixins,View):
+    def post(self,request):
         try:
-            response = self.download_attachment(docNo, attachmentID, tableID)
-            file_name = File_Name.split()
-            filenameFromApp = file_name[0] + "." + File_Extension
-            buffer = BytesIO.BytesIO()
-            content = base64.b64decode(response)
-            buffer.write(content)
-            responses = HttpResponse(
-                buffer.getvalue(),
-                content_type="application/ms-excel",
-            )
-            responses['Content-Disposition'] = f'inline;filename={filenameFromApp}'
-            return responses
+            applicantNo = request.session['No_']
+            needCode = request.POST.get('needCode')
+
+            response = self.make_soap_request('FnWithdrawJobApplication',
+                applicantNo, needCode)
+            
+            if response == True:
+                messages.success(request, "Application Cancelled successfully")
+                return redirect('dashboard')
+            messages.error(request, f"{response}")
+            return redirect('dashboard')
         except Exception as e:
-            messages.info(request, f'{e}')
-            return redirect('index')
+            messages.error(request, f"{e}")
+            print(e)
+            return redirect('dashboard')

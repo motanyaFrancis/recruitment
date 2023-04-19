@@ -36,7 +36,7 @@ SIGN UP
                                 <i class="las la-user-cog"></i>
                             </div>
                         </div>
-                        <h4 class="step-title">Supplier Details</h4>
+                        <h4 class="step-title">Personal Details</h4>
                     </div>
                     <div class="step">
                         <div class="step-icon-wrap">
@@ -72,74 +72,30 @@ SIGN UP
                         {% csrf_token %}
                         <input type="hidden" name="prospNo" value="">
                         <input type="hidden" name="myAction" value="insert">
-                        <div class="row">
+                        <div class="row gx-1">
                             <div class="form-group col-4">
-                                <label for="frist_name">Supplier Name <span class="text-danger">*</span></label>
-                                <input id="supplierName" type="text" class="form-control" name="supplierName" autofocus
-                                    required>
-                            </div>
-                            <div class="form-group col-4">
-                                <label for="last_name">Supplier Email <span class="text-danger">*</span></label>
-                                <input id="supplierMail" type="email" class="form-control" name="supplierMail" required>
+                                <label for="last_name">Email <span class="text-danger">*</span></label>
+                                <input id="supplierMail" type="email" class="form-control" name="email" required>
                             </div>
                             <div class="form-group col-4">
-                                <label>Country <span class="text-danger">*</span></label>
-                                <select class="form-control select2" name="countryRegionCode" required>
-                                    <option selected disabled value="0">--select--</option>
-                                    {% for country in countries %}
-                                    <option value="{{country.Code}}">{{country.Name}}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>Postal Address</label>
-                                    <input type="text" class="form-control" name="postalAddress">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>Postal Code</label>
-                                    <input type="text" class="form-control" name="postCode">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>City</label>
-                                    <input type="text" class="form-control" name="city">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-4">
-                                <label for="frist_name">Contact Person Name <span class="text-danger">*</span></label>
-                                <input id="contactPersonName" type="text" class="form-control" name="contactPersonName"
-                                    autofocus required>
-                            </div>
-                            <div class="form-group col-4">
-                                <label for="last_name">Contact Person Phone No. (07 XX XX XX XX) <span
-                                        class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="contactPhoneNo" required>
-                            </div>
-                            <div class="form-group col-4">
-                                <label for="last_name">Contact Person Email <span class="text-danger">*</span></label>
-                                <input type="email" class="form-control" name="contactMail" required>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-6">
                                 <label for="password" class="d-block">Password</label>
                                 <input id="password" type="password" class="form-control" data-indicator="pw_indicator"
                                     name="password">
                             </div>
-                            <div class="form-group col-6">
+                            <div class="form-group col-4">
                                 <label for="password2" class="d-block">Password Confirmation</label>
-                                <input id="password2" type="password" class="form-control" name="password_confirm">
+                                <input id="password2" type="password" class="form-control" name="confirm_password">
                             </div>
                         </div>
 
+                        <p>We endeavour to ensure that the data you submitted to us
+                            remains confidential and is used for the purposes of recruitment only.
+                        </p>
+                        <div class="form-check my-4">
+                            <input class="form-check-input" type="checkbox" name="agree" id="agree" required>
+                            <label class="form-check-label" for="agree"> Yes, I accept my data to be
+                                used for the purpose of recruitment.</label>
+                        </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary btn-lg btn-block">
                                 Register

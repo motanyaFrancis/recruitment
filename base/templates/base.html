@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-    <title>LBDA {% block title %}{% endblock %}</title>
+    <title>KMPDC {% block title %}{% endblock %}</title>
 
     <!-- General CSS Files -->
     <link rel="stylesheet" href="../../static/plugins/assets/modules/bootstrap/css/bootstrap.min.css">
@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="../../static/plugins/assets/modules/prism/prism.css">
     <link rel="stylesheet" href="../../static/plugins/assets/modules/izitoast/css/iziToast.min.css">
     <script src="../../static/plugins/assets/modules/izitoast/js/iziToast.min.js"></script>
-    <link rel="shortcut icon" type="image/png" href="../../static/img/logo/2.png" />
+    <link rel="shortcut icon" type="image/png" href="../../static/img/logo/fav.png" />
     <link rel="stylesheet" href="../../static/plugins/line-awesome-1.3.0/1.3.0/css/line-awesome.min.css">
     <script src="../../static/plugins/assets/modules/jquery.min.js"></script>
     {% block head %}
@@ -36,7 +36,7 @@
         <div class="main-wrapper container">
             <div class="navbar-bg"></div>
             <nav class="navbar navbar-expand-lg main-navbar">
-                <a href="/" class="navbar-brand sidebar-gone-hide">LBDA</a>
+                <a href="/" class="navbar-brand sidebar-gone-hide">KMPDC</a>
                 <a href="#" class="nav-link sidebar-gone-show" data-toggle="sidebar"><i class="fas fa-bars"></i></a>
                 <div class="nav-collapse">
                     <a class="sidebar-gone-show nav-collapse-toggle nav-link" href="#">
@@ -54,20 +54,13 @@
             <nav class="navbar navbar-secondary navbar-expand-lg">
                 <div class="container">
                     <a href="index.html" class="navbar-brand sidebar-gone-hide">
-                        <img src="../../static/img/logo/2.png" height="60" width="60" class="img-fluid img-responsive"
+                        <img src="../../static/img/logo/fav.png" height="60" width="60" class="img-fluid img-responsive"
                             alt="Logo">
                     </a>
                     <ul class="navbar-nav">
                         {% block navigation %}
-
                         {% endblock %}
-                        {% if ContactPage == False %}
-                        <li class="nav-item">
-                            <a href="/Contact/" class="nav-link" data-toggle="tooltip" title="contact us">
-                                <span><i class="fas fa-envelope-open-text"></i> Contact Us </span>
-                            </a>
-                        </li>
-                        {% endif %}
+
                         {% if authenticated == False %}
                         <li class="nav-item">
                             <a href="#" class="nav-link" data-toggle="modal" data-target="#signIn"><i
@@ -79,6 +72,25 @@
                                     Password ?</span></a>
                         </li>
                         {% else %}
+                        {% if Dashboard == False %}
+                        <li class="nav-item">
+                            <a href="/dashboard/" class="nav-link" data-toggle="tooltip" title="Sign Out"><i
+                                    class="fas fa-home"></i><span>Dashboard</span></a>
+                        </li>
+                        {% endif %}
+                        {% if Profile == False %}
+                        <li class="nav-item">
+                            <a href="/Profile" class="nav-link" data-toggle="tooltip" title="Sign Out"><i
+                                    class="fas fa-user"></i><span>Profile</span></a>
+                        </li>
+                        {% endif %}
+                        {% if ContactPage == False %}
+                        <li class="nav-item">
+                            <a href="/Contact/" class="nav-link" data-toggle="tooltip" title="contact us">
+                                <span><i class="fas fa-envelope-open-text"></i> Contact Us </span>
+                            </a>
+                        </li>
+                        {% endif %}
                         <li class="nav-item">
                             <a href="/logout/" class="nav-link" data-toggle="tooltip" title="Sign Out"><i
                                     class="fas fa-sign-out-alt"></i><span>Sign
@@ -107,7 +119,7 @@
                         <form method="POST" action="/login/" novalidate>
                             {% csrf_token %}
                             <div class="form-group">
-                                <label>Supplier Email</label>
+                                <label>Email</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">

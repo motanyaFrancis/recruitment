@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}
-OPEN TENDERS
+OPEN VACANCIES
 {% endblock %}
 {% block head %}
 <script src="../../static/plugins/assets/modules/moment.min.js"></script>
@@ -22,13 +22,25 @@ OPEN TENDERS
             <div class="col-12 mb-4">
                 <div class="hero second_color text-white">
                     <div class="hero-inner">
-                        <h2>Welcome!</h2>
-                        <p class="lead">Please take a moment to review the open tenders listed below. We
-                            encourage you to submit your bids for any tenders that match your expertise and interests.
-                            To access the tender details and submission instructions, simply sign in and click on the
-                            tender details
-                            in the table. Don't miss out on this opportunity to participate in exciting projects and
-                            partnerships. Thank you for your interest and we look forward to receiving your bids!</p>
+                        {% if open_vacancy|length > 0 %}
+                        <h2>
+                            Exciting job opportunities available!
+                        </h2>
+                        <p class="lead">
+                            Sign in to our recruitment portal to view job
+                            descriptions and apply. Don't miss out on the chance to join our team and build successful
+                            partnerships.
+                        </p>
+                        {% else %}
+                        <h2>
+                            Welcome to the KMPDC jobs portal !
+                        </h2>
+                        <p class="lead">
+                            We appreciate your interest in joining our team. Unfortunately, we do not currently have any
+                            open vacancies. However, we encourage you to sign up for our notification system to be
+                            alerted as soon as new opportunities become available.
+                        </p>
+                        {% endif %}
                         <div class="mt-4">
                             <a href="/register/" class="btn btn-outline-white btn-lg btn-icon icon-left"><i
                                     class="far fa-user"></i> Setup Account</a>
@@ -37,55 +49,42 @@ OPEN TENDERS
                 </div>
             </div>
         </div>
+        {% if open_vacancy|length > 0 %}
         <div class="row" style="padding-bottom: 5rem;">
             <div class="col-12">
                 <div class="card">
-                    <h2 class="section-title mx-3">Open Tenders ({{open_tenders|length}})
+                    <h2 class="section-title mx-3">Vacant Positions List ({{open_vacancy|length}})
                     </h2>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-striped" id="table-1">
                                 <thead>
                                     <tr>
-                                        <th class="text-center">
-                                            Tender No.
-                                        </th>
-                                        <th>Process Type</th>
-                                        <th>Tender Type</th>
-                                        <th>Status</th>
-                                        <th>Bidding Deadline</th>
+                                        <th>Job Title</th>
+                                        <th>Job Grade</th>
+                                        <th>Appointment Type</th>
+                                        <th>Closing Date</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for tender in open_tenders %}
+                                    {% for open in open_vacancy %}
                                     <tr>
-                                        <td>{{tender.No}}</td>
-                                        <td>{{tender.Process_Type}}</td>
-                                        <td>{{tender.TenderType}}</td>
+                                        <td>{{open.Description}}</td>
+                                        <td>{{open.Job_Grade}}</td>
                                         <td>
-                                            <div class="badge badge-secondary">{{tender.Status}}</div>
+                                            <div class="badge badge-secondary">{{open.Appointment_Type}}</div>
                                         </td>
-                                        <td>
-                                            <span
-                                                id="Quotation_Deadline{{tender.No}}">{{tender.Quotation_Deadline}}</span>
-                                            at <span class="text-danger"
-                                                id="Expected_Closing_Time{{tender.No}}">{{tender.Expected_Closing_Time}}</span>
-                                        </td>
-                                        <td><a href="/tdr/{{tender.No}}/" class="btn btn-primary">Detail</a></td>
+                                        <td id="open{{open.No_}}">{{open.End_Date}}</td>
+                                        <td><a href="/details/{{open.Job_ID}}/{{open.No_}}"
+                                                class="btn btn-primary">Detail</a></td>
                                         <script>
                                             $(document).ready(function () {
-                                                $("#Quotation_Deadline{{tender.No}}")
+                                                $("#open{{open.No_}}")
                                                     .empty().append(moment(
-                                                            '{{tender.Quotation_Deadline}}', "YYYY-MM-DD")
+                                                            '{{open.End_Date}}', "YYYY-MM-DD")
                                                         .format(
                                                             'Do MMM YYYY'));
-                                                $("#Expected_Closing_Time{{tender.No}}")
-                                                    .empty().append(moment(
-                                                            '{{tender.Expected_Closing_Time}}',
-                                                            "h:mm:ss a")
-                                                        .format(
-                                                            'h:mm a'));
                                             })
                                         </script>
                                     </tr>
@@ -97,6 +96,10 @@ OPEN TENDERS
                 </div>
             </div>
         </div>
+        {% else %}
+        <div class="row" style="padding-bottom: 7rem;"></div>
+        {% endif %}
+
     </div>
 </section>
 {% endblock %}

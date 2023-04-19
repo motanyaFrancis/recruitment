@@ -16,7 +16,7 @@ ALLOWED_HOSTS = ['.localhost','.127.0.0.1']
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'lbda_procurement',
+        'NAME': 'kmpdc_recruitment',
     }
 }
 
@@ -44,7 +44,7 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
-ROOT_URLCONF = 'LBDA.urls'
+ROOT_URLCONF = 'KMPDC.urls'
 
 TEMPLATES = [
     {
@@ -62,7 +62,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'LBDA.wsgi.application'
+WSGI_APPLICATION = 'KMPDC.wsgi.application'
 
 
 # Password validation
