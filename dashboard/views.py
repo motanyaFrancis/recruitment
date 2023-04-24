@@ -242,6 +242,7 @@ class DeleteAttachment(UserObjectMixins,View):
             docID = int(request.POST.get('docID'))
             tableID= int(request.POST.get('tableID'))
             leaveCode = request.POST.get('leaveCode')
+            print(docID,tableID,leaveCode)
             response = self.make_soap_request("FnDeleteDocumentAttachment",
                                               leaveCode,docID,tableID)
             if response == True:

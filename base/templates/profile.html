@@ -163,9 +163,9 @@ My Profile
                                     </div>
                                 </div>
                                 <div class="row" id="countyRow" style="display:none">
-                                    <div class="col-md-6">
-                                        <label class="form-label">County</label>
-                                        <select class="form-select" id="county" name="countyCode" disabled>
+                                    <div class="form-group col-6">
+                                        <label>County</label>
+                                        <select class="form-control select2" id="county" name="countyCode" disabled>
                                             <option selected disabled value="0">
                                                 --select--</option>
                                             {% for county in county %}
@@ -173,9 +173,10 @@ My Profile
                                             {% endfor %}
                                         </select>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Ethnic Origin</label>
-                                        <select class="form-select" name="ethnicOrigin" id="ethnicOrigin" disabled>
+                                    <div class="form-group col-6">
+                                        <label>Ethnic Origin</label>
+                                        <select class="form-control select2" name="ethnicOrigin" id="ethnicOrigin"
+                                            disabled>
                                             <option selected disabled value="0">
                                                 --select--</option>
                                             {% for tribe in tribes %}
@@ -442,7 +443,7 @@ My Profile
                                         alt="Loading Gif" style="height: 100px;" class="img-fluid">
                                 </div>
                                 <p id="output" class="my-3" style="color:#e51e25;font-weight: bolder;"></p>
-                                <button type="submit" class="btn button-88 w-100 my-3">Save</button>
+                                <button type="submit" class="btn button-88 w-100 my-3">Submit</button>
                             </form>
                             <table id="AcademicQualificationsTable" class="table table-striped">
                                 <thead>
@@ -582,7 +583,7 @@ My Profile
                                         alt="Loading Gif" style="height: 100px;" class="img-fluid">
                                 </div>
                                 <p id="jobOutput" class="my-3" style="color:#e51e25;font-weight: bolder;"></p>
-                                <button type="submit" class="btn button-88 my-3 w-100">Add</button>
+                                <button type="submit" class="btn button-88 my-3 w-100">Submit</button>
                             </form>
                             <table id="ExperienceTable" class="table table-striped ">
                                 <thead>
@@ -655,7 +656,7 @@ My Profile
                                 </div>
                                 <p id="proOutput" class="my-3" style="color:#e51e25;font-weight: bolder;"></p>
 
-                                <button type="submit" class="btn button-88 my-3 w-100">Add</button>
+                                <button type="submit" class="btn button-88 my-3 w-100">Submit</button>
                             </form>
                             <table id="proCoursesTable" class="table table-striped">
                                 <thead>
@@ -710,7 +711,7 @@ My Profile
                                 </div>
                                 <p id="msOutput" class="my-3" style="color:#e51e25;font-weight: bolder;"></p>
 
-                                <button type="submit" class="btn button-88 my-3 w-100">Add</button>
+                                <button type="submit" class="btn button-88 my-3 w-100">Submit</button>
 
                             </form>
                             <table id="proMembersTable" class="table table-striped">
@@ -738,19 +739,17 @@ My Profile
                                 {% csrf_token %}
                                 <div class="row">
                                     <div class="form-group col-12">
-                                        <label>Hobby</label>
-                                        <textarea class="form-control summernote-simple" name="hobby" id="j_hobby">
-
-                                      </textarea>
+                                        <label for="">Hobby</label>
+                                        <input type="text" class="form-control" name="hobby" id="j_hobby" required
+                                            autofocus>
                                     </div>
-
                                 </div>
                                 <div class="money-spinner mx-auto text-center" id="hobby-spinner" style="display: none">
                                     <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif"
                                         alt="Loading Gif" style="height: 100px;" class="img-fluid">
                                 </div>
                                 <p id="hobbyOutput" class="my-3" style="color:#e51e25;font-weight: bolder;"></p>
-                                <button type="submit" class="btn button-88 my-3 w-100">Add</button>
+                                <button type="submit" class="btn button-88 my-3 w-100">Submit</button>
                             </form>
                             <table id="hobbyTable" class="table table-striped">
                                 <thead>
@@ -806,7 +805,7 @@ My Profile
                                         alt="Loading Gif" style="height: 100px;" class="img-fluid">
                                 </div>
                                 <p id="innerefree" class="my-3" style="color:#e51e25;font-weight: bolder;"></p>
-                                <button type="submit" class="btn button-88 my-3 w-100">Add</button>
+                                <button type="submit" class="btn button-88 my-3 w-100">Submit</button>
                             </form>
                             <table id="refereeTable" class="table table-striped">
                                 <thead>
