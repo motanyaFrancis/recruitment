@@ -80,7 +80,7 @@ class Detail(UserObjectMixins,View):
             RESPOs = [x for x in JobResponsibilities[1]]
             JobKnowledgeSkills = self.one_filter('/QyJobKnowledgeSkills','Code','eq',pk)
             Skill = [x for x in JobKnowledgeSkills[1]]
-            ProfessionalCourses = self.one_filter('/QyProfessionalCourses','Job_ID','eq',pk)
+            ProfessionalCourses = self.one_filter('/QyJobProfessionalCourses','Job_ID','eq',pk)
             Course = [x for x in ProfessionalCourses[1]]
             ProfessionalMemberships = self.one_filter('/QyJobProfessionalMembeships','Job_ID','eq',pk)
             Member = [x for x in ProfessionalMemberships[1]]

@@ -618,8 +618,8 @@ My Profile
                                         <select class="form-control select2" id="proQualificationCode"
                                             name="qualificationCode" required>
                                             <option selected disabled value="">Choose...</option>
-                                            {% for qualifications in qualifications %}
-                                            <option value="{{qualifications.Code}}">{{qualifications.Description}}
+                                            {% for qualifications in pro_course %}
+                                            <option value="{{qualifications.No_}}">{{qualifications.Description}}
                                             </option>
                                             {% endfor %}
                                             <option value="Other">OTHER QUALIFICATION</option>
