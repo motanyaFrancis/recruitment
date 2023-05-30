@@ -128,13 +128,13 @@ My Profile
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="form-group col-4">
+                                    <div class="form-group col-3">
                                         <label for="frist_name">ID No/Passport No. <span
                                                 class="text-danger">*</span></label>
                                         <input type="text" class="form-control" placeholder="{{applicant.ID_Number}}"
                                             value="{{applicant.ID_Number}}" name="idNumber" autofocus required>
                                     </div>
-                                    <div class="form-group col-4">
+                                    <div class="form-group col-3">
                                         <label>Gender <span class="text-danger">*</span></label>
                                         <select class="form-control select2" name="gender" required>
                                             {% if applicant.Gender == 'Male' %}
@@ -151,7 +151,23 @@ My Profile
                                             {% endif %}
                                         </select>
                                     </div>
-                                    <div class="form-group col-4">
+                                    <div class="form-group col-3">
+                                        <label>Are You Kenyan <span class="text-danger">*</span></label>
+                                        <select class="form-control select2" name="areYouKenyan" id="areYouKenyan" required>
+                                            {% if applicant.Are_You_Kenyan == 'Yes' %}
+                                            <option selected value="1">Yes</option>
+                                            <option value="2">No</option>
+                                            {% elif applicant.Are_You_Kenyan == 'No' %}
+                                            <option selected value="2">No</option>
+                                            <option value="1">Yes</option>
+                                            {% else %}
+                                            <option selected value="0">--select--</option>
+                                            <option value="2">No</option>
+                                            <option value="1">Yes</option>
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-3">
                                         <label>Citizenship <span class="text-danger">*</span></label>
                                         <select class="form-control select2" id="country" name="citizenship" required>
                                             <option selected value="{{applicant.Citizenship}}">{{applicant.Citizenship}}
@@ -163,11 +179,40 @@ My Profile
                                             {% endfor %}
                                         </select>
                                     </div>
+                                    
                                 </div>
                                 <div class="row" id="countyRow" style="display:none">
-                                    <div class="form-group col-6">
+                                    <div class="form-group col-3">
+                                        <label>Citizenship By <span class="text-danger">*</span></label>
+                                        <select class="form-control select2" name="citizenshipBy" id="citizenshipBy" required>
+                                            {% if applicant.Citizenship_By == 'By Birth' %}
+                                            <option selected value="1">By Birth</option>
+                                            <option value="2">By Naturalization</option>
+                                            <option value="3">By Registration</option>
+                                            {% elif applicant.Citizenship_By == 'By Naturalization' %}
+                                            <option selected value="2">By Naturalization</option>
+                                            <option value="1">By Birth</option>
+                                            <option value="3">By Registration</option>
+                                            {% elif applicant.Citizenship_By == 'By registration' %}
+                                            <option selected value="3">By registration</option>
+                                            <option value="1">By Birth</option>
+                                            <option value="2">By Naturalization</option>
+                                            {% else %}
+                                            <option selected value="0">--select--</option>
+                                            <option value="1">By Birth</option>
+                                            <option value="2">By Naturalization</option>
+                                            <option value="3">By Registration</option>
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-3">
+                                        <label for="frist_name">Certificate No. <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" placeholder="{{applicant.Certificate_No_}}"
+                                            value="{{applicant.Certificate_No_}}" name="certificateNo" autofocus required>
+                                    </div>
+                                    <div class="form-group col-3">
                                         <label>County</label>
-                                        <select class="form-control select2" id="county" name="countyCode" disabled>
+                                        <select class="form-control select2" id="county" name="county" disabled>
                                             <option selected disabled value="0">
                                                 --select--</option>
                                             {% for county in county %}
@@ -175,20 +220,58 @@ My Profile
                                             {% endfor %}
                                         </select>
                                     </div>
-                                    <div class="form-group col-6">
+                                    <div class="form-group col-3">
+                                        <label for="frist_name">Sub-county <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" 
+                                            value="{{applicant.Sub_county}}" name="subCounty" autofocus required>
+                                    </div>
+                                    <div class="form-group col-3">
+                                        <label for="frist_name">Constituency <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" 
+                                            value="{{applicant.Constituency}}" name="constituency" autofocus required>
+                                    </div>
+                                    <div class="form-group col-3">
                                         <label>Ethnic Origin</label>
                                         <select class="form-control select2" name="ethnicOrigin" id="ethnicOrigin"
                                             disabled>
-                                            <option selected disabled value="0">
-                                                --select--</option>
-                                            {% for tribe in tribes %}
-                                            <option value="{{tribe.No}}">
-                                                {{tribe.Name}}</option>
-                                            {% endfor %}
+                                            {% if applicant.Ethnic_Origin == 'African' %}
+                                            <option selected value="0">{{applicant.Ethnic_Origin}}</option>
+                                            <option value="1">Indian</option>
+                                            <option value="2">White</option>
+                                            <option value="3">Colored</option>
+                                            {% elif applicant.Ethnic_Origin == 'Indian' %}
+                                            <option selected value="1">Indian</option>
+                                            <option value="0">African</option>
+                                            <option value="2">White</option>
+                                            <option value="3">Colored</option>
+                                            {% elif applicant.Ethnic_Origin == 'White' %}
+                                            <option selected  value="2">White</option>
+                                            <option value="0">African</option>
+                                            <option value="1">Indian</option>
+                                            <option value="3">Colored</option>
+                                            {% elif applicant.Ethnic_Origin == 'Colored' %}
+                                            <option selected value="3">Colored</option>
+                                            <option value="0">African</option>
+                                            <option value="1">Indian</option>
+                                            <option value="2">White</option>
+                                            {% else %}
+                                            <option selected value="0">--select--</option>
+                                            <option value="0">African</option>
+                                            <option value="1">Indian</option>
+                                            <option value="2">White</option>
+                                            <option value="3">Colored</option>
+                                            {% endif %}
+                                            
                                         </select>
                                     </div>
                                 </div>
                                 <div class="row">
+                                    <div class="form-group col-12">
+                                        <input type="text" class="form-control"
+                                            value="KE" name="stateNationality" autofocus hidden>
+                                        <input type="text" class="form-control"
+                                            value="" name="country" autofocus hidden>
+                                    </div>
                                     <div class="form-group col-4">
                                         <label>Marital Status <span class="text-danger">*</span></label>
                                         <select class="form-control select2" name="maritalStatus" required required>
@@ -310,7 +393,7 @@ My Profile
                                 <div class="row">
                                     <div class="form-group col-3">
                                         <label for="frist_name">Terms of Service</label>
-                                        <select class="form-control select2" name="disabled" id="disabled" required>
+                                        <select class="form-control select2" name="termsOfService" id="termsOfService" required>
                                             <option selected value="{{applicant.Terms_Of_Service}}">{{applicant.Terms_Of_Service}}
                                             </option>
                                             {% if applicant.Terms_Of_Service == 'Contract' %}
@@ -321,8 +404,8 @@ My Profile
                                             <option selected value="2">Temporary</option>
                                             <option value="1">Contract</option>
                                             <option value="3">Permanent & Pensionable</option>
-                                            {% elif applicant.Terms_Of_Service == 'Permanent & Pensionable' %}
-                                            <option selected value="3">Permanent & Pensionable</option>
+                                            {% elif applicant.Terms_Of_Service == 'Permanent and Pensionable' %}
+                                            <option selected value="3">Permanent and Pensionable</option>
                                             <option value="1">Contract</option>
                                             <option value="2">Temporary</option>
                                             {% else %}
@@ -335,17 +418,17 @@ My Profile
                                     <div class="form-group col-3">
                                         <label for="frist_name">Current Monthly Salary</label>
                                         <input type="text" class="form-control" value="{{applicant.Current_Monthly_Salary}}"
-                                            name="postalAddress" autofocus>
+                                            name="currentMonthlySalary" autofocus>
                                     </div>
                                     <div class="form-group col-3">
                                         <label for="frist_name">Expected Salary</label>
                                         <input type="text" class="form-control" value="{{applicant.Expected_Salary}}"
-                                            name="postalCode" autofocus>
+                                            name="expectedSalary" autofocus>
                                     </div>
                                     <div class="form-group col-3">
                                         <label for="frist_name">When can You start</label>
                                         <input type="text" class="form-control" value="{{applicant.How_Soon_Can_You_Take_This_Appointment}}"
-                                            name="postalCode" autofocus>
+                                            name="howSoonCanYouTakeThisAppointment" autofocus>
                                     </div>
                                 </div>
                                 <div class="my-2">
@@ -354,11 +437,12 @@ My Profile
                                 <div class="row">
                                     <div class="form-group col-12">
                                         <label for="frist_name">Have you ever been Removed Or Dismissed from Employment?</label>
-                                        <select class="form-control select2" name="disabled" id="disabled" required>
-                                            {% if applicant.Have_you_ever_been_removed_dismissed_from_employment == 0 %}
-                                            <option selected value="0">No</option>
+                                        <select class="form-control select2" name="haveYouEverBeenRemovedOrDismissedFromEmployment"
+                                            id="employDismisal" required>
+                                            {% if applicant.Have_you_ever_been_removed_dismissed_from_employment == 'No' %}
+                                            <option selected value="2">No</option>
                                             <option value="1">Yes</option>
-                                            {% elif applicant.Have_you_ever_been_removed_dismissed_from_employment == 1 %}
+                                            {% elif applicant.Have_you_ever_been_removed_dismissed_from_employment == 'Yes' %}
                                             <option selected value="1">Yes</option>
                                             <option value="2">No</option>
                                             {% else %}
@@ -368,11 +452,11 @@ My Profile
                                             {% endif %}
                                         </select>
                                     </div>
-                                    <div class="form-group col-12">
+                                    <div class="form-group col-12 hidegiveDetails">
                                         <label for="frist_name">Explain</label>
-                                        <textarea class="form-control summernote-simple" name="description"
-                                            id="">
-
+                                        <textarea class="form-control summernote-simple " name="giveDetails"
+                                            id="giveDetails" disabled>
+                                            {{applicant.Give_Details}}
                                       </textarea>
                                     </div>
                                     
@@ -382,13 +466,14 @@ My Profile
                                     <h5>Legal Information</h5>
                                 </div>
                                 <div class="row">
-                                    <div class="form-group col-6">
+                                    <div class="form-group col-12">
                                         <label for="frist_name">Have you been Charged in a Court of Law?</label>
-                                        <select class="form-control select2" name="disabled" id="disabled" required>
-                                            {% if applicant.Have_you_ever_been_removed_dismissed_from_employment == 0 %}
+                                        <select class="form-control select2" name="haveYouBeenChargedInACourtOfLaw" id="haveYouBeenChargedInACourtOfLaw"
+                                            required>
+                                            {% if applicant.Have_you_ever_been_removed_dismissed_from_employment == 'No' %}
                                             <option selected value="0">No</option>
                                             <option value="1">Yes</option>
-                                            {% elif applicant.Have_you_ever_been_removed_dismissed_from_employment == 1 %}
+                                            {% elif applicant.Have_you_ever_been_removed_dismissed_from_employment == 'Yes' %}
                                             <option selected value="1">Yes</option>
                                             <option value="2">No</option>
                                             {% else %}
@@ -398,25 +483,29 @@ My Profile
                                             {% endif %}
                                         </select>
                                     </div>
-                                    <div class="form-group col-6">
-                                        <label for="frist_name">Offence</label>
-                                        <input type="text" class="form-control" value="{{applicant.Offence}}"
-                                            name="postalCode" autofocus>
-                                    </div>
-                                    <div class="form-group col-4">
-                                        <label for="frist_name">Date of Offence</label>
-                                        <input type="date" class="form-control" value="{{applicant.Date_Of_Offence}}"
-                                            name="postalCode" autofocus>
-                                    </div>
-                                    <div class="form-group col-4">
-                                        <label for="frist_name">Place of Offence</label>
-                                        <input type="text" class="form-control" value="{{applicant.Place_Of_Offence}}"
-                                            name="postalCode" autofocus>
-                                    </div>
-                                    <div class="form-group col-4">
-                                        <label for="frist_name">Sentense Imposed</label>
-                                        <input type="text" class="form-control" value="{{applicant.Sentence_Imposed}}"
-                                            name="postalCode" autofocus>
+                                    <div class="container" id="offenceDetail">
+                                        <div class="row">
+                                            <div class="form-group col-6">
+                                                <label for="frist_name">Offence</label>
+                                                <input type="text" class="form-control" value="{{applicant.Offence}}"
+                                                    name="offence" id="offence" autofocus>
+                                            </div>
+                                            <div class="form-group col-6">
+                                                <label for="frist_name">Date of Offence</label>
+                                                <input type="date" class="form-control" value="{{applicant.Date_Of_Offence}}"
+                                                    name="dateOfOffence" id="dateOfOffence" autofocus>
+                                            </div>
+                                            <div class="form-group col-6">
+                                                <label for="frist_name">Place of Offence</label>
+                                                <input type="text" class="form-control" value="{{applicant.Place_Of_Offence}}"
+                                                    name="placeOfOffence" id="placeOfOffence" autofocus>
+                                            </div>
+                                            <div class="form-group col-6">
+                                                <label for="frist_name">Sentense Imposed</label>
+                                                <input type="text" class="form-control" value="{{applicant.Sentence_Imposed}}"
+                                                    name="sentenceImposed" id="sentenceImposed" autofocus>
+                                            </div>
+                                        </div>
                                     </div>
                                     
                                 </div>
@@ -1862,9 +1951,11 @@ My Profile
             },
         });
     }
+    
     //Disability Jquery
     $(document).ready(function () {
         $('#countyRow').hide();
+        
 
         // Attach a change event listener to the country select
         $('#country').on('change', function () {
@@ -1883,6 +1974,30 @@ My Profile
                 $('#ethnicOrigin').prop('disabled', true);
             }
         });
+
+        $('#offenceDetail').hide();
+
+        $('#haveYouBeenChargedInACourtOfLaw').on('change', function(){
+            var selectedValue = $(this).val();
+
+            if( selectedValue === '1'){ 
+                $('#offenceDetail').show(1000);
+                // $('#offence').prop('disabled', false);
+                // $('#dateOfOffence').prop('disabled', false);
+                // $('#placeOfOffence').prop('disabled', false);
+                // $('#sentenceImposed').prop('disabled', false);
+            } else {
+                $('#offenceDetail').hide(500);
+                // $('#offence').prop('disabled', true);
+                // $('#dateOfOffence').prop('disabled', true);
+                // $('#placeOfOffence').prop('disabled', true);
+                // $('#sentenceImposed').prop('disabled', true);
+            }
+        });
+
+
+
+        
 
         loadAcademicData();
         loadExperienceData();
@@ -1912,6 +2027,27 @@ My Profile
         dobInput.attr('max', formattedMinDate);
 
         // DOB End
+
+        var employeeDismiss = $('#employDismisal');
+        var DismisalDetail = $('#giveDetails');
+        $('.hidegiveDetails').hide();
+        
+
+        if(employeeDismiss.val() == '1'){
+            DismisalDetail.prop('disabled', false);
+            $('.hidegiveDetails').show(1000);
+        }
+
+        employeeDismiss.on('change', function(){
+            if (this.value === '1'){
+                DismisalDetail.prop('disabled', false);
+                $('.hidegiveDetails').show(1000);
+            } else {
+                DismisalDetail.prop('disabled', true);
+                $('.hidegiveDetails').hide(500);
+            }
+        })
+
         var disabledSelect = $('#disabled');
         var disabilityInput = $('#disability');
         $('.hiddenRow').hide();
