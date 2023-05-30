@@ -30,8 +30,9 @@ class Index(UserObjectMixins, View):
             open_vacancies = config.O_DATA.format("/QyRecruitmentRequests")
             response = self.get_object(open_vacancies)
             open_vacancy = [job for job in response['value'] 
-                if job['Submitted_To_Portal'] == True and
-                    datetime.strptime(job['End_Date'], '%Y-%m-%d') >= current_datetime]
+                if job['Status'] == 'Released' and job['Submitted_To_Portal'] == True
+                and datetime.strptime(job['End_Date'], '%Y-%m-%d') >= current_datetime
+                    ]
 
         except Exception as e:
             logging.exception(e)
@@ -80,7 +81,7 @@ class Detail(UserObjectMixins,View):
             RESPOs = [x for x in JobResponsibilities[1]]
             JobKnowledgeSkills = self.one_filter('/QyJobKnowledgeSkills','Code','eq',pk)
             Skill = [x for x in JobKnowledgeSkills[1]]
-            ProfessionalCourses = self.one_filter('/QyJobProfessionalCourses','Job_ID','eq',pk)
+            ProfessionalCourses = self.one_filter('/QyProfessionalCourses','Job_ID','eq', pk)
             Course = [x for x in ProfessionalCourses[1]]
             ProfessionalMemberships = self.one_filter('/QyJobProfessionalMembeships','Job_ID','eq',pk)
             Member = [x for x in ProfessionalMemberships[1]]
@@ -120,7 +121,9 @@ class Dashboard(UserObjectMixins,View):
             ContactPage = False
             current_datetime = datetime.now()  
             username = request.session['full_name']
+            print(username)
             email = request.session['E_Mail']
+            print(email)
             Dashboard = True
             Profile = False
             submitted_list = []

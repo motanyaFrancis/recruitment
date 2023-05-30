@@ -6,6 +6,7 @@ My Profile
 <link rel="stylesheet" href="../../static/plugins/assets/modules/summernote/summernote-bs4.css">
 <script src="../../static/plugins/assets/modules/summernote/summernote-bs4.js"></script>
 {% endblock %}
+
 {% block user %}
 {% if authenticated == True %}
 {% include 'topbar.html' %}
@@ -20,6 +21,7 @@ My Profile
     </a>
 </li>
 {% endblock %}
+
 {% block main %}
 <section class="section contact">
     {% include 'alerts.html' %}
@@ -275,6 +277,9 @@ My Profile
                                             value="{{applicant.Disability_Grade}}" id="disability" disabled autofocus>
                                     </div>
                                 </div>
+                                <div class="my-2">
+                                    <h5> Contact Information</h5>
+                                </div>
                                 <div class="row">
                                     <div class="form-group col-4">
                                         <label for="frist_name">Phone Number</label>
@@ -299,6 +304,123 @@ My Profile
                                             value="{{applicant.Residential_Address}}" autofocus>
                                     </div>
                                 </div>
+                                <div class="my-2">
+                                    <h5>Present Employment</h5>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-3">
+                                        <label for="frist_name">Terms of Service</label>
+                                        <select class="form-control select2" name="disabled" id="disabled" required>
+                                            <option selected value="{{applicant.Terms_Of_Service}}">{{applicant.Terms_Of_Service}}
+                                            </option>
+                                            {% if applicant.Terms_Of_Service == 'Contract' %}
+                                            <option selected value="1">Contract</option>
+                                            <option value="2">Temporary</option>
+                                            <option value="3">Permanent & Pensionable</option>
+                                            {% elif applicant.Terms_Of_Service == 'Temporary' %}
+                                            <option selected value="2">Temporary</option>
+                                            <option value="1">Contract</option>
+                                            <option value="3">Permanent & Pensionable</option>
+                                            {% elif applicant.Terms_Of_Service == 'Permanent & Pensionable' %}
+                                            <option selected value="3">Permanent & Pensionable</option>
+                                            <option value="1">Contract</option>
+                                            <option value="2">Temporary</option>
+                                            {% else %}
+                                            <option selected value="0">--select--</option>
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-3">
+                                        <label for="frist_name">Current Monthly Salary</label>
+                                        <input type="text" class="form-control" value="{{applicant.Current_Monthly_Salary}}"
+                                            name="postalAddress" autofocus>
+                                    </div>
+                                    <div class="form-group col-3">
+                                        <label for="frist_name">Expected Salary</label>
+                                        <input type="text" class="form-control" value="{{applicant.Expected_Salary}}"
+                                            name="postalCode" autofocus>
+                                    </div>
+                                    <div class="form-group col-3">
+                                        <label for="frist_name">When can You start</label>
+                                        <input type="text" class="form-control" value="{{applicant.How_Soon_Can_You_Take_This_Appointment}}"
+                                            name="postalCode" autofocus>
+                                    </div>
+                                </div>
+                                <div class="my-2">
+                                    <h5>Employment History</h5>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-12">
+                                        <label for="frist_name">Have you ever been Removed Or Dismissed from Employment?</label>
+                                        <select class="form-control select2" name="disabled" id="disabled" required>
+                                            {% if applicant.Have_you_ever_been_removed_dismissed_from_employment == 0 %}
+                                            <option selected value="0">No</option>
+                                            <option value="1">Yes</option>
+                                            {% elif applicant.Have_you_ever_been_removed_dismissed_from_employment == 1 %}
+                                            <option selected value="1">Yes</option>
+                                            <option value="2">No</option>
+                                            {% else %}
+                                            <option selected value="0">--select--</option>
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-12">
+                                        <label for="frist_name">Explain</label>
+                                        <textarea class="form-control summernote-simple" name="description"
+                                            id="">
+
+                                      </textarea>
+                                    </div>
+                                    
+                                </div>
+
+                                <div class="my-2">
+                                    <h5>Legal Information</h5>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-6">
+                                        <label for="frist_name">Have you been Charged in a Court of Law?</label>
+                                        <select class="form-control select2" name="disabled" id="disabled" required>
+                                            {% if applicant.Have_you_ever_been_removed_dismissed_from_employment == 0 %}
+                                            <option selected value="0">No</option>
+                                            <option value="1">Yes</option>
+                                            {% elif applicant.Have_you_ever_been_removed_dismissed_from_employment == 1 %}
+                                            <option selected value="1">Yes</option>
+                                            <option value="2">No</option>
+                                            {% else %}
+                                            <option selected value="0">--select--</option>
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-6">
+                                        <label for="frist_name">Offence</label>
+                                        <input type="text" class="form-control" value="{{applicant.Offence}}"
+                                            name="postalCode" autofocus>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label for="frist_name">Date of Offence</label>
+                                        <input type="date" class="form-control" value="{{applicant.Date_Of_Offence}}"
+                                            name="postalCode" autofocus>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label for="frist_name">Place of Offence</label>
+                                        <input type="text" class="form-control" value="{{applicant.Place_Of_Offence}}"
+                                            name="postalCode" autofocus>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label for="frist_name">Sentense Imposed</label>
+                                        <input type="text" class="form-control" value="{{applicant.Sentence_Imposed}}"
+                                            name="postalCode" autofocus>
+                                    </div>
+                                    
+                                </div>
+
                                 <button type="submit" class="btn button-88 my-3 w-100">Submit <i
                                         class="las la-arrow-right"></i></button>
                             </form>
@@ -414,7 +536,12 @@ My Profile
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="form-group col-6">
+                                    <div class="form-group col-4">
+                                        <label for="frist_name">Location</label>
+                                        <input type="text" class="form-control" name="region" id="Aca_region" autofocus
+                                            required>
+                                    </div>
+                                    <div class="form-group col-4">
                                         <label>Highest Level<span class="text-danger">*</span></label>
                                         <select class="form-control select2" name="isHighestLevel" id="isHighestLevel"
                                             required>
@@ -423,7 +550,7 @@ My Profile
                                             <option value="True">Yes</option>
                                         </select>
                                     </div>
-                                    <div class="form-group col-6">
+                                    <div class="form-group col-4">
                                         <label for="frist_name">Grade</label>
                                         <input type="text" class="form-control" name="grade" id="Aca_grade" autofocus
                                             required>
@@ -534,13 +661,15 @@ My Profile
                                     </div>
                                     <div class="form-group col-4">
                                         <label>Functional Area<span class="text-danger">*</span></label>
-                                        <select class="form-control select2" id="job_functionalArea"
+                                        <!-- <select class="form-control select2" id="job_functionalArea"
                                             name="functionalArea" required>
                                             <option selected disabled value="">Choose...</option>
                                             {% for area in functional_areas %}
                                             <option value="{{area.Code}}">{{area.Description}}</option>
                                             {% endfor %}
-                                        </select>
+                                        </select> -->
+                                        <input type="text" class="form-control" name="functionalArea" id="job_functionalArea"
+                                            autofocus>
                                     </div>
                                     <div class="form-group col-4">
                                         <label>Country<span class="text-danger">*</span></label>
@@ -619,7 +748,7 @@ My Profile
                                             name="qualificationCode" required>
                                             <option selected disabled value="">Choose...</option>
                                             {% for qualifications in pro_course %}
-                                            <option value="{{qualifications.No_}}">{{qualifications.Description}}
+                                            <option value="{{qualifications.No_}}">{{qualifications.Qualification_Name}}
                                             </option>
                                             {% endfor %}
                                             <option value="Other">OTHER QUALIFICATION</option>
@@ -789,12 +918,17 @@ My Profile
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="form-group col-6">
+                                    <div class="form-group col-4">
                                         <label for="">Mobile No.</label>
                                         <input type="text" class="form-control" name="telephoneNo" id="j_telephoneNo"
                                             autofocus required>
                                     </div>
-                                    <div class="form-group col-6">
+                                    <div class="form-group col-4">
+                                        <label for="">Address</label>
+                                        <input type="text" class="form-control" name="address" id="j_address"
+                                            autofocus required>
+                                    </div>
+                                    <div class="form-group col-4">
                                         <label for="">Email</label>
                                         <input type="text" class="form-control" name="email" id="j_email" autofocus
                                             required>
@@ -1644,6 +1778,7 @@ My Profile
                         name: 'telephoneNo',
                         value: Telephone_No
                     });
+                    
                     var emailInput = $('<input>').attr({
                         type: 'hidden',
                         name: 'email',
@@ -1846,7 +1981,7 @@ My Profile
                     $("#Aca_country").val("")
                     $("#Aca_region").val("")
                     $("#isHighestLevel").val("")
-                    $("#Aca_grade").val("")
+                    $("#Aca_region").val("")
                     $("#otherAcademic").val("")
                     $("#Aca_description").val("");
                     $('#money-spinner').hide(500);
@@ -2118,6 +2253,7 @@ My Profile
                     designation: $("#j_designation").val(),
                     company: $("#j_company").val(),
                     telephoneNo: $("#j_telephoneNo").val(),
+                    address: $("#j_taddress").val(),
                     email: $("#j_email").val(),
                     lineNo: 0,
                     myAction: 'insert',
@@ -2127,6 +2263,7 @@ My Profile
                     $("#j_designation").val("");
                     $("#j_company").val("");
                     $("#j_telephoneNo").val("");
+                    $("#j_address").val("");
                     $("#j_email").val("");
                     if (data['success'] == true) {
                         iziToast.show({

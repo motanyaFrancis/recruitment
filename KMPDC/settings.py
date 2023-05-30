@@ -11,12 +11,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = ['.localhost','.127.0.0.1']
+ALLOWED_HOSTS = ['.localhost', '.127.0.0.1']
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'kmpdc_recruitment',
+        'NAME': 'kephis',
     }
 }
 
@@ -117,8 +117,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-ENCRYPT_KEY = b'8zUwJvYZKzgecbudNa7zjhsjTDW-79fwwtUHQn8YCos='
-
+ENCRYPT_KEY = b'bzKNyzSwwsN0pwQKglGqPnMKPS6WTPElkRPoCOTYN0I='
 
 AUTHS = Session()
 

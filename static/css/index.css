@@ -3,8 +3,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Gelasio&family=Hind:wght@300&family=Titillium+Web:wght@200&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
 :root {
-  --first-color: #144a85;
-  --first-color-light: #6c8aaf;
+  --first-color: #02a552;
+  --first-color-light: #47e995;
+  --second-color: #f2a654;
   --green-color: #134326;
   --red-color: #000;
   --sand-tan: #e1b382;
@@ -36,6 +37,10 @@
 
 .second_color {
   background-color: var(--first-color-light);
+}
+
+.third_color {
+  background-color: var(--second-color);
 }
 .main-footer {
   background-color: #000;
@@ -1094,4 +1099,27 @@ button:hover .submit-icon {
   background-color: var(--first-color);
   font-family: var(--normal-font);
   color: white;
+}
+
+
+.btn-primary,
+.btn-primary.disabled {
+  box-shadow: 0 2px 6px #5c5c5c;
+  background-color: var(--first-color);
+  border-color: var(--first-color);
+}
+
+.btn-primary:focus,
+.btn-primary.disabled:focus {
+  background-color: var(--second-color) !important;
+}
+.btn-primary:focus:active,
+.btn-primary.disabled:focus:active {
+  background-color: var(--second-color) !important;
+}
+.btn-primary:active,
+.btn-primary:hover,
+.btn-primary.disabled:active,
+.btn-primary.disabled:hover {
+  background-color: var(--second-color) !important;
 }
