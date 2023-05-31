@@ -1843,6 +1843,7 @@ My Profile
                     var Names = data[1][i].Names;
                     var Designation = data[1][i].Designation;
                     var Company = data[1][i].Company;
+                    var Address = data[1][i].Address;
                     var Telephone_No = data[1][i].Telephone_No;
                     var E_Mail = data[1][i].E_Mail
                     var Line_No = data[1][i].Line_No_;
@@ -2416,7 +2417,7 @@ My Profile
                     telephoneNo: $("#j_telephoneNo").val(),
                     address: $("#j_address").val(),
                     email: $("#j_email").val(),
-                    lineNo: 0,
+                    lineNo: 1000,
                     myAction: 'insert',
                     csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
                 },
