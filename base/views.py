@@ -214,6 +214,9 @@ class FnApplicantDetails(UserObjectMixins, View):
 
             if not ethnicOrigin:
                 ethnicOrigin = ''
+            
+            if not giveDetails:
+                giveDetails = 'none'
 
             class Data(enum.Enum):
                 values = genders
