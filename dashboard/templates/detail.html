@@ -101,10 +101,10 @@
                     <div class="card-body">
                         <div class="row" id="itemsTable">
                             <div class="col-md-12">
-                                {% if res.Job_Description  %}
+                                {% if res.Description  %}
                                 <h4 class="section-title">Job description</h4>
                                 <p>
-                                    {{res.Job_Description}}
+                                    {{res.Description}}
                                 </p>
                                 {% endif %}
                                 {% if RESPOs|length > 0 %}
@@ -152,7 +152,7 @@
                                 {% endif %}
 
                                 {% if Position|length > 0 %}
-                                <h4 class="section-title mt-3">Reporting To</h4>
+                                <h4 class="section-title mt-3"> Position Supervising</h4>
                                 <ol>
                                     {% for res in Position %}
                                     <li> {{res.Description}} </li>

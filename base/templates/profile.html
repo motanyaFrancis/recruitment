@@ -341,14 +341,14 @@ My Profile
                                             </option>
                                             {% if applicant.Disabled == 'Yes' %}
                                             <option selected value="1">Yes</option>
-                                            <option value="0">No</option>
+                                            <option value="2">No</option>
                                             {% elif applicant.Disabled == 'No' %}
-                                            <option selected value="0">No</option>
+                                            <option selected value="2">No</option>
                                             <option value="1">Yes</option>
                                             {% else %}
                                             <option selected value="0">--select--</option>
-                                            <option value="0">No</option>
                                             <option value="1">Yes</option>
+                                            <option value="2">No</option>
                                             {% endif %}
                                         </select>
                                     </div>
@@ -448,8 +448,8 @@ My Profile
                                             <option value="2">No</option>
                                             {% else %}
                                             <option selected value="0">--select--</option>
-                                            <option value="0">No</option>
                                             <option value="1">Yes</option>
+                                            <option value="2">No</option>
                                             {% endif %}
                                         </select>
                                     </div>
@@ -472,15 +472,15 @@ My Profile
                                         <select class="form-control select2" name="haveYouBeenChargedInACourtOfLaw" id="haveYouBeenChargedInACourtOfLaw"
                                             required>
                                             {% if applicant.Have_you_ever_been_removed_dismissed_from_employment == 'No' %}
-                                            <option selected value="0">No</option>
+                                            <option selected value="2">No</option>
                                             <option value="1">Yes</option>
                                             {% elif applicant.Have_you_ever_been_removed_dismissed_from_employment == 'Yes' %}
                                             <option selected value="1">Yes</option>
                                             <option value="2">No</option>
                                             {% else %}
                                             <option selected value="0">--select--</option>
-                                            <option value="0">No</option>
                                             <option value="1">Yes</option>
+                                            <option value="2">No</option>
                                             {% endif %}
                                         </select>
                                     </div>
