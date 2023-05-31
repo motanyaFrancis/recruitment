@@ -988,6 +988,18 @@ My Profile
                         </section>
                         <section>
                             <h2 class="my-4 text-center mx-auto">Referees</h2>
+                            <div class="alert alert-warning alert-has-icon mt-4">
+                                <div class="alert-icon">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                </div>
+                                <div class="alert-body">
+                                    <div class="alert-title">Disclaimer!</div>
+                                    Give the names and addresses of two referees. They should be responsible persons who know you well, either in
+                                    private or professional life, and one at least should be acquainted with your private life. The names of the
+                                    distinguished persons should not be given unless they really know you well. Names of relatives, members of staff of
+                                    KEPHIS or members of KEPHIS board should not be given
+                                </div>
+                            </div>
                             <form method="post" id="refForm">
                                 {% csrf_token %}
                                 <div class="row">
@@ -1841,6 +1853,7 @@ My Profile
                     row.append($('<td>').text(Company));
                     row.append($('<td>').text(Telephone_No));
                     row.append($('<td>').text(E_Mail));
+
                     // Create the form with inputs and submit button
                     var form = $('<form>').attr({
                         method: 'POST',
@@ -1862,6 +1875,11 @@ My Profile
                         type: 'hidden',
                         name: 'company',
                         value: Company
+                    });
+                    var addressInput = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'address',
+                        value: Address
                     });
                     var telephoneNoInput = $('<input>').attr({
                         type: 'hidden',
@@ -2396,7 +2414,7 @@ My Profile
                     designation: $("#j_designation").val(),
                     company: $("#j_company").val(),
                     telephoneNo: $("#j_telephoneNo").val(),
-                    address: $("#j_taddress").val(),
+                    address: $("#j_address").val(),
                     email: $("#j_email").val(),
                     lineNo: 0,
                     myAction: 'insert',

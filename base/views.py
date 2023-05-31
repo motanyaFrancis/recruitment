@@ -499,12 +499,13 @@ class FnApplicantReferee(UserObjectMixins, View):
             names = request.POST.get('names')
             designation = request.POST.get('designation')
             company = request.POST.get('company')
+            address = request.POST.get('address')
             telephoneNo = request.POST.get('telephoneNo')
             email = request.POST.get('email')
             response = self.make_soap_request('FnApplicantReferee',
                                               applicantNo, lineNo, names, designation,
-                                              company, telephoneNo, email, myAction)
-
+                                              company, address, telephoneNo, email, myAction)            
+            
             if response == True:
                 return JsonResponse({'success': True, 'message': 'Successfully'})
             return JsonResponse({'success': False, 'message': f'{response}'})
