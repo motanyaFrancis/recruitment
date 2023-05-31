@@ -1977,6 +1977,12 @@ My Profile
 
         $('#offenceDetail').hide();
 
+        var chargedInCourt = $('#haveYouBeenChargedInACourtOfLaw')
+
+        if(chargedInCourt.val() == '1'){
+            $('#offenceDetail').show(1000);
+        }
+
         $('#haveYouBeenChargedInACourtOfLaw').on('change', function(){
             var selectedValue = $(this).val();
 
@@ -2034,16 +2040,16 @@ My Profile
         
 
         if(employeeDismiss.val() == '1'){
-            DismisalDetail.prop('disabled', false);
+            // DismisalDetail.prop('disabled', false);
             $('.hidegiveDetails').show(1000);
         }
 
         employeeDismiss.on('change', function(){
             if (this.value === '1'){
-                DismisalDetail.prop('disabled', false);
+                // DismisalDetail.prop('disabled', false);
                 $('.hidegiveDetails').show(1000);
             } else {
-                DismisalDetail.prop('disabled', true);
+                // DismisalDetail.prop('disabled', true);
                 $('.hidegiveDetails').hide(500);
             }
         })
