@@ -101,10 +101,10 @@
                     <div class="card-body">
                         <div class="row" id="itemsTable">
                             <div class="col-md-12">
-                                {% if res.Description  %}
+                                {% if res.Job_Description  %}
                                 <h4 class="section-title">Job description</h4>
                                 <p>
-                                    {{res.Description}}
+                                    {{res.Job_Description}}
                                 </p>
                                 {% endif %}
                                 {% if RESPOs|length > 0 %}
@@ -208,9 +208,10 @@
                                     {% csrf_token %}
                                     <div class="form-group" id="attachmentCodeRow">
                                         <label>Select Document to Upload <span class="text-danger">*</span></label>
-                                        <select class="custom-select" name="attachmentCode" id="attachmentCode">
+                                        <input type="hidden" name="attachmentCode" id="attachmentCode" value="{{res.Job_ID}}">
+                                        <!-- <select class="custom-select" name="attachmentCode" id="attachmentCode">
                                             <option class="after" value="" disabled>--Select--</option>
-                                        </select>
+                                        </select> -->
                                     </div>
                                     <div class="custom-file" id="attachmentsRow">
                                         <input type="file" class="form-control" name="attachments" id="attachments"

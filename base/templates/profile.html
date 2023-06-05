@@ -546,12 +546,12 @@ My Profile
                                         </select>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row" id="Aca_educationLevelAbove">
                                     <div class="form-group col-4">
                                         <label>Education Level <span class="text-danger">*</span></label>
                                         <select class="form-control select2" name="educationLevel"
                                             id="Aca_educationLevel" required>
-                                            <option selected value="0">Choose...</option>
+                                            <!-- <option selected value="0">Choose...</option> -->
                                             <option value="2">Certificate</option>
                                             <option value="3">Diploma</option>
                                             <option value="4">Higher/Post Graduate Diploma</option>
@@ -1979,6 +1979,13 @@ My Profile
     $(document).ready(function () {
         $('#countyRow').hide();
         
+        var CountryData = $('#country')
+
+        if (CountryData = 'KE'){
+            $('#countyRow').show(1000);
+            $('#county').prop('disabled', false);
+            $('#ethnicOrigin').prop('disabled', false);
+        }
 
         // Attach a change event listener to the country select
         $('#country').on('change', function () {
@@ -2011,18 +2018,31 @@ My Profile
 
             if( selectedValue === '1'){ 
                 $('#offenceDetail').show(1000);
-                // $('#offence').prop('disabled', false);
-                // $('#dateOfOffence').prop('disabled', false);
-                // $('#placeOfOffence').prop('disabled', false);
-                // $('#sentenceImposed').prop('disabled', false);
+                
             } else {
                 $('#offenceDetail').hide(500);
-                // $('#offence').prop('disabled', true);
-                // $('#dateOfOffence').prop('disabled', true);
-                // $('#placeOfOffence').prop('disabled', true);
-                // $('#sentenceImposed').prop('disabled', true);
+                
             }
         });
+
+    
+
+        $('#Aca_educationType').on('change', function(){
+            var selectedValue = $(this).val();
+            if(selectedValue === '1' || selectedValue === '2'){
+                $('#Aca_educationLevelAbove').hide(500);
+                $('#Aca_educationLevel').prop('required', false);
+                $('#Aca_fieldOfStudy').prop('required', false);
+                $('#AcademicQualificationCode').prop('required', false);
+            } else {
+                $('#Aca_educationLevelAbove').show(1000);
+                $('#Aca_educationLevel').prop('required', true);
+                $('#Aca_fieldOfStudy').prop('required', true);
+                $('#AcademicQualificationCode').prop('required', true);
+            }
+        });
+
+
 
 
 

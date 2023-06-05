@@ -55,6 +55,8 @@ class Detail(UserObjectMixins,View):
             Dashboard = False
             Profile = False
             ContactPage = False
+
+            userID = request.session['No_']
             if 'authenticated' in request.session:
                 authenticated = request.session['authenticated']
                 if 'Name' in request.session:
@@ -109,7 +111,8 @@ class Detail(UserObjectMixins,View):
             "Dashboard":Dashboard,
             "Profile":Profile,
             "qualify":qualify,
-            "ContactPage":ContactPage
+            "ContactPage":ContactPage,
+            'userID':userID,
         }
         return render(request,'detail.html',ctx)
 
@@ -201,10 +204,13 @@ class TechnicalRequirements(UserObjectMixins,View):
 class Attachments(UserObjectMixins,View):
     async def get(self,request,no):
         try:
+            userID = request.session['No_']
+            print(userID)
+            print(no)
             Attachments = []         
             async with aiohttp.ClientSession() as session:
-                task_get_leave_attachments = asyncio.ensure_future(self.simple_one_filtered_data(session,
-                                         "/QyDocumentAttachments","No_","eq",no))
+                task_get_leave_attachments = asyncio.ensure_future(self.simple_double_filtered_data(session,
+                                         "/QyDocumentAttachments","No_","eq",userID, "and", "File_Name", "eq", no))
 
                 response = await asyncio.gather(task_get_leave_attachments)
 
@@ -217,14 +223,15 @@ class Attachments(UserObjectMixins,View):
         try:
             applicantNo = await sync_to_async(request.session.__getitem__)('No_')
             attachments = request.FILES.getlist('attachment')
-            tableID =52177523 
+            tableID = 52177607 
             fileName = request.POST.get("attachmentCode")
             response = False
             
             for file in attachments:
                 attachment = base64.b64encode(file.read())
+
                 response = self.make_soap_request('FnUploadAttachedDocument',
-                                                  no, fileName, attachment,
+                                                  applicantNo, fileName, attachment,
                                                 tableID, applicantNo)
             if response is not None:
                 if response == True:
@@ -244,10 +251,13 @@ class DeleteAttachment(UserObjectMixins,View):
         try:
             docID = int(request.POST.get('docID'))
             tableID= int(request.POST.get('tableID'))
-            leaveCode = request.POST.get('leaveCode')
-            print(docID,tableID,leaveCode)
+            docNo = request.session['No_']
+            print('docID: ',docID)
+            print('tableID: ',tableID)
+            print('docNo: ',docNo)
             response = self.make_soap_request("FnDeleteDocumentAttachment",
-                                              leaveCode,docID,tableID)
+                                              docNo,docID,tableID)
+            print('response: ', response)
             if response == True:
                 return JsonResponse({'success': True, 'message': 'Deleted successfully'})
             return JsonResponse({'success': False, 'message': f'{response}'})
