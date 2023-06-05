@@ -18,4 +18,12 @@ urlpatterns = [
     path('FnApplicantProfessionalMembership', views.FnApplicantProfessionalMembership.as_view(),name='FnApplicantProfessionalMembership'),
     path('FnApplicantHobby', views.FnApplicantHobby.as_view(), name='FnApplicantHobby'),
     path('FnApplicantReferee', views.FnApplicantReferee.as_view(), name='FnApplicantReferee'),
+
+    # Delete functions
+    path('FnDeleteApplicantAcademicQualification', views.FnDeleteApplicantAcademicQualification.as_view(), name='FnDeleteApplicantAcademicQualification'),
+    path('FnDeleteApplicantJobExperience', views.FnDeleteApplicantJobExperience.as_view(), name='FnDeleteApplicantJobExperience'),
+    path('FnDeleteApplicantProfessionalCourse', views.FnDeleteApplicantProfessionalCourse.as_view(), name='FnDeleteApplicantProfessionalCourse'),
+    path('FnDeleteApplicantProfessionalMembership', views.FnDeleteApplicantProfessionalMembership.as_view(), name='FnDeleteApplicantProfessionalMembership'),
+    path('FnDeleteApplicantHobby', views.FnDeleteApplicantHobby.as_view(), name='FnDeleteApplicantHobby'),
+    path('FnDeleteApplicantReferee', views.FnDeleteApplicantReferee.as_view(), name='FnDeleteApplicantReferee'),
 ]

@@ -552,12 +552,12 @@ My Profile
                                         <select class="form-control select2" name="educationLevel"
                                             id="Aca_educationLevel" required>
                                             <option selected value="0">Choose...</option>
-                                            <option value="1">Certificate</option>
-                                            <option value="2">Diploma</option>
-                                            <option value="3">Higher/Post Graduate Diploma</option>
-                                            <option value="4">Bachelors Degree</option>
-                                            <option value="5">Masters Degree</option>
-                                            <option value="6">Doctorate</option>
+                                            <option value="2">Certificate</option>
+                                            <option value="3">Diploma</option>
+                                            <option value="4">Higher/Post Graduate Diploma</option>
+                                            <option value="5">Bachelors Degree</option>
+                                            <option value="6">Masters Degree</option>
+                                            <option value="7">Doctorate</option>
                                         </select>
                                     </div>
                                     <div class="form-group col-4">
@@ -665,7 +665,8 @@ My Profile
                             <table id="AcademicQualificationsTable" class="table table-striped">
                                 <thead>
                                     <tr id="tops">
-                                        <th id="long">Start Date</th>
+                                        <th id="long">Institution Name</th>
+                                        <th >Start Date</th>
                                         <th>End Date</th>
                                         <th>Education Type</th>
                                         <th>Education Level</th>
@@ -1129,6 +1130,7 @@ My Profile
                 tableBody.empty(); // clear existing rows if any
                 // iterate through the data and append to the table
                 for (var i = 0; i < data[1].length; i++) {
+                    var Institution_Name = data[1][i].Institution_Name;
                     var Start_Date = data[1][i].Start_Date;
                     var End_Date = data[1][i].End_Date;
                     var Education_Type = data[1][i].Education_Type;
@@ -1137,6 +1139,7 @@ My Profile
                     let Line_No = data[1][i].Line_No_;
 
                     var row = $('<tr>');
+                    row.append($('<td>').text(Institution_Name));
                     row.append($('<td>').text(Start_Date));
                     row.append($('<td>').text(End_Date));
                     row.append($('<td>').text(Education_Type));
@@ -1144,7 +1147,7 @@ My Profile
                     row.append($('<td>').text(Qualification_Name));
                     var form = $('<form>').attr({
                         method: 'POST',
-                        action: '{% url "FnApplicantAcademicQualification" %}'
+                        action: '{% url "FnDeleteApplicantAcademicQualification" %}'
                     }).append('{% csrf_token %}');
 
                     var a_startDate = $('<input>').attr({
@@ -1323,7 +1326,7 @@ My Profile
                     row.append($('<td>').text(Present_Employment));
                     var form = $('<form>').attr({
                         method: 'POST',
-                        action: '{% url "JobExperience" %}'
+                        action: '{% url "FnDeleteApplicantJobExperience" %}'
                     }).append('{% csrf_token %}');
 
                     var e_startDate = $('<input>').attr({
@@ -1494,7 +1497,7 @@ My Profile
                     row.append($('<td>').text(Section_Level));
                     var form = $('<form>').attr({
                         method: 'POST',
-                        action: '{% url "FnApplicantProfessionalCourse" %}'
+                        action: '{% url "FnDeleteApplicantProfessionalCourse" %}'
                     }).append('{% csrf_token %}');
 
                     var qualificationCode = $('<input>').attr({
@@ -1618,7 +1621,7 @@ My Profile
                     // Create the form with inputs and submit button
                     var form = $('<form>').attr({
                         method: 'POST',
-                        action: '{% url "FnApplicantProfessionalMembership" %}'
+                        action: '{% url "FnDeleteApplicantProfessionalMembership" %}'
                     }).append('{% csrf_token %}');
 
                     var professionalBody = $('<input>').attr({
@@ -1738,7 +1741,7 @@ My Profile
                     // Create the form with inputs and submit button
                     var form = $('<form>').attr({
                         method: 'POST',
-                        action: '{% url "FnApplicantHobby" %}'
+                        action: '{% url "FnDeleteApplicantHobby" %}'
                     }).append('{% csrf_token %}');
 
                     var hobbyInput = $('<input>').attr({
@@ -1858,7 +1861,7 @@ My Profile
                     // Create the form with inputs and submit button
                     var form = $('<form>').attr({
                         method: 'POST',
-                        action: '{% url "FnApplicantReferee" %}'
+                        action: '{% url "FnDeleteApplicantReferee" %}'
                     }).append('{% csrf_token %}');
 
                     var namesInput = $('<input>').attr({

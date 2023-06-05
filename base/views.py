@@ -513,3 +513,122 @@ class FnApplicantReferee(UserObjectMixins, View):
             error = "Upload failed: {}".format(e)
             logging.exception(e)
             return JsonResponse({'success': False, 'error': error})
+
+
+class FnDeleteApplicantHobby(UserObjectMixins, View):
+    def post(self, request):
+        try:
+            applicantNo = request.session['No_']
+            lineNo = int(request.POST.get('lineNo'))
+            myAction = request.POST.get('myAction')
+            
+
+            response = self.make_soap_request('FnDeleteApplicantHobby',
+                                              applicantNo, lineNo, myAction)
+
+            if response == True:
+                return JsonResponse({'success': True, 'message': 'Successfully'})
+            return JsonResponse({'success': False, 'message': f'{response}'})
+        except Exception as e:
+            error = "Upload failed: {}".format(e)
+            logging.exception(e)
+            return JsonResponse({'success': False, 'error': error})
+
+
+class FnDeleteApplicantProfessionalMembership(UserObjectMixins, View):
+    def post(self, request):
+        try:
+            applicantNo = request.session['No_']
+            lineNo = int(request.POST.get('lineNo'))
+            myAction = request.POST.get('myAction')
+            
+
+            response = self.make_soap_request('FnDeleteApplicantProfessionalMembership',
+                                              applicantNo, lineNo, myAction)
+
+            if response == True:
+                return JsonResponse({'success': True, 'message': 'Successfully'})
+            return JsonResponse({'success': False, 'message': f'{response}'})
+        except Exception as e:
+            error = "Upload failed: {}".format(e)
+            logging.exception(e)
+            return JsonResponse({'success': False, 'error': error})
+
+
+class FnDeleteApplicantProfessionalCourse(UserObjectMixins, View):
+    def post(self, request):
+        try:
+            applicantNo = request.session['No_']
+            lineNo = int(request.POST.get('lineNo'))
+            myAction = request.POST.get('myAction')
+            
+
+            response = self.make_soap_request('FnDeleteApplicantProfessionalCourse',
+                                              applicantNo, lineNo, myAction)
+
+            if response == True:
+                return JsonResponse({'success': True, 'message': 'Successfully'})
+            return JsonResponse({'success': False, 'message': f'{response}'})
+        except Exception as e:
+            error = "Upload failed: {}".format(e)
+            logging.exception(e)
+            return JsonResponse({'success': False, 'error': error})
+
+class FnDeleteApplicantJobExperience(UserObjectMixins, View):
+    def post(self, request):
+        try:
+            applicantNo = request.session['No_']
+            lineNo = int(request.POST.get('lineNo'))
+            myAction = request.POST.get('myAction')
+            
+
+            response = self.make_soap_request('FnDeleteApplicantJobExperience',
+                                              applicantNo, lineNo, myAction)
+
+            if response == True:
+                return JsonResponse({'success': True, 'message': 'Successfully'})
+            return JsonResponse({'success': False, 'message': f'{response}'})
+        except Exception as e:
+            error = "Upload failed: {}".format(e)
+            logging.exception(e)
+            return JsonResponse({'success': False, 'error': error})
+        
+
+class FnDeleteApplicantAcademicQualification(UserObjectMixins, View):
+    def post(self, request):
+        try:
+            applicantNo = request.session['No_']
+            lineNo = int(request.POST.get('lineNo'))
+            myAction = request.POST.get('myAction')
+            
+
+            response = self.make_soap_request('FnDeleteApplicantAcademicQualification',
+                                              applicantNo, lineNo, myAction)
+
+            if response == True:
+                return JsonResponse({'success': True, 'message': 'Successfully'})
+            return JsonResponse({'success': False, 'message': f'{response}'})
+        except Exception as e:
+            error = "Upload failed: {}".format(e)
+            logging.exception(e)
+            return JsonResponse({'success': False, 'error': error})
+
+
+class FnDeleteApplicantReferee(UserObjectMixins, View):
+    def post(self, request):
+        try:
+            applicantNo = request.session['No_']
+            lineNo = int(request.POST.get('lineNo'))
+            myAction = request.POST.get('myAction')
+            
+
+            response = self.make_soap_request('FnDeleteApplicantReferee',
+                                              applicantNo, lineNo, myAction)
+
+            if response == True:
+                return JsonResponse({'success': True, 'message': 'Successfully'})
+            return JsonResponse({'success': False, 'message': f'{response}'})
+        except Exception as e:
+            error = "Upload failed: {}".format(e)
+            logging.exception(e)
+            return JsonResponse({'success': False, 'error': error})
