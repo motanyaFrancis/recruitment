@@ -204,17 +204,16 @@ class TechnicalRequirements(UserObjectMixins,View):
 class Attachments(UserObjectMixins,View):
     async def get(self,request,no):
         try:
-            userID = request.session['No_']
-            print(userID)
-            print(no)
+            applicantNo = await sync_to_async(request.session.__getitem__)('No_')
             Attachments = []         
             async with aiohttp.ClientSession() as session:
-                task_get_leave_attachments = asyncio.ensure_future(self.simple_double_filtered_data(session,
-                                         "/QyDocumentAttachments","No_","eq",userID, "and", "File_Name", "eq", no))
+                task_get_leave_attachments = asyncio.ensure_future(self.simple_one_filtered_data(session,
+                                         "/QyDocumentAttachments","No_", "eq", applicantNo))
 
                 response = await asyncio.gather(task_get_leave_attachments)
 
                 Attachments = [x for x in response[0]]
+                print(Attachments)
                 return JsonResponse(Attachments, safe=False)
         except Exception as e:
             logging.exception(e)
@@ -224,8 +223,8 @@ class Attachments(UserObjectMixins,View):
             applicantNo = await sync_to_async(request.session.__getitem__)('No_')
             attachments = request.FILES.getlist('attachment')
             tableID = 52177607 
-            fileName = request.POST.get("attachmentCode")
-            response = False
+            fileName = no
+            # response = False
             
             for file in attachments:
                 attachment = base64.b64encode(file.read())
