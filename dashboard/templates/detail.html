@@ -163,7 +163,13 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                {% if authenticated == True %}
+                                {% if authenticated == True and submitted.Job_ID == res.Job_ID %}
+                                <div class="applyBtn mr-auto text-center">
+                                    <button type="button" class="btn btn-primary my-3 w-50" id="bid_collapse" disabled> <span
+                                            id="submit_first">Already Applied</span>
+                                    </button>
+                                </div>
+                                {% elif authenticated == True %}
                                 <div class="applyBtn mr-auto text-center">
                                     <button type="button" class="btn btn-primary my-3 w-50" id="bid_collapse"> <span
                                             id="submit_first">Apply Job</span>

@@ -55,6 +55,7 @@ class Detail(UserObjectMixins,View):
             Dashboard = False
             Profile = False
             ContactPage = False
+            submitted_list = []
 
             userID = request.session['No_']
             if 'authenticated' in request.session:
@@ -78,6 +79,13 @@ class Detail(UserObjectMixins,View):
             for Experience in JobExperience[1]:
                 if Experience['Job_ID'] == pk:
                     E_response = Experience    
+
+            applied_jobs = self.one_filter("/QyApplicantJobApplied","Application_No_","eq",userID)
+            submitted = [x for x in applied_jobs[1]] 
+            
+            for jobs in applied_jobs[1]:            
+                submitted_list.append(jobs['Job_ID'])
+            # print(jobs) 
             
             JobResponsibilities = self.one_filter('/QyJobResponsibilities','Code','eq',pk)
             RESPOs = [x for x in JobResponsibilities[1]]
@@ -113,6 +121,7 @@ class Detail(UserObjectMixins,View):
             "qualify":qualify,
             "ContactPage":ContactPage,
             'userID':userID,
+            "submitted":jobs,
         }
         return render(request,'detail.html',ctx)
 
@@ -124,9 +133,7 @@ class Dashboard(UserObjectMixins,View):
             ContactPage = False
             current_datetime = datetime.now()  
             username = request.session['full_name']
-            print(username)
             email = request.session['E_Mail']
-            print(email)
             Dashboard = True
             Profile = False
             submitted_list = []
