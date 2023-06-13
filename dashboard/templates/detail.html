@@ -194,8 +194,157 @@
                         </div>
                         <div class="container" id="bidding_row" style="display: none;">
                             <div class="money-spinner mx-auto text-center" id="spinner" style="display: none;">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif"
-                                    alt="Loading Gif" style="height: 100px; width: 100px;" class="img-fluid">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" alt="Loading Gif"
+                                    style="height: 100px; width: 100px;" class="img-fluid">
+                            </div>
+                            
+                        
+                            <div class="tab">
+                                <div class="my-2">
+                                    <h6>Academic Qualifications</h6>
+                                </div>
+                                <table id="AcademicQualificationsTable" class="table table-striped">
+                                    <thead>
+                                        <tr id="tops">
+                                            <th id="long">Institution Name</th>
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
+                                            <th>Education Type</th>
+                                            <th>Education Level</th>
+                                            <th>Qualification Name</th>
+                                            <th>Action</th>
+                                        </tr>
+                        
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="tab">
+                                <div class="my-2">
+                                    <h6>Work Experience</h6>
+                                </div>
+                                <table id="ExperienceTable" class="table table-striped ">
+                                    <thead>
+                                        <tr id="tops">
+                                            <th id="long">Start Date</th>
+                                            <th>End Date</th>
+                                            <th>Employer</th>
+                                            <th>Job Title</th>
+                                            <th>Present Employment</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="tab">
+                                <div class="my-2">
+                                    <h6>Professional Courses</h6>
+                                </div>
+                                <table id="proCoursesTable" class="table table-striped">
+                                    <thead>
+                                        <tr id="tops">
+                                            <th>Qualification Name</th>
+                                            <th>Section Level</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="tab">
+                                <div class="my-2">
+                                    <h6>Professional Membershiph6>
+                                </div>
+                                <table id="proMembersTable" class="table table-striped">
+                                    <thead>
+                                        <tr id="tops">
+                                            <th>Professional Body</th>
+                                            <th>Membership No.</th>
+                                            <th>Description</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="tab">
+                                <div class="my-2">
+                                    <h6>Hobbies </h6>
+                                </div>
+                        
+                                <table id="hobbyTable" class="table table-striped">
+                                    <thead>
+                                        <tr id="tops">
+                                            <th>Hobbies</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="tab">
+                                <div class="my-2">
+                                    <h6>Referees </h6>
+                                </div>
+                                <table id="refereeTable" class="table table-striped">
+                                    <thead>
+                                        <tr id="tops">
+                                            <th>Name</th>
+                                            <th>Designation</th>
+                                            <th>Company</th>
+                                            <th>Mobile No</th>
+                                            <th>Email</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                             <div class="tab">
                                 <h5 class="modal-title text-center">Required Attachments
@@ -216,22 +365,18 @@
                                         <label>Select Document to Upload <span class="text-danger">*</span></label>
                                         <input type="hidden" name="attachmentCode" id="attachmentCode" value="{{res.Job_ID}}">
                                         <!-- <select class="custom-select" name="attachmentCode" id="attachmentCode">
-                                            <option class="after" value="" disabled>--Select--</option>
-                                        </select> -->
+                                                                    <option class="after" value="" disabled>--Select--</option>
+                                                                </select> -->
                                     </div>
                                     <div class="custom-file" id="attachmentsRow">
-                                        <input type="file" class="form-control" name="attachments" id="attachments"
-                                            accept="application/pdf">
+                                        <input type="file" class="form-control" name="attachments" id="attachments" accept="application/pdf">
                                     </div>
                                     <div style="display:flex; justify-content:space-between;" class="my-3">
-                                        <button type="submit" class="btn btn-primary btn-lg mr-1" id="attachSubmit"
-                                            style="flex:1;">
+                                        <button type="submit" class="btn btn-primary btn-lg mr-1" id="attachSubmit" style="flex:1;">
                                             Upload <i class="fas fa-file-upload"></i>
                                         </button>
-                                        <button class="btn btn-dark mr-1" type="button" id="attachmentBtn"
-                                            style="flex:1;display:none">
-                                            View <span id="attachementCount"></span> Attachments <i
-                                                class="fas fa-eye"></i>
+                                        <button class="btn btn-dark mr-1" type="button" id="attachmentBtn" style="flex:1;display:none">
+                                            View <span id="attachementCount"></span> Attachments <i class="fas fa-eye"></i>
                                         </button>
                                     </div>
                                 </form>
@@ -241,11 +386,11 @@
                                             Attached Files <i class="las la-folder-open text-success"></i>
                                         </h5>
                                         <div class="row" id="attachments-container">
-
+                        
                                         </div>
                                     </div>
                                 </div>
-
+                        
                             </div>
                             <div class="tab">
                                 <div class="col-md-12 text-center" id="app_sent" style="display: none;">
@@ -262,9 +407,10 @@
                                     <h5 class="modal-title text-center"> Submit Application
                                     </h5>
                                     {% csrf_token %}
-                                    <div  class=" d-flex flex-column my-3 actions_application">
-                                          
-                                        <button type="submit" id="submit_application" class="btn btn-primary btn-lg mr-1 mt-3 hs-button" style="flex:1; ">
+                                    <div class=" d-flex flex-column my-3 actions_application">
+                        
+                                        <button type="submit" id="submit_application" class="btn btn-primary btn-lg mr-1 mt-3 hs-button"
+                                            style="flex:1; ">
                                             Submit {{response.Process_Type}} <i class="fas fa-paper-plane"></i>
                                         </button>
                                     </div>
@@ -272,8 +418,7 @@
                             </div>
                             <div style="overflow:auto; margin-top: 1rem">
                                 <div style="float:right;">
-                                    <button type="button" class="btn btn-danger" id="bid_closing">Close <i
-                                            class="fas fa-times"></i></button>
+                                    <button type="button" class="btn btn-danger" id="bid_closing">Close <i class="fas fa-times"></i></button>
                                     <button type="button" id="prevBtn" class="btn btn-primary" onclick="nextPrev(-1)"><i
                                             class="fas fa-backward"></i> Previous</button>
                                     <button type="button" id="nextBtn" class="btn btn-warning" onclick="nextPrev(1)"> <i
@@ -282,6 +427,12 @@
                             </div>
                             <!-- Circles which indicates the steps of the form: -->
                             <div style="text-align:center;margin-top:40px;">
+                                <span class="step"></span>
+                                <span class="step"></span>
+                                <span class="step"></span>
+                                <span class="step"></span>
+                                <span class="step"></span>
+                                <span class="step"></span>
                                 <span class="step"></span>
                                 <span class="step"></span>
                             </div>
@@ -295,6 +446,7 @@
 </section>
 <script>
 
+    // Activating the submission button
     $(".actions_application").prepend('<div class="form-check "><label><input type="checkbox" id="checkbox" class="form-check-input">I hereby certify that the particulars I have given are correct to the best of my knowledge.</label></div>');
 
     $('.hs-button').prop('disabled', true); // disabled by default
@@ -303,6 +455,8 @@
         // change on checkbox click
         $('.hs-button').prop('disabled', !$('#checkbox').prop('checked'));
     });
+
+
     $(document).ready(function () {
 
         const $bid_collapse = $('#bid_collapse');
@@ -660,5 +814,870 @@
         //... and adds the "active" class on the current step:
         x[n].className += " active";
     }
+
+
+
+    function loadAcademicData() {
+        $.ajax({
+            url: '{% url "AcademicQualifications" %}',
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+                var tableBody = $('#AcademicQualificationsTable tbody');
+                tableBody.empty(); // clear existing rows if any
+                // iterate through the data and append to the table
+                for (var i = 0; i < data[1].length; i++) {
+                    var Institution_Name = data[1][i].Institution_Name;
+                    var Start_Date = data[1][i].Start_Date;
+                    var End_Date = data[1][i].End_Date;
+                    var Education_Type = data[1][i].Education_Type;
+                    var Education_Level = data[1][i].Education_Level;
+                    var Qualification_Name = data[1][i].Qualification_Name
+                    let Line_No = data[1][i].Line_No_;
+
+                    var row = $('<tr>');
+                    row.append($('<td>').text(Institution_Name));
+                    row.append($('<td>').text(Start_Date));
+                    row.append($('<td>').text(End_Date));
+                    row.append($('<td>').text(Education_Type));
+                    row.append($('<td>').text(Education_Level));
+                    row.append($('<td>').text(Qualification_Name));
+                    var form = $('<form>').attr({
+                        method: 'POST',
+                        action: '{% url "FnDeleteApplicantAcademicQualification" %}'
+                    }).append('{% csrf_token %}');
+
+                    var a_startDate = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'startDate',
+                        value: Start_Date
+                    });
+                    var a_endDate = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'endDate',
+                        value: End_Date
+                    });
+                    var educationType = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'educationType',
+                        value: "0"
+                    });
+                    var educationLevel = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'educationLevel',
+                        value: "0"
+                    });
+                    var fieldOfStudy = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'fieldOfStudy',
+                        value: "None"
+                    });
+                    var a_qualificationCode = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'qualificationCode',
+                        value: "0"
+                    });
+                    var institutionName = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'institutionName',
+                        value: "0"
+                    });
+                    var proficiencyLevel = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'proficiencyLevel',
+                        value: "0"
+                    });
+                    var a_country = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'country',
+                        value: "KE"
+                    });
+                    var region = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'region',
+                        value: "KE"
+                    });
+                    var isHighestLevel = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'isHighestLevel',
+                        value: "False"
+                    });
+                    var grade = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'grade',
+                        value: "0"
+                    });
+                    var a_otherQualification = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'otherQualification',
+                        value: "0"
+                    });
+                    var a_description = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'description',
+                        value: "0"
+                    });
+                    var a_lineNoInput = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'lineNo',
+                        value: Line_No
+                    });
+                    var a_myActionInput = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'myAction',
+                        value: 'delete'
+                    });
+                    var a_submitBtn = $('<button>').attr({
+                        type: 'submit',
+                        class: 'btn btn-danger'
+                    }).text('delete');
+                    form.submit(function (event) {
+                        event.preventDefault(); // prevent default form submission
+                        $.ajax({
+                            url: form.attr('action'),
+                            type: form.attr('method'),
+                            data: form.serialize(),
+                            success: function (data) {
+                                loadAcademicData();
+                                if (data['success'] == true) {
+                                    iziToast.show({
+                                        theme: 'dark',
+                                        backgroundColor: '#239B56',
+                                        icon: 'las la-check-circle',
+                                        message: data['message'] + " " +
+                                            "deleted",
+                                        position: 'topRight',
+                                        progressBarColor: '#F4F6F7',
+                                    });
+                                } else {
+                                    iziToast.show({
+                                        theme: 'dark',
+                                        icon: 'las la-exclamation',
+                                        title: 'Error',
+                                        message: data['message'],
+                                        position: 'topRight',
+                                        progressBarColor: '#ff0800',
+                                    });
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.log("Error:", error);
+                                iziToast.show({
+                                    theme: 'dark',
+                                    icon: 'las la-exclamation',
+                                    title: 'Error',
+                                    message: 'CSRF verification failed. Request aborted.',
+                                    position: 'topRight',
+                                    progressBarColor: '#ff0800',
+                                });
+                            }
+                        });
+                    });
+
+                    var td = $('<td>').append(form.append(a_startDate, a_endDate, educationType,
+                        educationLevel,
+                        fieldOfStudy, a_qualificationCode, institutionName, proficiencyLevel,
+                        a_country, region, isHighestLevel, grade, a_otherQualification,
+                        a_description, a_lineNoInput, a_myActionInput, a_submitBtn));
+                    row.append(td);
+                    tableBody.append(row);
+                }
+                // initialize DataTables for each table
+                if (!$.fn.DataTable.isDataTable('#AcademicQualificationsTable')) {
+                    $('#AcademicQualificationsTable').DataTable({
+                        "pageLength": 5,
+                        "order": [
+                            [0, "desc"]
+                        ]
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log("Error:", error);
+            },
+        });
+    }
+
+    function loadExperienceData() {
+        $.ajax({
+            url: '{% url "QyApplicantJobExperience" %}',
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+                var tableBody = $('#ExperienceTable tbody');
+                tableBody.empty(); // clear existing rows if any
+                // iterate through the data and append to the table
+                for (var i = 0; i < data[1].length; i++) {
+                    var Start_Date = data[1][i].Start_Date;
+                    var End_Date = data[1][i].End_Date;
+                    var Employer = data[1][i].Employer;
+                    var Job_Title = data[1][i].Job_Title;
+                    var Present_Employment = data[1][i].Present_Employment
+                    let lineNo = data[1][i].Line_No;
+
+                    var row = $('<tr>');
+                    row.append($('<td>').text(Start_Date));
+                    row.append($('<td>').text(End_Date));
+                    row.append($('<td>').text(Employer));
+                    row.append($('<td>').text(Job_Title));
+                    row.append($('<td>').text(Present_Employment));
+                    var form = $('<form>').attr({
+                        method: 'POST',
+                        action: '{% url "FnDeleteApplicantJobExperience" %}'
+                    }).append('{% csrf_token %}');
+
+                    var e_startDate = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'startDate',
+                        value: Start_Date
+                    });
+                    var e_endDate = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'endDate',
+                        value: End_Date
+                    });
+                    var e_employer = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'employer',
+                        value: Employer
+                    });
+                    var e_industry = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'industry',
+                        value: "None"
+                    });
+                    var e_hierarchyLevel = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'hierarchyLevel',
+                        value: "0"
+                    });
+                    var e_functionalArea = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'functionalArea',
+                        value: "0"
+                    });
+                    var e_jobTitle = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'jobTitle',
+                        value: "0"
+                    });
+                    var e_isPresentEmployment = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'isPresentEmployment',
+                        value: "False"
+                    });
+                    var e_country = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'country',
+                        value: "KE"
+                    });
+                    var e_location = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'location',
+                        value: "0"
+                    });
+                    var e_employerEmail = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'employerEmail',
+                        value: "none@gmail.com"
+                    });
+                    var e_employerPostalAddress = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'employerPostalAddress',
+                        value: "0"
+                    });
+                    var e_description = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'description',
+                        value: "0"
+                    });
+                    var e_lineNoInput = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'lineNo',
+                        value: lineNo
+                    });
+                    var e_myActionInput = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'myAction',
+                        value: 'delete'
+                    });
+                    var e_submitBtn = $('<button>').attr({
+                        type: 'submit',
+                        class: 'btn btn-danger'
+                    }).text('delete');
+
+                    // Handle form submission
+                    form.submit(function (event) {
+                        event.preventDefault(); // prevent default form submission
+                        $.ajax({
+                            url: form.attr('action'),
+                            type: form.attr('method'),
+                            data: form.serialize(),
+                            success: function (data) {
+                                loadExperienceData();
+                                if (data['success'] == true) {
+                                    iziToast.show({
+                                        theme: 'dark',
+                                        backgroundColor: '#239B56',
+                                        icon: 'las la-check-circle',
+                                        message: data['message'] + " " +
+                                            "deleted",
+                                        position: 'topRight',
+                                        progressBarColor: '#F4F6F7',
+                                    });
+                                } else {
+                                    iziToast.show({
+                                        theme: 'dark',
+                                        icon: 'las la-exclamation',
+                                        title: 'Error',
+                                        message: data['message'],
+                                        position: 'topRight',
+                                        progressBarColor: '#ff0800',
+                                    });
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.log("Error:", error);
+                                iziToast.show({
+                                    theme: 'dark',
+                                    icon: 'las la-exclamation',
+                                    title: 'Error',
+                                    message: 'CSRF verification failed. Request aborted.',
+                                    position: 'topRight',
+                                    progressBarColor: '#ff0800',
+                                });
+                            }
+                        });
+                    });
+
+                    var td = $('<td>').append(form.append(e_startDate, e_endDate, e_employer,
+                        e_industry, e_hierarchyLevel, e_functionalArea, e_jobTitle,
+                        e_isPresentEmployment, e_country, e_location, e_employerEmail,
+                        e_employerPostalAddress, e_description, e_lineNoInput, e_myActionInput,
+                        e_submitBtn));
+                    row.append(td);
+                    tableBody.append(row)
+
+                }
+                // initialize DataTables for each table
+                if (!$.fn.DataTable.isDataTable('#ExperienceTable')) {
+                    $('#ExperienceTable').DataTable({
+                        "pageLength": 5,
+                        "order": [
+                            [0, "desc"]
+                        ]
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log("Error:", error);
+            },
+        });
+    }
+
+    function loadProCoursesData() {
+        $.ajax({
+            url: '{% url "QyApplicantJobProfessionalCourses" %}',
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+                var tableBody = $('#proCoursesTable tbody');
+                tableBody.empty(); // clear existing rows if any
+                // iterate through the data and append to the table
+                for (var i = 0; i < data[1].length; i++) {
+                    var Qualification_Name = data[1][i].Qualification_Name;
+                    var Section_Level = data[1][i].Section_Level;
+                    let Line_No = data[1][i].Line_No_;
+
+                    var row = $('<tr>');
+                    row.append($('<td>').text(Qualification_Name));
+                    row.append($('<td>').text(Section_Level));
+                    var form = $('<form>').attr({
+                        method: 'POST',
+                        action: '{% url "FnDeleteApplicantProfessionalCourse" %}'
+                    }).append('{% csrf_token %}');
+
+                    var qualificationCode = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'qualificationCode',
+                        value: "None"
+                    });
+                    var sectionLevel = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'sectionLevel',
+                        value: Section_Level
+                    });
+                    var otherQualification = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'otherQualification',
+                        value: "None"
+                    });
+                    var pro_lineNoInput = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'lineNo',
+                        value: Line_No
+                    });
+                    var pro_myActionInput = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'myAction',
+                        value: 'delete'
+                    });
+                    var pro_submitBtn = $('<button>').attr({
+                        type: 'submit',
+                        class: 'btn btn-danger'
+                    }).text('delete');
+
+                    // Handle form submission
+                    form.submit(function (event) {
+                        event.preventDefault(); // prevent default form submission
+                        $.ajax({
+                            url: form.attr('action'),
+                            type: form.attr('method'),
+                            data: form.serialize(),
+                            success: function (data) {
+                                loadProCoursesData();
+                                if (data['success'] == true) {
+                                    iziToast.show({
+                                        theme: 'dark',
+                                        backgroundColor: '#239B56',
+                                        icon: 'las la-check-circle',
+                                        message: data['message'] + " " +
+                                            "deleted",
+                                        position: 'topRight',
+                                        progressBarColor: '#F4F6F7',
+                                    });
+                                } else {
+                                    iziToast.show({
+                                        theme: 'dark',
+                                        icon: 'las la-exclamation',
+                                        title: 'Error',
+                                        message: data['message'],
+                                        position: 'topRight',
+                                        progressBarColor: '#ff0800',
+                                    });
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.log("Error:", error);
+                                iziToast.show({
+                                    theme: 'dark',
+                                    icon: 'las la-exclamation',
+                                    title: 'Error',
+                                    message: 'CSRF verification failed. Request aborted.',
+                                    position: 'topRight',
+                                    progressBarColor: '#ff0800',
+                                });
+                            }
+                        });
+                    });
+
+                    var td = $('<td>').append(form.append(qualificationCode, sectionLevel,
+                        otherQualification,
+                        pro_lineNoInput, pro_myActionInput, pro_submitBtn));
+                    row.append(td);
+
+                    tableBody.append(row);
+                }
+                // initialize DataTables for each table
+                if (!$.fn.DataTable.isDataTable('#proCoursesTable')) {
+                    $('#proCoursesTable').DataTable({
+                        "pageLength": 5,
+                        "order": [
+                            [0, "desc"]
+                        ]
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log("Error:", error);
+            },
+        });
+    }
+
+    function loadMembershipData() {
+        $.ajax({
+            url: '{% url "QyApplicantProfessionalMemberships" %}',
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+                var tableBody = $('#proMembersTable tbody');
+                tableBody.empty(); // clear existing rows if any
+                // iterate through the data and append to the table
+                for (var i = 0; i < data[1].length; i++) {
+                    var Professional_Body = data[1][i].Professional_Body;
+                    var MembershipNo = data[1][i].MembershipNo;
+                    var Description = data[1][i].Description;
+                    let Line_No = data[1][i].Line_No_;
+
+                    var row = $('<tr>');
+
+                    row.append($('<td>').text(Professional_Body));
+                    row.append($('<td>').text(MembershipNo));
+                    row.append($('<td>').text(Description));
+
+                    // Create the form with inputs and submit button
+                    var form = $('<form>').attr({
+                        method: 'POST',
+                        action: '{% url "FnDeleteApplicantProfessionalMembership" %}'
+                    }).append('{% csrf_token %}');
+
+                    var professionalBody = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'professionalBody',
+                        value: Professional_Body
+                    });
+                    var Member_lineNo = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'lineNo',
+                        value: Line_No
+                    });
+                    var membershipNo = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'membershipNo',
+                        value: membershipNo
+                    });
+                    var otherProfessionalBody = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'otherProfessionalBody',
+                        value: "None"
+                    });
+                    var member_myAction = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'myAction',
+                        value: 'delete'
+                    });
+                    var Member_submitBtn = $('<button>').attr({
+                        type: 'submit',
+                        class: 'btn btn-danger'
+                    }).text('delete');
+                    // Handle form submission
+                    form.submit(function (event) {
+                        event.preventDefault(); // prevent default form submission
+                        $.ajax({
+                            url: form.attr('action'),
+                            type: form.attr('method'),
+                            data: form.serialize(),
+                            success: function (data) {
+                                loadMembershipData();
+                                if (data['success'] == true) {
+                                    iziToast.show({
+                                        theme: 'dark',
+                                        backgroundColor: '#239B56',
+                                        icon: 'las la-check-circle',
+                                        message: data['message'] + " " +
+                                            "deleted",
+                                        position: 'topRight',
+                                        progressBarColor: '#F4F6F7',
+                                    });
+                                } else {
+                                    iziToast.show({
+                                        theme: 'dark',
+                                        icon: 'las la-exclamation',
+                                        title: 'Error',
+                                        message: data['message'],
+                                        position: 'topRight',
+                                        progressBarColor: '#ff0800',
+                                    });
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.log("Error:", error);
+                                iziToast.show({
+                                    theme: 'dark',
+                                    icon: 'las la-exclamation',
+                                    title: 'Error',
+                                    message: 'CSRF verification failed. Request aborted.',
+                                    position: 'topRight',
+                                    progressBarColor: '#ff0800',
+                                });
+                            }
+                        });
+                    });
+
+                    var td = $('<td>').append(form.append(professionalBody, Member_lineNo, membershipNo,
+                        otherProfessionalBody,
+                        member_myAction, Member_submitBtn));
+                    row.append(td);
+                    tableBody.append(row);
+
+                }
+                // initialize DataTables for each table
+                if (!$.fn.DataTable.isDataTable('#proMembersTable')) {
+                    $('#proMembersTable').DataTable({
+                        "pageLength": 5,
+                        "order": [
+                            [0, "desc"]
+                        ]
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log("Error:", error);
+            },
+        });
+    }
+
+    function loadHobby() {
+        $.ajax({
+            url: '{% url "QyApplicantHobbies" %}',
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+                var tableBody = $('#hobbyTable tbody');
+                tableBody.empty(); // clear existing rows if any
+                // iterate through the data and append to the table
+                for (var i = 0; i < data[1].length; i++) {
+                    var Hobbies = data[1][i].Hobbies;
+                    var MembershipNo = data[1][i].MembershipNo;
+                    var Description = data[1][i].Description;
+                    var Line_No = data[1][i].Line_No;
+
+                    var row = $('<tr>');
+
+                    row.append($('<td>').text(Hobbies));
+                    // Create the form with inputs and submit button
+                    var form = $('<form>').attr({
+                        method: 'POST',
+                        action: '{% url "FnDeleteApplicantHobby" %}'
+                    }).append('{% csrf_token %}');
+
+                    var hobbyInput = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'hobby',
+                        value: Hobbies
+                    });
+                    var lineNoInput = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'lineNo',
+                        value: Line_No
+                    });
+                    var myActionInput = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'myAction',
+                        value: 'delete'
+                    });
+                    var submitBtn = $('<button>').attr({
+                        type: 'submit',
+                        class: 'btn btn-danger'
+                    }).text('delete');
+
+                    // Handle form submission
+                    form.submit(function (event) {
+                        event.preventDefault(); // prevent default form submission
+                        $.ajax({
+                            url: form.attr('action'),
+                            type: form.attr('method'),
+                            data: form.serialize(),
+                            success: function (data) {
+                                loadHobby();
+                                if (data['success'] == true) {
+                                    iziToast.show({
+                                        theme: 'dark',
+                                        backgroundColor: '#239B56',
+                                        icon: 'las la-check-circle',
+                                        message: data['message'] + " " +
+                                            "deleted",
+                                        position: 'topRight',
+                                        progressBarColor: '#F4F6F7',
+                                    });
+                                } else {
+                                    iziToast.show({
+                                        theme: 'dark',
+                                        icon: 'las la-exclamation',
+                                        title: 'Error',
+                                        message: data['message'],
+                                        position: 'topRight',
+                                        progressBarColor: '#ff0800',
+                                    });
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.log("Error:", error);
+                                iziToast.show({
+                                    theme: 'dark',
+                                    icon: 'las la-exclamation',
+                                    title: 'Error',
+                                    message: 'CSRF verification failed. Request aborted.',
+                                    position: 'topRight',
+                                    progressBarColor: '#ff0800',
+                                });
+                            }
+                        });
+                    });
+
+                    var td = $('<td>').append(form.append(hobbyInput, lineNoInput, myActionInput,
+                        submitBtn));
+                    row.append(td);
+
+                    // Append the new row to the table
+                    $('#hobbyTable tbody').append(row);
+                }
+                // initialize DataTables for each table
+                if (!$.fn.DataTable.isDataTable('#hobbyTable')) {
+                    $('#hobbyTable').DataTable({
+                        "pageLength": 5,
+                        "order": [
+                            [0, "desc"]
+                        ]
+                    });
+                }
+
+            },
+            error: function (xhr, status, error) {
+                console.log("Error:", error);
+            },
+        });
+    }
+
+    function loadRefereeData() {
+        $.ajax({
+            url: '{% url "QyApplicantReferees" %}',
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+                var tableBody = $('#refereeTable tbody');
+                tableBody.empty(); // clear existing rows if any
+                // iterate through the data and append to the table
+                for (var i = 0; i < data[1].length; i++) {
+                    var Names = data[1][i].Names;
+                    var Designation = data[1][i].Designation;
+                    var Company = data[1][i].Company;
+                    var Address = data[1][i].Address;
+                    var Telephone_No = data[1][i].Telephone_No;
+                    var E_Mail = data[1][i].E_Mail
+                    var Line_No = data[1][i].Line_No_;
+
+                    var row = $('<tr>');
+                    row.append($('<td>').text(Names));
+                    row.append($('<td>').text(Designation));
+                    row.append($('<td>').text(Company));
+                    row.append($('<td>').text(Telephone_No));
+                    row.append($('<td>').text(E_Mail));
+
+                    // Create the form with inputs and submit button
+                    var form = $('<form>').attr({
+                        method: 'POST',
+                        action: '{% url "FnDeleteApplicantReferee" %}'
+                    }).append('{% csrf_token %}');
+
+                    var namesInput = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'names',
+                        value: Names
+                    });
+
+                    var designationInput = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'designation',
+                        value: Designation
+                    });
+                    var companyInput = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'company',
+                        value: Company
+                    });
+                    var addressInput = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'address',
+                        value: Address
+                    });
+                    var telephoneNoInput = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'telephoneNo',
+                        value: Telephone_No
+                    });
+                    
+                    var emailInput = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'email',
+                        value: E_Mail
+                    });
+
+                    var Ref_lineNo = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'lineNo',
+                        value: Line_No
+                    });
+                    var Ref_myActionInput = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'myAction',
+                        value: 'delete'
+                    });
+                    var Ref_submitBtn = $('<button>').attr({
+                        type: 'submit',
+                        class: 'btn btn-danger'
+                    }).text('delete');
+                    // Handle form submission
+                    form.submit(function (event) {
+                        event.preventDefault(); // prevent default form submission
+                        $.ajax({
+                            url: form.attr('action'),
+                            type: form.attr('method'),
+                            data: form.serialize(),
+                            success: function (data) {
+                                loadRefereeData();
+                                if (data['success'] == true) {
+                                    iziToast.show({
+                                        theme: 'dark',
+                                        backgroundColor: '#239B56',
+                                        icon: 'las la-check-circle',
+                                        message: data['message'] + " " +
+                                            "deleted",
+                                        position: 'topRight',
+                                        progressBarColor: '#F4F6F7',
+                                    });
+                                } else {
+                                    iziToast.show({
+                                        theme: 'dark',
+                                        icon: 'las la-exclamation',
+                                        title: 'Error',
+                                        message: data['message'],
+                                        position: 'topRight',
+                                        progressBarColor: '#ff0800',
+                                    });
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.log("Error:", error);
+                                iziToast.show({
+                                    theme: 'dark',
+                                    icon: 'las la-exclamation',
+                                    title: 'Error',
+                                    message: 'CSRF verification failed. Request aborted.',
+                                    position: 'topRight',
+                                    progressBarColor: '#ff0800',
+                                });
+                            }
+                        });
+                    });
+                    var td = $('<td>').append(form.append(namesInput, designationInput, companyInput,
+                        telephoneNoInput, emailInput, Ref_lineNo, Ref_myActionInput, Ref_submitBtn));
+                    row.append(td);
+                    tableBody.append(row);
+                }
+                // initialize DataTables for each table
+                if (!$.fn.DataTable.isDataTable('#refereeTable')) {
+                    $('#refereeTable').DataTable({
+                        "pageLength": 5,
+                        "order": [
+                            [0, "desc"]
+                        ]
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log("Error:", error);
+            },
+        });
+    }
+    
+    $(document).ready(function () {
+        loadAcademicData();
+        loadExperienceData();
+        loadProCoursesData();
+        loadMembershipData();
+        loadHobby();
+        loadRefereeData();
+    });
 </script>
 {% endblock %}
