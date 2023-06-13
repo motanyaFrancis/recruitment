@@ -111,17 +111,88 @@ My Profile
                             <form action="{% url 'FnApplicantDetails' %}" method="post" novalidate>
                                 {% csrf_token %}
                                 <div class="row">
+                                    <div class="form-group col-2">
+                                        <label for="frist_name">Title <span class="text-danger">*</span></label>
+                                        <select class="form-control select2" name="title" id="title">
+                                            {% if applicant.Title == 'Prof' %}
+                                            <option selected value="1">Prof</option>
+                                            <option value="2">Dr</option>
+                                            <option value="3">Mr</option>
+                                            <option value="4">Mrs</option>
+                                            <option value="5">Miss</option>
+                                            <option value="6">Ms</option>
+                                            <option value="7">Rev</option>
+                                            {% elif applicant.Title == 'Dr' %}
+                                            <option selected value="2">Dr</option>
+                                            <option value="1">Prof</option>
+                                            <option value="3">Mr</option>
+                                            <option value="4">Mrs</option>
+                                            <option value="5">Miss</option>
+                                            <option value="6">Ms</option>
+                                            <option value="7">Rev</option>
+                                            {% elif applicant.Title == 'Mr' %}
+                                            <option selected value="3">Mr</option>
+                                            <option value="1">Prof</option>
+                                            <option value="2">Dr</option>
+                                            <option value="4">Mrs</option>
+                                            <option value="5">Miss</option>
+                                            <option value="6">Ms</option>
+                                            <option value="7">Rev</option>
+                                            {% elif applicant.Title == 'Mrs' %}
+                                            <option selected value="4">Mrs</option>
+                                            <option value="1">Prof</option>
+                                            <option value="2">Dr</option>
+                                            <option value="3">Mr</option>
+                                            <option value="5">Miss</option>
+                                            <option value="6">Ms</option>
+                                            <option value="7">Rev</option>
+                                            {% elif applicant.Title == 'Miss' %}
+                                            <option selected value="5">Miss</option>
+                                            <option value="1">Prof</option>
+                                            <option value="2">Dr</option>
+                                            <option value="3">Mr</option>
+                                            <option value="4">Mrs</option>
+                                            <option value="6">Ms</option>
+                                            <option value="7">Rev</option>
+                                            {% elif applicant.Title == 'Ms' %}
+                                            <option selected value="6">Ms</option>
+                                            <option value="1">Prof</option>
+                                            <option value="2">Dr</option>
+                                            <option value="3">Mr</option>
+                                            <option value="4">Mrs</option>
+                                            <option value="5">Miss</option>
+                                            <option value="7">Rev</option>
+                                            {% elif applicant.Title == 'Rev' %}
+                                            <option selected value="7">Rev</option>
+                                            <option value="1">Prof</option>
+                                            <option value="2">Dr</option>
+                                            <option value="3">Mr</option>
+                                            <option value="4">Mrs</option>
+                                            <option value="5">Miss</option>
+                                            <option value="6">Ms</option>
+                                            {% else %}
+                                            <option selected value="0">--select--</option>
+                                            <option value="1">Prof</option>
+                                            <option value="2">Dr</option>
+                                            <option value="3">Mr</option>
+                                            <option value="4">Mrs</option>
+                                            <option value="5">Miss</option>
+                                            <option value="6">Ms</option>
+                                            <option value="7">Rev</option>
+                                            {% endif %}
+                                        </select>
+                                    </div>
                                     <div class="form-group col-4">
                                         <label for="frist_name">First Name <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" placeholder="{{applicant.First_Name}}"
                                             value="{{applicant.First_Name}}" name="firstName" autofocus required>
                                     </div>
-                                    <div class="form-group col-4">
+                                    <div class="form-group col-3">
                                         <label for="frist_name">Middle Name <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" placeholder="{{applicant.Middle_Name}}"
                                             value="{{applicant.Middle_Name}}" name="middleName" autofocus required>
                                     </div>
-                                    <div class="form-group col-4">
+                                    <div class="form-group col-3">
                                         <label for="frist_name">Last Name <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" placeholder="{{applicant.Last_Name}}"
                                             value="{{applicant.Last_Name}}" name="lastName" autofocus required>
@@ -335,10 +406,8 @@ My Profile
                                             name="dob" autofocus required>
                                     </div>
                                     <div class="form-group col-4">
-                                        <label>Disabled <span class="text-danger">*</span></label>
+                                        <label>Are you living with a disability? <span class="text-danger">*</span></label>
                                         <select class="form-control select2" name="disabled" id="disabled" required>
-                                            <option selected value="{{applicant.Citizenship}}">{{applicant.Citizenship}}
-                                            </option>
                                             {% if applicant.Disabled == 'Yes' %}
                                             <option selected value="1">Yes</option>
                                             <option value="2">No</option>
@@ -354,14 +423,24 @@ My Profile
                                     </div>
                                 </div>
                                 <div class="row hiddenRow">
-                                    <div class="form-group col-12">
+                                    <div class="form-group col-4">
                                         <label for="frist_name">NCPWD Reg No.</label>
                                         <input type="number" class="form-control" name="disabilityGrade"
                                             value="{{applicant.Disability_Grade}}" id="disability" disabled autofocus>
                                     </div>
+                                    <div class="form-group col-4">
+                                        <label for="frist_name">Date of registration</label>
+                                        <input type="date" class="form-control" name="dateOfRegistration"
+                                            value="{{applicant.Date_Of_Registration}}" id="dateOfRegistration" disabled autofocus>
+                                    </div>
+                                    <div class="form-group col-4 ">
+                                        <label for="frist_name">Nature of your Disability</label>
+                                        <input type="text" class="form-control" value="{{applicant.Nature_of_Disability}}"
+                                            name="natureOfDisability" autofocus>
+                                    </div>
                                 </div>
                                 <div class="my-2">
-                                    <h5> Contact Information</h5>
+                                    <h6> Contact Information</h6>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-4">
@@ -381,14 +460,34 @@ My Profile
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="form-group col-12">
+                                    <div class="form-group col-6">
                                         <label for="frist_name">Residential Address</label>
                                         <input type="text" class="form-control" name="residentialAddress"
                                             value="{{applicant.Residential_Address}}" autofocus>
                                     </div>
+                                    <div class="form-group col-6">
+                                        <label for="frist_name">City/Town</label>
+                                        <input type="text" class="form-control" name="townORCity"
+                                            value="" autofocus>
+                                    </div>
                                 </div>
                                 <div class="my-2">
-                                    <h5>Present Employment</h5>
+                                    <h6>Altenative  Contact Person</h5>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-6">
+                                        <label for="frist_name">Full Name</label>
+                                        <input type="text" class="form-control" name="nameOfAlternativeContactPerson"
+                                            value="{{applicant.Name_of_Alternative_Contact_Person}}" autofocus>
+                                    </div>
+                                    <div class="form-group col-6">
+                                        <label for="frist_name">Phone/Telephone</label>
+                                        <input type="text" class="form-control" name="telephoneNo"
+                                            value="{{applicant.Telephone_No}}" autofocus>
+                                    </div>
+                                </div>
+                                <div class="my-2">
+                                    <h6>Present Employment</h6>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-3">
@@ -433,7 +532,7 @@ My Profile
                                     </div>
                                 </div>
                                 <div class="my-2">
-                                    <h5>Employment History</h5>
+                                    <h6>Employment History</h6>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-12">
@@ -464,7 +563,7 @@ My Profile
                                 </div>
 
                                 <div class="my-2">
-                                    <h5>Legal Information</h5>
+                                    <h6>Legal Information</h6>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-12">
@@ -900,7 +999,7 @@ My Profile
                             <form method="post" id="professionalBodyForm">
                                 {% csrf_token %}
                                 <div class="row">
-                                    <div class="form-group col-6">
+                                    <div class="form-group col-4">
                                         <label>Professional Body<span class="text-danger">*</span></label>
                                         <select class="form-control select2" name="professionalBody"
                                             id="ms_professionalBody" required>
@@ -911,9 +1010,14 @@ My Profile
                                             <option value="Other">OTHER PROFESSIONAL BODY</option>
                                         </select>
                                     </div>
-                                    <div class="form-group col-6">
+                                    <div class="form-group col-4">
                                         <label for="">Membership No</label>
                                         <input type="text" class="form-control" name="membershipNo" id="ms_membershipNo"
+                                            required autofocus>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label for="">Date of Renewal</label>
+                                        <input type="date" class="form-control" name="dateOfRenewal" id="ms_dateOfRenewal"
                                             required autofocus>
                                     </div>
                                 </div>
@@ -1027,15 +1131,26 @@ My Profile
                                             autofocus required>
                                     </div>
                                     <div class="form-group col-4">
+                                        <label for="">Email</label>
+                                        <input type="text" class="form-control" name="email" id="j_email" autofocus
+                                            required>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label for="">Period you have known them.</label>
+                                        <input type="text" class="form-control" name="periodForWhichTheRefereeHasKnownYou" id="j_period" autofocus
+                                            required>
+                                    </div>
+                                    <div class="form-group col-4">
                                         <label for="">Address</label>
                                         <input type="text" class="form-control" name="address" id="j_address"
                                             autofocus required>
                                     </div>
                                     <div class="form-group col-4">
-                                        <label for="">Email</label>
-                                        <input type="text" class="form-control" name="email" id="j_email" autofocus
-                                            required>
+                                        <label for="">City/Town</label>
+                                        <input type="text" class="form-control" name="cityOrTown" id="j_city"
+                                            autofocus required>
                                     </div>
+                                    
                                 </div>
                                 <div class="money-spinner mx-auto text-center" id="ref-spinner" style="display: none">
                                     <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif"
@@ -1832,7 +1947,6 @@ My Profile
         });
     }
 
-
     function loadRefereeData() {
         $.ajax({
             url: '{% url "QyApplicantReferees" %}',
@@ -2099,12 +2213,16 @@ My Profile
 
         var disabledSelect = $('#disabled');
         var disabilityInput = $('#disability');
+        var dateOfRegistrationinput = $('#dateOfRegistration')
+        var natureOfDisabilityinput = $('#natureOfDisability')
         $('.hiddenRow').hide();
 
 
         // Check initial value of the select on page load
         if (disabledSelect.val() == '1') {
             disabilityInput.prop('disabled', false);
+            dateOfRegistrationinput.prop('disabled', false);
+            natureOfDisabilityinput.prop('disabled', false);
             $('.hiddenRow').show(1000);
         }
 
@@ -2112,9 +2230,13 @@ My Profile
         disabledSelect.on('change', function () {
             if (this.value === '1') {
                 disabilityInput.prop('disabled', false);
+                dateOfRegistrationinput.prop('disabled', false);
+                natureOfDisabilityinput.prop('disabled', false);
                 $('.hiddenRow').show(1000);
             } else {
                 disabilityInput.prop('disabled', true);
+                dateOfRegistrationinput.prop('disabled', true);
+                natureOfDisabilityinput.prop('disabled', true);
                 $('.hiddenRow').hide(500);
             }
         });
@@ -2350,6 +2472,7 @@ My Profile
                     professionalBody: $("#ms_professionalBody").val(),
                     membershipNo: $("#ms_membershipNo").val(),
                     otherProfessionalBody: $("#otherProfessionalBody").val(),
+                    dateOfRenewal: $("#ms_dateOfRenewal").val(),
                     lineNo: 0,
                     myAction: 'insert',
                     csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
@@ -2358,6 +2481,7 @@ My Profile
                     $("#ms_professionalBody").val("")
                     $("#ms_membershipNo").val("")
                     $("#otherProfessionalBody").val("")
+                    $("#ms_dateOfRenewal").val("")
                     if (data['success'] == true) {
                         iziToast.show({
                             theme: 'dark',
@@ -2426,7 +2550,7 @@ My Profile
             })
         });
         // **** End****
-        // Hobby JS
+        // Referee JS
         $(document).on('submit', '#refForm', function (e) {
             e.preventDefault();
             $('#ref-spinner').show(500);
@@ -2440,6 +2564,8 @@ My Profile
                     telephoneNo: $("#j_telephoneNo").val(),
                     address: $("#j_address").val(),
                     email: $("#j_email").val(),
+                    periodForWhichTheRefereeHasKnownYou: $("#j_period").val(),
+                    cityOrTown: $("#j_city").val(),
                     lineNo: 1000,
                     myAction: 'insert',
                     csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
@@ -2450,6 +2576,8 @@ My Profile
                     $("#j_telephoneNo").val("");
                     $("#j_address").val("");
                     $("#j_email").val("");
+                    $("#j_period").val("");
+                    $("#j_city").val("");
                     if (data['success'] == true) {
                         iziToast.show({
                             theme: 'dark',

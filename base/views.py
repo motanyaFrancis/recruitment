@@ -206,11 +206,18 @@ class FnApplicantDetails(UserObjectMixins, View):
             dateOfOffence = request.POST.get('dateOfOffence')
             placeOfOffence = request.POST.get('placeOfOffence')
             sentenceImposed = request.POST.get('sentenceImposed')
+            townORCity =request.POST.get('townORCity')
+            title =request.POST.get('title')
+            nameOfAlternativeContactPerson =request.POST.get('nameOfAlternativeContactPerson')
+            telephoneNo =request.POST.get('telephoneNo')
+            natureOfDisability =request.POST.get('natureOfDisability')
+            dateOfRegistration =request.POST.get('dateOfRegistration')
+
             if not countyCode:
                 countyCode = ""
 
             if not disabilityGrade:
-                disabilityGrade = 0
+                disabilityGrade = ''
 
             if not ethnicOrigin:
                 ethnicOrigin = ''
@@ -231,14 +238,16 @@ class FnApplicantDetails(UserObjectMixins, View):
                                               ethnicOrigin, disabled, dob,
                                               phoneNumber, postalAddress,
                                               postalCode, residentialAddress,
-                                              int(disabilityGrade),
+                                              disabilityGrade,
                                               areYouKenyan, citizenshipBy, certificateNo, 
                                               stateNationality, country, subCounty, 
                                               constituency, termsOfService, currentMonthlySalary, 
                                               expectedSalary, howSoonCanYouTakeThisAppointment, 
                                               haveYouEverBeenRemovedOrDismissedFromEmployment, 
                                               giveDetails, haveYouBeenChargedInACourtOfLaw, offence, 
-                                              dateOfOffence, placeOfOffence, sentenceImposed)
+                                              dateOfOffence, placeOfOffence, sentenceImposed,
+                                              townORCity, title, nameOfAlternativeContactPerson,
+                                              telephoneNo, natureOfDisability, dateOfRegistration)
             if response == True:
                 messages.success(request, "Successfully Added")
                 return redirect('Profile')
@@ -454,13 +463,14 @@ class FnApplicantProfessionalMembership(UserObjectMixins, View):
             professionalBody = request.POST.get('professionalBody')
             membershipNo = request.POST.get('membershipNo')
             otherProfessionalBody = request.POST.get('otherProfessionalBody')
+            dateOfRenewal = request.POST.get('dateOfRenewal')
 
             if not otherProfessionalBody:
                 otherProfessionalBody = ''
-
+            print(dateOfRenewal)
             response = self.make_soap_request('FnApplicantProfessionalMembership',
                                               applicantNo, lineNo, professionalBody, membershipNo,
-                                              myAction, otherProfessionalBody)
+                                              myAction, otherProfessionalBody, dateOfRenewal)
             if response == True:
                 return JsonResponse({'success': True, 'message': 'Successfully'})
             return JsonResponse({'success': False, 'message': f'{response}'})
@@ -502,9 +512,12 @@ class FnApplicantReferee(UserObjectMixins, View):
             address = request.POST.get('address')
             telephoneNo = request.POST.get('telephoneNo')
             email = request.POST.get('email')
+            periodForWhichTheRefereeHasKnownYou = request.POST.get('periodForWhichTheRefereeHasKnownYou')
+            cityOrTown = request.POST.get('cityOrTown')
             response = self.make_soap_request('FnApplicantReferee',
                                               applicantNo, lineNo, names, designation,
-                                              company, address, telephoneNo, email, myAction)            
+                                              company, address, telephoneNo, email, myAction,
+                                              periodForWhichTheRefereeHasKnownYou, cityOrTown,)            
             
             if response == True:
                 return JsonResponse({'success': True, 'message': 'Successfully'})
