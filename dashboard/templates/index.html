@@ -6,12 +6,27 @@ OPEN VACANCIES
 <script src="../../static/plugins/assets/modules/moment.min.js"></script>
 {% endblock %}
 {% block navigation %}
+{% if authenticated == True %}
 <li class="nav-item active">
-    <a href="#" type="button" class="nav-link">
+    <a href="/dashboard/" type="button" class="nav-link">
+        <i class="fas fa-home br"></i>
+       Job Vacancies
+    </a>
+</li>
+<li class="nav-item">
+    <a href="/Profile/" type="button" class="nav-link">
+        <i class="fas fa-user"></i>
+        Profile
+    </a>
+</li>
+{% else %}
+<li class="nav-item active">
+    <a href="/" type="button" class="nav-link">
         <i class="fas fa-home br"></i>
         Home
     </a>
 </li>
+{% endif %}
 {% endblock %}
 
 {% block main %}
@@ -26,11 +41,13 @@ OPEN VACANCIES
                         <h2>
                             Exciting job opportunities available!
                         </h2>
-                        <p class="lead">
-                            Sign in to our recruitment portal to view job
-                            descriptions and apply. Don't miss out on the chance to join our team and build successful
-                            partnerships.
-                        </p>
+                            {% if authenticated == False %}
+                            <p class="lead">
+                                Sign in to our recruitment portal to view job
+                                descriptions and apply. Don't miss out on the chance to join our team and build successful
+                                partnerships.
+                            </p>
+                            {% endif %}
                         {% else %}
                         <h2>
                             Welcome to the KEPHIS jobs portal !
@@ -41,10 +58,14 @@ OPEN VACANCIES
                             alerted as soon as new opportunities become available.
                         </p>
                         {% endif %}
+                        {% if authenticated == True %}
+                        
+                        {% else %}
                         <div class="mt-4">
                             <a href="/register/" class="btn btn-outline-white btn-lg btn-icon icon-left"><i
                                     class="far fa-user"></i> Setup Account</a>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

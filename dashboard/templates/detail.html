@@ -262,8 +262,9 @@
                                     <h5 class="modal-title text-center"> Submit Application
                                     </h5>
                                     {% csrf_token %}
-                                    <div style="display:flex; justify-content:space-between;" class="my-3">
-                                        <button type="submit" class="btn btn-primary btn-lg mr-1" style="flex:1;">
+                                    <div  class=" d-flex flex-column my-3 actions_application">
+                                          
+                                        <button type="submit" id="submit_application" class="btn btn-primary btn-lg mr-1 mt-3 hs-button" style="flex:1; ">
                                             Submit {{response.Process_Type}} <i class="fas fa-paper-plane"></i>
                                         </button>
                                     </div>
@@ -293,6 +294,15 @@
 
 </section>
 <script>
+
+    $(".actions_application").prepend('<div class="form-check "><label><input type="checkbox" id="checkbox" class="form-check-input">I hereby certify that the particulars I have given are correct to the best of my knowledge.</label></div>');
+
+    $('.hs-button').prop('disabled', true); // disabled by default
+
+    $('#checkbox').click(function () {
+        // change on checkbox click
+        $('.hs-button').prop('disabled', !$('#checkbox').prop('checked'));
+    });
     $(document).ready(function () {
 
         const $bid_collapse = $('#bid_collapse');
