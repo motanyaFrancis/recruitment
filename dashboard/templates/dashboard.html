@@ -120,17 +120,14 @@ DASHBOARD
                                                 </td>
                                                 <td>{{submit.Qualified}}</td>
                                                 <td>{{submit.Shortlist}}</td>
-                                                <td class="d-flex justify-content-center align-items-center gap-3">
-                                                    <div class="">
-                                                        <a href="/details/{{submit.Job_ID}}/{{submit.Need_Code}}"
-                                                            class="btn btn-primary"><i class="fas fa-file-invoice"></i> View</a>
-                                                    </div>
-
+                                                <td>
+                                                    <a href="/details/{{submit.Job_ID}}/{{submit.Need_Code}}" class="btn btn-primary"><i
+                                                            class="fas fa-file-invoice"></i> View</a>
                                                     <!-- <form action="{% url 'FnWithdrawJobApplication' %}" method="post">
-                                                        {% csrf_token %}
-                                                        <input type="hidden" name="needCode" value="{{res.Need_Code}}">
-                                                        <button type="submit" class="btn btn-danger">Cancel</button>
-                                                    </form> -->
+                                                            {% csrf_token %}
+                                                            <input type="hidden" name="needCode" value="{{res.Need_Code}}">
+                                                            <button type="submit" class="btn btn-danger">Cancel</button>
+                                                        </form> -->
                                                 </td>
                                             </tr>
                                             {% endfor %}
