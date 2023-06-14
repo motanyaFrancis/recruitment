@@ -225,6 +225,9 @@ class FnApplicantDetails(UserObjectMixins, View):
             if not giveDetails:
                 giveDetails = 'none'
 
+            if not dateOfRegistration:
+                dateOfRegistration = '2100-01-01'
+
             class Data(enum.Enum):
                 values = genders
             gender = (Data.values).value

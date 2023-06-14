@@ -184,17 +184,17 @@ My Profile
                                     </div>
                                     <div class="form-group col-4">
                                         <label for="frist_name">First Name <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" placeholder="{{applicant.First_Name}}"
+                                        <input type="text" class="form-control" 
                                             value="{{applicant.First_Name}}" name="firstName" autofocus required>
                                     </div>
                                     <div class="form-group col-3">
                                         <label for="frist_name">Middle Name <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" placeholder="{{applicant.Middle_Name}}"
+                                        <input type="text" class="form-control" 
                                             value="{{applicant.Middle_Name}}" name="middleName" autofocus required>
                                     </div>
                                     <div class="form-group col-3">
                                         <label for="frist_name">Last Name <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" placeholder="{{applicant.Last_Name}}"
+                                        <input type="text" class="form-control" 
                                             value="{{applicant.Last_Name}}" name="lastName" autofocus required>
                                     </div>
                                 </div>
@@ -202,7 +202,7 @@ My Profile
                                     <div class="form-group col-3">
                                         <label for="frist_name">ID No/Passport No. <span
                                                 class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" placeholder="{{applicant.ID_Number}}"
+                                        <input type="text" class="form-control"
                                             value="{{applicant.ID_Number}}" name="idNumber" autofocus required>
                                     </div>
                                     <div class="form-group col-3">
@@ -410,14 +410,14 @@ My Profile
                                         <select class="form-control select2" name="disabled" id="disabled" required>
                                             {% if applicant.Disabled == 'Yes' %}
                                             <option selected value="1">Yes</option>
-                                            <option value="2">No</option>
+                                            <option value="0">No</option>
                                             {% elif applicant.Disabled == 'No' %}
-                                            <option selected value="2">No</option>
+                                            <option selected value="0">No</option>
                                             <option value="1">Yes</option>
                                             {% else %}
-                                            <option selected value="0">--select--</option>
+                                            <option selected value="2">--select--</option>
+                                            <option value="0">No</option>
                                             <option value="1">Yes</option>
-                                            <option value="2">No</option>
                                             {% endif %}
                                         </select>
                                     </div>
@@ -2230,6 +2230,8 @@ My Profile
         disabledSelect.on('change', function () {
             if (this.value === '1') {
                 disabilityInput.prop('disabled', false);
+                dateOfRegistrationinput.prop('disabled', false);
+                natureOfDisabilityinput.prop('disabled', false);
                 $('.hiddenRow').show(1000);
             } else {
                 disabilityInput.prop('disabled', true);
