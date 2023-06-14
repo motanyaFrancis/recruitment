@@ -55,18 +55,31 @@ class Detail(UserObjectMixins, View):
             ctx = {}
             response = {}
             username = 'None'
+            userID = 'None'
+            jobs = []
             Dashboard = False
             Profile = False
             ContactPage = False
             submitted_list = []
 
-            userID = request.session['No_']
             if 'authenticated' in request.session:
                 authenticated = request.session['authenticated']
+                
+                userID = request.session['No_']
+
                 if 'Name' in request.session:
                     username = request.session['Name']
                 else:
                     username = request.session['E_Mail']
+                
+
+                applied_jobs = self.one_filter(
+                    "/QyApplicantJobApplied", "Application_No_", "eq", userID)
+                submitted = [x for x in applied_jobs[1]]
+                # print(submitted)
+
+                for jobs in applied_jobs[1]:
+                    submitted_list.append(jobs['Job_ID'])
             else:
                 authenticated = False
 
@@ -86,13 +99,9 @@ class Detail(UserObjectMixins, View):
                 if Experience['Job_ID'] == pk:
                     E_response = Experience
 
-            applied_jobs = self.one_filter(
-                "/QyApplicantJobApplied", "Application_No_", "eq", userID)
-            submitted = [x for x in applied_jobs[1]]
+            
 
-            for jobs in applied_jobs[1]:
-                submitted_list.append(jobs['Job_ID'])
-            # print(jobs)
+            print(jobs)
 
             JobResponsibilities = self.one_filter(
                 '/QyJobResponsibilities', 'Code', 'eq', pk)

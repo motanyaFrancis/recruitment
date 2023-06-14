@@ -405,7 +405,7 @@ class JobExperience(UserObjectMixins, View):
             myAction = request.POST.get('myAction')
 
             if not endDate:
-                endDate = '0001-01-01'
+                endDate = '2022-01-01'
 
             endDate = datetime.strptime(endDate, '%Y-%m-%d').date()
 

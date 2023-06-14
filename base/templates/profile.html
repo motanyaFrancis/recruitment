@@ -389,7 +389,7 @@ My Profile
                                             <option value="4">Divorced</option>
                                             <option value="5">Widow(er)</option>
                                             {% else %}
-                                            <option selected disabled value="0">
+                                            <option selected value="0">
                                                 --select--</option>
                                             <option value="1">Single</option>
                                             <option value="2">Married</option>
@@ -493,8 +493,8 @@ My Profile
                                     <div class="form-group col-3">
                                         <label for="frist_name">Terms of Service</label>
                                         <select class="form-control select2" name="termsOfService" id="termsOfService" required>
-                                            <option selected value="{{applicant.Terms_Of_Service}}">{{applicant.Terms_Of_Service}}
-                                            </option>
+                                            <!-- <option selected value="{{applicant.Terms_Of_Service}}">{{applicant.Terms_Of_Service}}
+                                            </option> -->
                                             {% if applicant.Terms_Of_Service == 'Contract' %}
                                             <option selected value="1">Contract</option>
                                             <option value="2">Temporary</option>
@@ -2230,13 +2230,9 @@ My Profile
         disabledSelect.on('change', function () {
             if (this.value === '1') {
                 disabilityInput.prop('disabled', false);
-                dateOfRegistrationinput.prop('disabled', false);
-                natureOfDisabilityinput.prop('disabled', false);
                 $('.hiddenRow').show(1000);
             } else {
                 disabilityInput.prop('disabled', true);
-                dateOfRegistrationinput.prop('disabled', true);
-                natureOfDisabilityinput.prop('disabled', true);
                 $('.hiddenRow').hide(500);
             }
         });
