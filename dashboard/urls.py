@@ -11,4 +11,5 @@ urlpatterns = [
     path('DeleteAttachment/', views.DeleteAttachment.as_view(), name='DeleteAttachment'),
     path('Submit/<str:no>/',views.Submit.as_view(),name='Submit'),
     path('FnWithdrawJobApplication', views.FnWithdrawJobApplication.as_view(), name='FnWithdrawJobApplication'),
+    # path('fileUpload/<str:pk>/<str:no>', views.fileUpload, name='fileUpload'),
 ]

@@ -449,11 +449,11 @@
     // Activating the submission button
     $(".actions_application").prepend('<div class="form-check "><label><input type="checkbox" id="checkbox" class="form-check-input">I hereby certify that the particulars I have given are correct to the best of my knowledge.</label></div>');
 
-    $('.hs-button').prop('disabled', true); // disabled by default
+    $('.hs-button').prop('hidden', true); // disabled by default
 
     $('#checkbox').click(function () {
         // change on checkbox click
-        $('.hs-button').prop('disabled', !$('#checkbox').prop('checked'));
+        $('.hs-button').prop('hidden', !$('#checkbox').prop('checked'));
     });
 
 
@@ -523,13 +523,13 @@
             var attachmentCode = $('#attachmentCode').val();
 
             for (let i = 0; i < attachments.files.length; i++) {
-                if (attachments.files[i].size > 5 * 1024 *
+                if (attachments.files[i].size > 2 * 1024 *
                     1024) { // check if the file size is greater than 5MB
                     iziToast.show({
                         theme: 'dark',
                         icon: 'las la-exclamation',
                         title: 'Error',
-                        message: 'File size should not exceed 5MB',
+                        message: 'File size should not exceed 2MB',
                         position: 'topRight',
                         progressBarColor: '#ff0800',
                     });
@@ -701,7 +701,7 @@
                                 class: "file-man-title"
                             }).append($("<h5>", {
                                 class: "mb-0 text-overflow"
-                            }).text(No_ + "." + File_Extension));
+                            }).text(File_Name + "." + File_Extension));
                             fileManBoxDiv.append(fileManTitleDiv);
                             attachmentDiv.append(fileManBoxDiv);
                             containerDiv.append(attachmentDiv);

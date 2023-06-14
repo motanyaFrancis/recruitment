@@ -76,7 +76,7 @@ class Detail(UserObjectMixins, View):
                 applied_jobs = self.one_filter(
                     "/QyApplicantJobApplied", "Application_No_", "eq", userID)
                 submitted = [x for x in applied_jobs[1]]
-                # print(submitted)
+                
 
                 for jobs in applied_jobs[1]:
                     submitted_list.append(jobs['Job_ID'])
@@ -100,9 +100,6 @@ class Detail(UserObjectMixins, View):
                     E_response = Experience
 
             
-
-            print(jobs)
-
             JobResponsibilities = self.one_filter(
                 '/QyJobResponsibilities', 'Code', 'eq', pk)
             RESPOs = [x for x in JobResponsibilities[1]]
@@ -241,7 +238,7 @@ class Attachments(UserObjectMixins, View):
                 response = await asyncio.gather(task_get_leave_attachments)
 
                 Attachments = [x for x in response[0]]
-                print(Attachments)
+                # print(Attachments)
                 return JsonResponse(Attachments, safe=False)
         except Exception as e:
             logging.exception(e)
@@ -252,10 +249,11 @@ class Attachments(UserObjectMixins, View):
             applicantNo = await sync_to_async(request.session.__getitem__)('No_')
             attachments = request.FILES.getlist('attachment')
             tableID = 52177607
-            fileName = no
+            # fileName = no
             # response = False
 
             for file in attachments:
+                fileName = request.FILES['attachments'].name
                 attachment = base64.b64encode(file.read())
 
                 response = self.make_soap_request('FnUploadAttachedDocument',
@@ -274,7 +272,39 @@ class Attachments(UserObjectMixins, View):
             error = "Upload failed: {}".format(e)
             logging.exception(e)
             return JsonResponse({'success': False, 'error': error})
+        
+def fileUpload(request, pk, no):
+    try:
+        applicantNo = request.session['No_']
+        attachments = request.FILES.getlist('attachments')
+        tableID = 52177607
+        
 
+        for file in attachments:
+                fileName = request.FILES['attachments'].name
+                attachment = base64.b64encode(file.read())
+                print('fileName:  ', fileName)
+
+        # response = self.make_soap_request('FnUploadAttachedDocument',
+        #                                           applicantNo, fileName, attachment,
+        #                                           tableID, applicantNo)
+        
+        response = config.CLIENT.service.FnUploadAttachedDocument(
+                       applicantNo, fileName, attachment, tableID, applicantNo
+                        )
+        if response is not None:
+            if response == True:
+                message = "Uploaded {} attachments successfully".format(
+                    len(attachments))
+                return redirect('Detail', pk=pk, no=no)
+            error = "Upload failed: {}".format(response)
+            return redirect('Detail', pk=pk, no=no)
+        error = "Upload failed: Response from server was None"
+        return redirect('Detail', pk=pk, no=no)
+    except Exception as e:
+        error = "Upload failed: {}".format(e)
+        logging.exception(e)
+        return redirect('Detail', pk=pk, no=no)
 
 class DeleteAttachment(UserObjectMixins, View):
     def post(self, request):
@@ -331,82 +361,3 @@ class FnWithdrawJobApplication(UserObjectMixins, View):
             messages.error(request, f"{e}")
             print(e)
             return redirect('dashboard')
-
-
-class AcademicQualifications(UserObjectMixins, View):
-    def get(self, request):
-        try:
-            Applicant_No_ = request.session['No_']
-            qualifications = self.one_filter('/QyApplicantAcademicQualifications',
-                                             'Applicant_No_', "eq", Applicant_No_)
-
-            return JsonResponse(qualifications, safe=False)
-        except Exception as e:
-            print(e)
-            return JsonResponse({'error': str(e)}, safe=False)
-
-
-class QyApplicantJobExperience(UserObjectMixins, View):
-    def get(self, request):
-        try:
-            Applicant_No_ = request.session['No_']
-            experience = self.one_filter('/QyApplicantJobExperience',
-                                         'Applicant_No_', "eq", Applicant_No_)
-
-            return JsonResponse(experience, safe=False)
-        except Exception as e:
-            print(e)
-            return JsonResponse({'error': str(e)}, safe=False)
-
-
-class QyApplicantJobProfessionalCourses(UserObjectMixins, View):
-    def get(self, request):
-        try:
-            Applicant_No_ = request.session['No_']
-            pro_courses = self.one_filter('/QyApplicantJobProfessionalCourses',
-                                          'Applicant_No_', "eq", Applicant_No_)
-
-            return JsonResponse(pro_courses, safe=False)
-        except Exception as e:
-            print(e)
-            return JsonResponse({'error': str(e)}, safe=False)
-
-
-class QyApplicantProfessionalMemberships(UserObjectMixins, View):
-    def get(self, request):
-        try:
-            Applicant_No_ = request.session['No_']
-            pro_memberships = self.one_filter('/QyApplicantProfessionalMemberships',
-                                              'Applicant_No_', "eq", Applicant_No_)
-
-            return JsonResponse(pro_memberships, safe=False)
-        except Exception as e:
-            print(e)
-            return JsonResponse({'error': str(e)}, safe=False)
-
-
-class QyApplicantHobbies(UserObjectMixins, View):
-    def get(self, request):
-        try:
-            Applicant_No_ = request.session['No_']
-            hobbies = self.one_filter('/QyApplicantHobbies',
-                                      'No_', "eq", Applicant_No_)
-
-            return JsonResponse(hobbies, safe=False)
-        except Exception as e:
-            print(e)
-            return JsonResponse({'error': str(e)}, safe=False)
-
-
-class QyApplicantReferees(UserObjectMixins, View):
-    def get(self, request):
-        try:
-            Applicant_No_ = request.session['No_']
-            referees = self.one_filter('/QyApplicantReferees',
-                                       'No', "eq", Applicant_No_)
-
-            return JsonResponse(referees, safe=False)
-        except Exception as e:
-            print(e)
-            return JsonResponse({'error': str(e)}, safe=False)
-
