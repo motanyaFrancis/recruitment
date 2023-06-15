@@ -241,7 +241,7 @@ My Profile
                                     <div class="form-group col-3">
                                         <label>Nationality <span class="text-danger">*</span></label>
                                         <select class="form-control select2" id="country" name="country" required>
-                                            <option selected value="{{applicant.Country_Code}}">{{applicant.Citizenship}}
+                                            <option selected value="{{applicant.Country_Code}}">{{applicant.Country_Code}}
                                             </option>
                                             {% for country in country %}
                                             {% if country.Code != applicant.Citizenship %}
@@ -341,6 +341,11 @@ My Profile
                                             value="" name="stateNationality" autofocus hidden>
                                     </div>
                                     <div class="form-group col-3">
+                                        <label for="frist_name">Pin Number<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" value="{{applicant.PIN_NO}}"
+                                            name="pINNo" autofocus required>
+                                    </div>
+                                    <div class="form-group col-3">
                                         <label>Marital Status <span class="text-danger">*</span></label>
                                         <select class="form-control select2" name="maritalStatus" required required>
                                             {% if applicant.Marital_Status == 'Single' %}
@@ -402,11 +407,7 @@ My Profile
                                         <input type="date" class="form-control" value="{{applicant.Date_Of_Birth}}"
                                             name="dob" autofocus required>
                                     </div>
-                                    <div class="form-group col-3">
-                                        <label for="frist_name">Pin Number<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" value=""
-                                            name="pINNo" autofocus required>
-                                    </div>
+                                    
                                     <div class="form-group col-3">
                                         <label>Are you living with a disability? <span class="text-danger">*</span></label>
                                         <select class="form-control select2" name="disabled" id="disabled" required>
@@ -470,7 +471,7 @@ My Profile
                                     <div class="form-group col-6">
                                         <label for="frist_name">City/Town</label>
                                         <input type="text" class="form-control" name="townORCity"
-                                            value="" autofocus>
+                                            value="{{applicant.TownORCity}}" autofocus>
                                     </div>
                                 </div>
                                 <div class="my-2">
