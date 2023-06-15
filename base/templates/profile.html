@@ -239,9 +239,9 @@ My Profile
                                         </select>
                                     </div>
                                     <div class="form-group col-3">
-                                        <label>Citizenship <span class="text-danger">*</span></label>
-                                        <select class="form-control select2" id="country" name="citizenship" required>
-                                            <option selected value="{{applicant.Citizenship}}">{{applicant.Citizenship}}
+                                        <label>Nationality <span class="text-danger">*</span></label>
+                                        <select class="form-control select2" id="country" name="country" required>
+                                            <option selected value="{{applicant.Country_Code}}">{{applicant.Citizenship}}
                                             </option>
                                             {% for country in country %}
                                             {% if country.Code != applicant.Citizenship %}
@@ -250,9 +250,8 @@ My Profile
                                             {% endfor %}
                                         </select>
                                     </div>
-                                    
                                 </div>
-                                <div class="row" id="countyRow" style="display:none">
+                                <div class="row" id="localsData" style="display:none">
                                     <div class="form-group col-3">
                                         <label>Citizenship By <span class="text-danger">*</span></label>
                                         <select class="form-control select2" name="citizenshipBy" id="citizenshipBy" required>
@@ -283,9 +282,9 @@ My Profile
                                     </div>
                                     <div class="form-group col-3">
                                         <label>County</label>
-                                        <select class="form-control select2" id="county" name="county" disabled>
-                                            <option selected disabled value="0">
-                                                --select--</option>
+                                        <select class="form-control select2" id="county" name="county" >
+                                            <option selected value="{{applicant.County_Code}}">{{applicant.County}}
+                                            </option>
                                             {% for county in county %}
                                             <option value="{{county.CountyCode}}">{{county.Description}}</option>
                                             {% endfor %}
@@ -304,7 +303,7 @@ My Profile
                                     <div class="form-group col-3">
                                         <label>Ethnic Origin</label>
                                         <select class="form-control select2" name="ethnicOrigin" id="ethnicOrigin"
-                                            disabled>
+                                            >
                                             {% if applicant.Ethnic_Origin == 'African' %}
                                             <option selected value="0">{{applicant.Ethnic_Origin}}</option>
                                             <option value="1">Indian</option>
@@ -339,11 +338,9 @@ My Profile
                                 <div class="row">
                                     <div class="form-group col-12">
                                         <input type="text" class="form-control"
-                                            value="KE" name="stateNationality" autofocus hidden>
-                                        <input type="text" class="form-control"
-                                            value="" name="country" autofocus hidden>
+                                            value="" name="stateNationality" autofocus hidden>
                                     </div>
-                                    <div class="form-group col-4">
+                                    <div class="form-group col-3">
                                         <label>Marital Status <span class="text-danger">*</span></label>
                                         <select class="form-control select2" name="maritalStatus" required required>
                                             {% if applicant.Marital_Status == 'Single' %}
@@ -400,12 +397,17 @@ My Profile
                                             {% endif %}
                                         </select>
                                     </div>
-                                    <div class="form-group col-4">
+                                    <div class="form-group col-3">
                                         <label for="frist_name">Date of Birth<span class="text-danger">*</span></label>
                                         <input type="date" class="form-control" value="{{applicant.Date_Of_Birth}}"
                                             name="dob" autofocus required>
                                     </div>
-                                    <div class="form-group col-4">
+                                    <div class="form-group col-3">
+                                        <label for="frist_name">Pin Number<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" value=""
+                                            name="pINNo" autofocus required>
+                                    </div>
+                                    <div class="form-group col-3">
                                         <label>Are you living with a disability? <span class="text-danger">*</span></label>
                                         <select class="form-control select2" name="disabled" id="disabled" required>
                                             {% if applicant.Disabled == 'Yes' %}
@@ -2091,33 +2093,26 @@ My Profile
     
     //Disability Jquery
     $(document).ready(function () {
-        $('#countyRow').hide();
-        
-        var CountryData = $('#country')
 
-        if (CountryData = 'KE'){
-            $('#countyRow').show(1000);
-            $('#county').prop('disabled', false);
-            $('#ethnicOrigin').prop('disabled', false);
+        
+        $('#localsData').hide();
+
+        var nationalityStatus = $("#areYouKenyan");
+
+        if (nationalityStatus.val() == '1'){
+            $('#localsData').show(1000);
         }
 
-        // Attach a change event listener to the country select
-        $('#country').on('change', function () {
-            // Get the selected value
+        $("#areYouKenyan").on('change  ', function(){
             var selectedValue = $(this).val();
 
-            // If the selected value is 'KE', show the county row and enable the county select
-            if (selectedValue === 'KE') {
-                $('#countyRow').show(1000);
-                $('#county').prop('disabled', false);
-                $('#ethnicOrigin').prop('disabled', false);
+            if (nationalityStatus.val() == '1'){
+            $('#localsData').show(1000);
             } else {
-                // Otherwise, hide the county row and disable the county select
-                $('#countyRow').hide(500);
-                $('#county').prop('disabled', true);
-                $('#ethnicOrigin').prop('disabled', true);
+                $('#localsData').hide(500);   
             }
         });
+
 
         $('#offenceDetail').hide();
 

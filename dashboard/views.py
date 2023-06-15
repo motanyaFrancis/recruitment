@@ -116,6 +116,8 @@ class Detail(UserObjectMixins, View):
                 '/QyJobPositionsSupervising', 'Job_ID', 'eq', pk)
             Position = [x for x in Supervising[1]]
 
+            print(submitted)
+
         except Exception as e:
             logging.exception(e)
             messages.error(request, f'{e}')

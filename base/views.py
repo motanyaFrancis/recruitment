@@ -173,7 +173,7 @@ class FnApplicantDetails(UserObjectMixins, View):
             lastName = request.POST.get('lastName')
             idNumber = request.POST.get('idNumber')
             genders = request.POST.get('gender')
-            citizenship = request.POST.get('citizenship')
+            # citizenship = request.POST.get('citizenship')
             countyCode = request.POST.get('countyCode')
             maritalStatus = int(request.POST.get('maritalStatus'))
             ethnicOrigin = request.POST.get('ethnicOrigin')
@@ -212,6 +212,7 @@ class FnApplicantDetails(UserObjectMixins, View):
             telephoneNo =request.POST.get('telephoneNo')
             natureOfDisability =request.POST.get('natureOfDisability')
             dateOfRegistration =request.POST.get('dateOfRegistration')
+            pINNo =request.POST.get('pINNo')
 
             if not countyCode:
                 countyCode = ""
@@ -223,10 +224,13 @@ class FnApplicantDetails(UserObjectMixins, View):
                 ethnicOrigin = ''
             
             if not giveDetails:
-                giveDetails = 'none'
+                giveDetails = ''
 
             if not dateOfRegistration:
                 dateOfRegistration = '2100-01-01'
+
+            if not pINNo:
+                pINNo = ''
 
             class Data(enum.Enum):
                 values = genders
@@ -236,7 +240,7 @@ class FnApplicantDetails(UserObjectMixins, View):
                                               applicantNo, firstName,
                                               middleName, lastName,
                                               idNumber, gender,
-                                              citizenship,
+                                            #   citizenship,
                                               countyCode, maritalStatus,
                                               ethnicOrigin, disabled, dob,
                                               phoneNumber, postalAddress,
@@ -250,7 +254,7 @@ class FnApplicantDetails(UserObjectMixins, View):
                                               giveDetails, haveYouBeenChargedInACourtOfLaw, offence, 
                                               dateOfOffence, placeOfOffence, sentenceImposed,
                                               townORCity, title, nameOfAlternativeContactPerson,
-                                              telephoneNo, natureOfDisability, dateOfRegistration)
+                                              telephoneNo, natureOfDisability, dateOfRegistration, pINNo)
             if response == True:
                 messages.success(request, "Successfully Added")
                 return redirect('Profile')

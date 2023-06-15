@@ -163,7 +163,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                {% if authenticated == True and submitted.Job_ID == res.Job_ID %}
+                                {% if authenticated == True and submitted.Need_Code == res.No_ %}
                                 <div class="applyBtn mr-auto text-center">
                                     <button type="button" class="btn btn-primary my-3 w-50" id="bid_collapse" disabled> <span
                                             id="submit_first">Already Applied</span>
@@ -449,11 +449,11 @@
     // Activating the submission button
     $(".actions_application").prepend('<div class="form-check "><label><input type="checkbox" id="checkbox" class="form-check-input">I hereby certify that the particulars I have given are correct to the best of my knowledge.</label></div>');
 
-    $('.hs-button').prop('hidden', true); // disabled by default
+    $('.hs-button').prop('disabled', true); // disabled by default
 
     $('#checkbox').click(function () {
         // change on checkbox click
-        $('.hs-button').prop('hidden', !$('#checkbox').prop('checked'));
+        $('.hs-button').prop('disabled', !$('#checkbox').prop('checked'));
     });
 
 
