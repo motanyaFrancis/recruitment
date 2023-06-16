@@ -162,6 +162,26 @@ class Profile(UserObjectMixins, View):
         return render(request, 'profile.html', ctx)
 
 
+class FnInternalApplicantDetails(UserObjectMixins, View):
+    def post(self, request):
+        try:
+            applicantNo = request.session['No_']
+            applicantType = 1
+            employeeNo = request.POST.get('employeeNo')
+            title = request.POST.get('title')
+            personalEmail = request.session['E_Mail']
+            response = self.make_soap_request('FnInternalApplicantDetails', applicantNo, employeeNo, applicantType, title, personalEmail)
+
+            if response == True:
+                messages.success(request, "Successfully Added")
+                return redirect('Profile')
+            
+        except Exception as e:
+            messages.error(request, f'{e}')
+            logging.exception(e)
+            return redirect('Profile')
+
+
 class FnApplicantDetails(UserObjectMixins, View):
     def post(self, request):
         try:
@@ -206,13 +226,14 @@ class FnApplicantDetails(UserObjectMixins, View):
             dateOfOffence = request.POST.get('dateOfOffence')
             placeOfOffence = request.POST.get('placeOfOffence')
             sentenceImposed = request.POST.get('sentenceImposed')
-            townORCity =request.POST.get('townORCity')
-            title =request.POST.get('title')
-            nameOfAlternativeContactPerson =request.POST.get('nameOfAlternativeContactPerson')
-            telephoneNo =request.POST.get('telephoneNo')
-            natureOfDisability =request.POST.get('natureOfDisability')
-            dateOfRegistration =request.POST.get('dateOfRegistration')
-            pINNo =request.POST.get('pINNo')
+            townORCity = request.POST.get('townORCity')
+            title = request.POST.get('title')
+            nameOfAlternativeContactPerson = request.POST.get(
+                'nameOfAlternativeContactPerson')
+            telephoneNo = request.POST.get('telephoneNo')
+            natureOfDisability = request.POST.get('natureOfDisability')
+            dateOfRegistration = request.POST.get('dateOfRegistration')
+            pINNo = request.POST.get('pINNo')
 
             if not countyCode:
                 countyCode = ""
@@ -222,7 +243,7 @@ class FnApplicantDetails(UserObjectMixins, View):
 
             if not ethnicOrigin:
                 ethnicOrigin = ''
-            
+
             if not giveDetails:
                 giveDetails = ''
 
@@ -240,18 +261,18 @@ class FnApplicantDetails(UserObjectMixins, View):
                                               applicantNo, firstName,
                                               middleName, lastName,
                                               idNumber, gender,
-                                            #   citizenship,
+                                              #   citizenship,
                                               countyCode, maritalStatus,
                                               ethnicOrigin, disabled, dob,
                                               phoneNumber, postalAddress,
                                               postalCode, residentialAddress,
                                               disabilityGrade,
-                                              areYouKenyan, citizenshipBy, certificateNo, 
-                                              stateNationality, country, subCounty, 
-                                              constituency, termsOfService, currentMonthlySalary, 
-                                              expectedSalary, howSoonCanYouTakeThisAppointment, 
-                                              haveYouEverBeenRemovedOrDismissedFromEmployment, 
-                                              giveDetails, haveYouBeenChargedInACourtOfLaw, offence, 
+                                              areYouKenyan, citizenshipBy, certificateNo,
+                                              stateNationality, country, subCounty,
+                                              constituency, termsOfService, currentMonthlySalary,
+                                              expectedSalary, howSoonCanYouTakeThisAppointment,
+                                              haveYouEverBeenRemovedOrDismissedFromEmployment,
+                                              giveDetails, haveYouBeenChargedInACourtOfLaw, offence,
                                               dateOfOffence, placeOfOffence, sentenceImposed,
                                               townORCity, title, nameOfAlternativeContactPerson,
                                               telephoneNo, natureOfDisability, dateOfRegistration, pINNo)
@@ -519,13 +540,14 @@ class FnApplicantReferee(UserObjectMixins, View):
             address = request.POST.get('address')
             telephoneNo = request.POST.get('telephoneNo')
             email = request.POST.get('email')
-            periodForWhichTheRefereeHasKnownYou = request.POST.get('periodForWhichTheRefereeHasKnownYou')
+            periodForWhichTheRefereeHasKnownYou = request.POST.get(
+                'periodForWhichTheRefereeHasKnownYou')
             cityOrTown = request.POST.get('cityOrTown')
             response = self.make_soap_request('FnApplicantReferee',
                                               applicantNo, lineNo, names, designation,
                                               company, address, telephoneNo, email, myAction,
-                                              periodForWhichTheRefereeHasKnownYou, cityOrTown,)            
-            
+                                              periodForWhichTheRefereeHasKnownYou, cityOrTown,)
+
             if response == True:
                 return JsonResponse({'success': True, 'message': 'Successfully'})
             return JsonResponse({'success': False, 'message': f'{response}'})
@@ -541,7 +563,6 @@ class FnDeleteApplicantHobby(UserObjectMixins, View):
             applicantNo = request.session['No_']
             lineNo = int(request.POST.get('lineNo'))
             myAction = request.POST.get('myAction')
-            
 
             response = self.make_soap_request('FnDeleteApplicantHobby',
                                               applicantNo, lineNo, myAction)
@@ -561,7 +582,6 @@ class FnDeleteApplicantProfessionalMembership(UserObjectMixins, View):
             applicantNo = request.session['No_']
             lineNo = int(request.POST.get('lineNo'))
             myAction = request.POST.get('myAction')
-            
 
             response = self.make_soap_request('FnDeleteApplicantProfessionalMembership',
                                               applicantNo, lineNo, myAction)
@@ -581,7 +601,6 @@ class FnDeleteApplicantProfessionalCourse(UserObjectMixins, View):
             applicantNo = request.session['No_']
             lineNo = int(request.POST.get('lineNo'))
             myAction = request.POST.get('myAction')
-            
 
             response = self.make_soap_request('FnDeleteApplicantProfessionalCourse',
                                               applicantNo, lineNo, myAction)
@@ -594,13 +613,13 @@ class FnDeleteApplicantProfessionalCourse(UserObjectMixins, View):
             logging.exception(e)
             return JsonResponse({'success': False, 'error': error})
 
+
 class FnDeleteApplicantJobExperience(UserObjectMixins, View):
     def post(self, request):
         try:
             applicantNo = request.session['No_']
             lineNo = int(request.POST.get('lineNo'))
             myAction = request.POST.get('myAction')
-            
 
             response = self.make_soap_request('FnDeleteApplicantJobExperience',
                                               applicantNo, lineNo, myAction)
@@ -612,7 +631,7 @@ class FnDeleteApplicantJobExperience(UserObjectMixins, View):
             error = "Upload failed: {}".format(e)
             logging.exception(e)
             return JsonResponse({'success': False, 'error': error})
-        
+
 
 class FnDeleteApplicantAcademicQualification(UserObjectMixins, View):
     def post(self, request):
@@ -620,7 +639,6 @@ class FnDeleteApplicantAcademicQualification(UserObjectMixins, View):
             applicantNo = request.session['No_']
             lineNo = int(request.POST.get('lineNo'))
             myAction = request.POST.get('myAction')
-            
 
             response = self.make_soap_request('FnDeleteApplicantAcademicQualification',
                                               applicantNo, lineNo, myAction)
@@ -640,7 +658,6 @@ class FnDeleteApplicantReferee(UserObjectMixins, View):
             applicantNo = request.session['No_']
             lineNo = int(request.POST.get('lineNo'))
             myAction = request.POST.get('myAction')
-            
 
             response = self.make_soap_request('FnDeleteApplicantReferee',
                                               applicantNo, lineNo, myAction)

@@ -108,514 +108,709 @@ My Profile
                     <div class="content">
                         <section>
                             <h2 class="my-4 text-center mx-auto">Personal Information</h2>
-                            <form action="{% url 'FnApplicantDetails' %}" method="post" novalidate>
-                                {% csrf_token %}
-                                <div class="row">
-                                    <div class="form-group col-2">
-                                        <label for="frist_name">Title <span class="text-danger">*</span></label>
-                                        <select class="form-control select2" name="title" id="title">
-                                            {% if applicant.Title == 'Prof' %}
-                                            <option selected value="1">Prof</option>
-                                            <option value="2">Dr</option>
-                                            <option value="3">Mr</option>
-                                            <option value="4">Mrs</option>
-                                            <option value="5">Miss</option>
-                                            <option value="6">Ms</option>
-                                            <option value="7">Rev</option>
-                                            {% elif applicant.Title == 'Dr' %}
-                                            <option selected value="2">Dr</option>
-                                            <option value="1">Prof</option>
-                                            <option value="3">Mr</option>
-                                            <option value="4">Mrs</option>
-                                            <option value="5">Miss</option>
-                                            <option value="6">Ms</option>
-                                            <option value="7">Rev</option>
-                                            {% elif applicant.Title == 'Mr' %}
-                                            <option selected value="3">Mr</option>
-                                            <option value="1">Prof</option>
-                                            <option value="2">Dr</option>
-                                            <option value="4">Mrs</option>
-                                            <option value="5">Miss</option>
-                                            <option value="6">Ms</option>
-                                            <option value="7">Rev</option>
-                                            {% elif applicant.Title == 'Mrs' %}
-                                            <option selected value="4">Mrs</option>
-                                            <option value="1">Prof</option>
-                                            <option value="2">Dr</option>
-                                            <option value="3">Mr</option>
-                                            <option value="5">Miss</option>
-                                            <option value="6">Ms</option>
-                                            <option value="7">Rev</option>
-                                            {% elif applicant.Title == 'Miss' %}
-                                            <option selected value="5">Miss</option>
-                                            <option value="1">Prof</option>
-                                            <option value="2">Dr</option>
-                                            <option value="3">Mr</option>
-                                            <option value="4">Mrs</option>
-                                            <option value="6">Ms</option>
-                                            <option value="7">Rev</option>
-                                            {% elif applicant.Title == 'Ms' %}
-                                            <option selected value="6">Ms</option>
-                                            <option value="1">Prof</option>
-                                            <option value="2">Dr</option>
-                                            <option value="3">Mr</option>
-                                            <option value="4">Mrs</option>
-                                            <option value="5">Miss</option>
-                                            <option value="7">Rev</option>
-                                            {% elif applicant.Title == 'Rev' %}
-                                            <option selected value="7">Rev</option>
-                                            <option value="1">Prof</option>
-                                            <option value="2">Dr</option>
-                                            <option value="3">Mr</option>
-                                            <option value="4">Mrs</option>
-                                            <option value="5">Miss</option>
-                                            <option value="6">Ms</option>
-                                            {% else %}
-                                            <option selected value="0">--select--</option>
-                                            <option value="1">Prof</option>
-                                            <option value="2">Dr</option>
-                                            <option value="3">Mr</option>
-                                            <option value="4">Mrs</option>
-                                            <option value="5">Miss</option>
-                                            <option value="6">Ms</option>
-                                            <option value="7">Rev</option>
-                                            {% endif %}
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-4">
-                                        <label for="frist_name">First Name <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" 
-                                            value="{{applicant.First_Name}}" name="firstName" autofocus required>
-                                    </div>
-                                    <div class="form-group col-3">
-                                        <label for="frist_name">Middle Name </label>
-                                        <input type="text" class="form-control" 
-                                            value="{{applicant.Middle_Name}}" name="middleName" autofocus required>
-                                    </div>
-                                    <div class="form-group col-3">
-                                        <label for="frist_name">Last Name <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" 
-                                            value="{{applicant.Last_Name}}" name="lastName" autofocus required>
-                                    </div>
+                            <div class="row">
+                                <div class="form-group col-12">
+                                    <label>Type of Application </label>
+                                    <select class="form-control select2" name="Applicant_Type" id="Applicant_Type" required>
+                                        {% if applicant.Applicant_Type == 'External' %}
+                                        <option value="1" selected>External</option>
+                                        <option value="2">Internal</option>
+                                        {% elif applicant.Applicant_Type == 'Internal' %}
+                                        <option value="2" selected>Internal</option>
+                                        <option value="1">External</option>
+                                        {% else %}
+                                        <option selected value="1">External</option>
+                                        <option value="2">Internal</option>
+                                        {% endif %}
+                                    </select>
                                 </div>
-                                <div class="row">
-                                    <div class="form-group col-3">
-                                        <label for="frist_name">ID No/Passport No. <span
-                                                class="text-danger">*</span></label>
-                                        <input type="text" class="form-control"
-                                            value="{{applicant.ID_Number}}" name="idNumber" autofocus required>
-                                    </div>
-                                    <div class="form-group col-3">
-                                        <label>Gender <span class="text-danger">*</span></label>
-                                        <select class="form-control select2" name="gender" required>
-                                            {% if applicant.Gender == 'Male' %}
-                                            <option value="1" selected>Male</option>
-                                            <option value="2">Female</option>
-                                            {% elif applicant.Gender == 'Female' %}
-                                            <option value="2" selected>Female</option>
-                                            <option value="1">Male</option>
-                                            {% else %}
-                                            <option selected disabled value="0">
-                                                --select--</option>
-                                            <option value="1">Male</option>
-                                            <option value="2">Female</option>
-                                            {% endif %}
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-3">
-                                        <label>Are You Kenyan <span class="text-danger">*</span></label>
-                                        <select class="form-control select2" name="areYouKenyan" id="areYouKenyan" required>
-                                            {% if applicant.Are_You_Kenyan == 'Yes' %}
-                                            <option selected value="1">Yes</option>
-                                            <option value="2">No</option>
-                                            {% elif applicant.Are_You_Kenyan == 'No' %}
-                                            <option selected value="2">No</option>
-                                            <option value="1">Yes</option>
-                                            {% else %}
-                                            <option selected value="0">--select--</option>
-                                            <option value="2">No</option>
-                                            <option value="1">Yes</option>
-                                            {% endif %}
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-3">
-                                        <label>Nationality <span class="text-danger">*</span></label>
-                                        <select class="form-control select2" id="country" name="country" required>
-                                            <option selected value="{{applicant.Country_Code}}">{{applicant.Country_Code}}
-                                            </option>
-                                            {% for country in country %}
-                                            {% if country.Code != applicant.Citizenship %}
-                                            <option value="{{country.Code}}">{{country.Name}}</option>
-                                            {% endif %}
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row" id="localsData" style="display:none">
-                                    <div class="form-group col-3">
-                                        <label>Citizenship By <span class="text-danger">*</span></label>
-                                        <select class="form-control select2" name="citizenshipBy" id="citizenshipBy" required>
-                                            {% if applicant.Citizenship_By == 'By Birth' %}
-                                            <option selected value="1">By Birth</option>
-                                            <option value="2">By Naturalization</option>
-                                            <option value="3">By Registration</option>
-                                            {% elif applicant.Citizenship_By == 'By Naturalization' %}
-                                            <option selected value="2">By Naturalization</option>
-                                            <option value="1">By Birth</option>
-                                            <option value="3">By Registration</option>
-                                            {% elif applicant.Citizenship_By == 'By registration' %}
-                                            <option selected value="3">By registration</option>
-                                            <option value="1">By Birth</option>
-                                            <option value="2">By Naturalization</option>
-                                            {% else %}
-                                            <option selected value="0">--select--</option>
-                                            <option value="1">By Birth</option>
-                                            <option value="2">By Naturalization</option>
-                                            <option value="3">By Registration</option>
-                                            {% endif %}
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-3">
-                                        <label for="frist_name">Certificate No. <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" placeholder="{{applicant.Certificate_No_}}"
-                                            value="{{applicant.Certificate_No_}}" name="certificateNo" autofocus required>
-                                    </div>
-                                    <div class="form-group col-3">
-                                        <label>County</label>
-                                        <select class="form-control select2" id="county" name="county" >
-                                            <option selected value="{{applicant.County_Code}}">{{applicant.County}}
-                                            </option>
-                                            {% for county in county %}
-                                            <option value="{{county.CountyCode}}">{{county.Description}}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-3">
-                                        <label for="frist_name">Sub-county <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" 
-                                            value="{{applicant.Sub_county}}" name="subCounty" autofocus required>
-                                    </div>
-                                    <div class="form-group col-3">
-                                        <label for="frist_name">Constituency <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" 
-                                            value="{{applicant.Constituency}}" name="constituency" autofocus required>
-                                    </div>
-                                    <div class="form-group col-3">
-                                        <label>Ethnic Origin</label>
-                                        <select class="form-control select2" name="ethnicOrigin" id="ethnicOrigin"
-                                            >
-                                            {% if applicant.Ethnic_Origin == 'African' %}
-                                            <option selected value="0">{{applicant.Ethnic_Origin}}</option>
-                                            <option value="1">Indian</option>
-                                            <option value="2">White</option>
-                                            <option value="3">Colored</option>
-                                            {% elif applicant.Ethnic_Origin == 'Indian' %}
-                                            <option selected value="1">Indian</option>
-                                            <option value="0">African</option>
-                                            <option value="2">White</option>
-                                            <option value="3">Colored</option>
-                                            {% elif applicant.Ethnic_Origin == 'White' %}
-                                            <option selected  value="2">White</option>
-                                            <option value="0">African</option>
-                                            <option value="1">Indian</option>
-                                            <option value="3">Colored</option>
-                                            {% elif applicant.Ethnic_Origin == 'Colored' %}
-                                            <option selected value="3">Colored</option>
-                                            <option value="0">African</option>
-                                            <option value="1">Indian</option>
-                                            <option value="2">White</option>
-                                            {% else %}
-                                            <option selected value="0">--select--</option>
-                                            <option value="0">African</option>
-                                            <option value="1">Indian</option>
-                                            <option value="2">White</option>
-                                            <option value="3">Colored</option>
-                                            {% endif %}
-                                            
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-12">
-                                        <input type="text" class="form-control"
-                                            value="" name="stateNationality" autofocus hidden>
-                                    </div>
-                                    <div class="form-group col-3">
-                                        <label for="frist_name">Pin Number<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" value="{{applicant.PIN_NO}}"
-                                            name="pINNo" autofocus required>
-                                    </div>
-                                    <div class="form-group col-3">
-                                        <label>Marital Status <span class="text-danger">*</span></label>
-                                        <select class="form-control select2" name="maritalStatus" required required>
-                                            {% if applicant.Marital_Status == 'Single' %}
-                                            <option selected value="1">{{applicant.Marital_Status}}</option>
-                                            <option value="2">Married</option>
-                                            <option value="3">Separated</option>
-                                            <option value="4">Divorced</option>
-                                            <option value="5">Widow(er)</option>
-                                            <option value="6">Other</option>
-                                            {% elif applicant.Marital_Status == 'Married' %}
-                                            <option selected value="2">{{applicant.Marital_Status}}</option>
-                                            <option value="1">Single</option>
-                                            <option value="3">Separated</option>
-                                            <option value="4">Divorced</option>
-                                            <option value="5">Widow(er)</option>
-                                            <option value="6">Other</option>
-                                            {% elif applicant.Marital_Status == 'Separated' %}
-                                            <option selected value="3">{{applicant.Marital_Status}}</option>
-                                            <option value="1">Single</option>
-                                            <option value="2">Married</option>
-                                            <option value="4">Divorced</option>
-                                            <option value="5">Widow(er)</option>
-                                            <option value="6">Other</option>
-                                            {% elif applicant.Marital_Status == 'Divorced' %}
-                                            <option selected value="4">{{applicant.Marital_Status}}</option>
-                                            <option value="1">Single</option>
-                                            <option value="2">Married</option>
-                                            <option value="3">Separated</option>
-                                            <option value="5">Widow(er)</option>
-                                            <option value="6">Other</option>
-                                            {% elif applicant.Marital_Status == 'Widow(er)' %}
-                                            <option selected value="5">{{applicant.Marital_Status}}</option>
-                                            <option value="1">Single</option>
-                                            <option value="2">Married</option>
-                                            <option value="3">Separated</option>
-                                            <option value="4">Divorced</option>
-                                            <option value="6">Other</option>
-                                            {% elif applicant.Marital_Status == 'Other' %}
-                                            <option selected value="6">{{applicant.Marital_Status}}</option>
-                                            <option value="1">Single</option>
-                                            <option value="2">Married</option>
-                                            <option value="3">Separated</option>
-                                            <option value="4">Divorced</option>
-                                            <option value="5">Widow(er)</option>
-                                            {% else %}
-                                            <option selected value="0">
-                                                --select--</option>
-                                            <option value="1">Single</option>
-                                            <option value="2">Married</option>
-                                            <option value="3">Separated</option>
-                                            <option value="4">Divorced</option>
-                                            <option value="5">Widow(er)</option>
-                                            <option value="6">Other</option>
-                                            {% endif %}
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-3">
-                                        <label for="frist_name">Date of Birth<span class="text-danger">*</span></label>
-                                        <input type="date" class="form-control" value="{{applicant.Date_Of_Birth}}"
-                                            name="dob" autofocus required>
-                                    </div>
-                                    
-                                    <div class="form-group col-3">
-                                        <label>Are you living with a disability? <span class="text-danger">*</span></label>
-                                        <select class="form-control select2" name="disabled" id="disabled" required>
-                                            {% if applicant.Disabled == 'Yes' %}
-                                            <option selected value="1">Yes</option>
-                                            <option value="0">No</option>
-                                            {% elif applicant.Disabled == 'No' %}
-                                            <option selected value="0">No</option>
-                                            <option value="1">Yes</option>
-                                            {% else %}
-                                            <option selected value="2">--select--</option>
-                                            <option value="0">No</option>
-                                            <option value="1">Yes</option>
-                                            {% endif %}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row hiddenRow">
-                                    <div class="form-group col-4">
-                                        <label for="frist_name">NCPWD Reg No.</label>
-                                        <input type="number" class="form-control" name="disabilityGrade"
-                                            value="{{applicant.Disability_Grade}}" id="disability" disabled autofocus>
-                                    </div>
-                                    <div class="form-group col-4">
-                                        <label for="frist_name">Date of registration</label>
-                                        <input type="date" class="form-control" name="dateOfRegistration"
-                                            value="{{applicant.Date_Of_Registration}}" id="dateOfRegistration" disabled autofocus>
-                                    </div>
-                                    <div class="form-group col-4 ">
-                                        <label for="frist_name">Nature of your Disability</label>
-                                        <input type="text" class="form-control" value="{{applicant.Nature_of_Disability}}"
-                                            name="natureOfDisability" autofocus>
-                                    </div>
-                                </div>
-                                <div class="my-2">
-                                    <h6> Contact Information</h6>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-4">
-                                        <label for="frist_name">Phone Number</label>
-                                        <input type="number" class="form-control" name="phoneNumber"
-                                            value="{{applicant.Cellular_Phone_Number}}" required autofocus>
-                                    </div>
-                                    <div class="form-group col-4">
-                                        <label for="frist_name">Postal Address</label>
-                                        <input type="text" class="form-control" value="{{applicant.Postal_Address}}"
-                                            name="postalAddress" autofocus>
-                                    </div>
-                                    <div class="form-group col-4">
-                                        <label for="frist_name">Postal Code</label>
-                                        <input type="text" class="form-control" value="{{applicant.Post_Code}}"
-                                            name="postalCode" autofocus>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-6">
-                                        <label for="frist_name">Residential Address</label>
-                                        <input type="text" class="form-control" name="residentialAddress"
-                                            value="{{applicant.Residential_Address}}" autofocus>
-                                    </div>
-                                    <div class="form-group col-6">
-                                        <label for="frist_name">City/Town</label>
-                                        <input type="text" class="form-control" name="townORCity"
-                                            value="{{applicant.TownORCity}}" autofocus>
-                                    </div>
-                                </div>
-                                <div class="my-2">
-                                    <h6>Altenative  Contact Person</h5>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-6">
-                                        <label for="frist_name">Full Name</label>
-                                        <input type="text" class="form-control" name="nameOfAlternativeContactPerson"
-                                            value="{{applicant.Name_of_Alternative_Contact_Person}}" autofocus>
-                                    </div>
-                                    <div class="form-group col-6">
-                                        <label for="frist_name">Phone/Telephone</label>
-                                        <input type="text" class="form-control" name="telephoneNo"
-                                            value="{{applicant.Telephone_No}}" autofocus>
-                                    </div>
-                                </div>
-                                <div class="my-2">
-                                    <h6>Present Employment</h6>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-3">
-                                        <label for="frist_name">Terms of Service</label>
-                                        <select class="form-control select2" name="termsOfService" id="termsOfService" required>
-                                            <!-- <option selected value="{{applicant.Terms_Of_Service}}">{{applicant.Terms_Of_Service}}
-                                            </option> -->
-                                            {% if applicant.Terms_Of_Service == 'Contract' %}
-                                            <option selected value="1">Contract</option>
-                                            <option value="2">Temporary</option>
-                                            <option value="3">Permanent & Pensionable</option>
-                                            {% elif applicant.Terms_Of_Service == 'Temporary' %}
-                                            <option selected value="2">Temporary</option>
-                                            <option value="1">Contract</option>
-                                            <option value="3">Permanent & Pensionable</option>
-                                            {% elif applicant.Terms_Of_Service == 'Permanent and Pensionable' %}
-                                            <option selected value="3">Permanent and Pensionable</option>
-                                            <option value="1">Contract</option>
-                                            <option value="2">Temporary</option>
-                                            {% else %}
-                                            <option selected value="0">--select--</option>
-                                            <option value="1">Contract</option>
-                                            <option value="2">Temporary</option>
-                                            <option value="3">Permanent & Pensionable</option>
-                                            {% endif %}
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-3">
-                                        <label for="frist_name">Current Monthly Salary</label>
-                                        <input type="text" class="form-control" value="{{applicant.Current_Monthly_Salary}}"
-                                            name="currentMonthlySalary" autofocus>
-                                    </div>
-                                    <div class="form-group col-3">
-                                        <label for="frist_name">Expected Salary</label>
-                                        <input type="text" class="form-control" value="{{applicant.Expected_Salary}}"
-                                            name="expectedSalary" autofocus>
-                                    </div>
-                                    <div class="form-group col-3">
-                                        <label for="frist_name">When can You start</label>
-                                        <input type="text" class="form-control" value="{{applicant.How_Soon_Can_You_Take_This_Appointment}}"
-                                            name="howSoonCanYouTakeThisAppointment" autofocus>
-                                    </div>
-                                </div>
-                                <div class="my-2">
-                                    <h6>Employment History</h6>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-12">
-                                        <label for="frist_name">Have you ever been Removed Or Dismissed from Employment?</label>
-                                        <select class="form-control select2" name="haveYouEverBeenRemovedOrDismissedFromEmployment"
-                                            id="employDismisal" required>
-                                            {% if applicant.Have_you_ever_been_removed_dismissed_from_employment == 'No' %}
-                                            <option selected value="2">No</option>
-                                            <option value="1">Yes</option>
-                                            {% elif applicant.Have_you_ever_been_removed_dismissed_from_employment == 'Yes' %}
-                                            <option selected value="1">Yes</option>
-                                            <option value="2">No</option>
-                                            {% else %}
-                                            <option selected value="0">--select--</option>
-                                            <option value="1">Yes</option>
-                                            <option value="2">No</option>
-                                            {% endif %}
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-12 hidegiveDetails">
-                                        <label for="frist_name">Explain</label>
-                                        <textarea class="form-control summernote-simple " name="giveDetails"
-                                            id="giveDetails" disabled>
-                                            {{applicant.Give_Details}}
-                                      </textarea>
-                                    </div>
-                                    
-                                </div>
-
-                                <div class="my-2">
-                                    <h6>Legal Information</h6>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-12">
-                                        <label for="frist_name">Have you been Charged in a Court of Law?</label>
-                                        <select class="form-control select2" name="haveYouBeenChargedInACourtOfLaw" id="haveYouBeenChargedInACourtOfLaw"
-                                            required>
-                                            {% if applicant.Have_you_ever_been_removed_dismissed_from_employment == 'No' %}
-                                            <option selected value="2">No</option>
-                                            <option value="1">Yes</option>
-                                            {% elif applicant.Have_you_ever_been_removed_dismissed_from_employment == 'Yes' %}
-                                            <option selected value="1">Yes</option>
-                                            <option value="2">No</option>
-                                            {% else %}
-                                            <option selected value="0">--select--</option>
-                                            <option value="1">Yes</option>
-                                            <option value="2">No</option>
-                                            {% endif %}
-                                        </select>
-                                    </div>
-                                    <div class="container" id="offenceDetail">
-                                        <div class="row">
-                                            <div class="form-group col-6">
-                                                <label for="frist_name">Offence</label>
-                                                <input type="text" class="form-control" value="{{applicant.Offence}}"
-                                                    name="offence" id="offence" autofocus>
-                                            </div>
-                                            <div class="form-group col-6">
-                                                <label for="frist_name">Date of Offence</label>
-                                                <input type="date" class="form-control" value="{{applicant.Date_Of_Offence}}"
-                                                    name="dateOfOffence" id="dateOfOffence" autofocus>
-                                            </div>
-                                            <div class="form-group col-6">
-                                                <label for="frist_name">Place of Offence</label>
-                                                <input type="text" class="form-control" value="{{applicant.Place_Of_Offence}}"
-                                                    name="placeOfOffence" id="placeOfOffence" autofocus>
-                                            </div>
-                                            <div class="form-group col-6">
-                                                <label for="frist_name">Sentense Imposed</label>
-                                                <input type="text" class="form-control" value="{{applicant.Sentence_Imposed}}"
-                                                    name="sentenceImposed" id="sentenceImposed" autofocus>
-                                            </div>
+                            </div>
+                            
+                            <div class="InternalApplication" id="InternalApplication" style="display:none">
+                                <form action="{% url 'FnInternalApplicantDetails' %}" method="post" novalidate>
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="form-group col-4">
+                                            <label for="frist_name">Employee Number<span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" value="{{applicant.Employee_No}}" name="employeeNo" autofocus required>
+                                        </div>
+                                        <div class="form-group col-4">
+                                            <label for="frist_name">Title <span class="text-danger">*</span></label>
+                                            <select class="form-control select2" name="title" id="title">
+                                                {% if applicant.Title == 'Prof' %}
+                                                <option selected value="1">Prof</option>
+                                                <option value="2">Dr</option>
+                                                <option value="3">Mr</option>
+                                                <option value="4">Mrs</option>
+                                                <option value="5">Miss</option>
+                                                <option value="6">Ms</option>
+                                                <option value="7">Rev</option>
+                                                {% elif applicant.Title == 'Dr' %}
+                                                <option selected value="2">Dr</option>
+                                                <option value="1">Prof</option>
+                                                <option value="3">Mr</option>
+                                                <option value="4">Mrs</option>
+                                                <option value="5">Miss</option>
+                                                <option value="6">Ms</option>
+                                                <option value="7">Rev</option>
+                                                {% elif applicant.Title == 'Mr' %}
+                                                <option selected value="3">Mr</option>
+                                                <option value="1">Prof</option>
+                                                <option value="2">Dr</option>
+                                                <option value="4">Mrs</option>
+                                                <option value="5">Miss</option>
+                                                <option value="6">Ms</option>
+                                                <option value="7">Rev</option>
+                                                {% elif applicant.Title == 'Mrs' %}
+                                                <option selected value="4">Mrs</option>
+                                                <option value="1">Prof</option>
+                                                <option value="2">Dr</option>
+                                                <option value="3">Mr</option>
+                                                <option value="5">Miss</option>
+                                                <option value="6">Ms</option>
+                                                <option value="7">Rev</option>
+                                                {% elif applicant.Title == 'Miss' %}
+                                                <option selected value="5">Miss</option>
+                                                <option value="1">Prof</option>
+                                                <option value="2">Dr</option>
+                                                <option value="3">Mr</option>
+                                                <option value="4">Mrs</option>
+                                                <option value="6">Ms</option>
+                                                <option value="7">Rev</option>
+                                                {% elif applicant.Title == 'Ms' %}
+                                                <option selected value="6">Ms</option>
+                                                <option value="1">Prof</option>
+                                                <option value="2">Dr</option>
+                                                <option value="3">Mr</option>
+                                                <option value="4">Mrs</option>
+                                                <option value="5">Miss</option>
+                                                <option value="7">Rev</option>
+                                                {% elif applicant.Title == 'Rev' %}
+                                                <option selected value="7">Rev</option>
+                                                <option value="1">Prof</option>
+                                                <option value="2">Dr</option>
+                                                <option value="3">Mr</option>
+                                                <option value="4">Mrs</option>
+                                                <option value="5">Miss</option>
+                                                <option value="6">Ms</option>
+                                                {% else %}
+                                                <option selected value="0">--select--</option>
+                                                <option value="1">Prof</option>
+                                                <option value="2">Dr</option>
+                                                <option value="3">Mr</option>
+                                                <option value="4">Mrs</option>
+                                                <option value="5">Miss</option>
+                                                <option value="6">Ms</option>
+                                                <option value="7">Rev</option>
+                                                {% endif %}
+                                            </select>
+                                        </div>
+                                        <div class="col-4">
+                                            <button type="submit" class="btn button-88 my-3 w-100">Submit <i
+                                                class="las la-arrow-right"></i></button>
                                         </div>
                                     </div>
-                                    
-                                </div>
-
-                                <button type="submit" class="btn button-88 my-3 w-100">Submit <i
-                                        class="las la-arrow-right"></i></button>
-                            </form>
+                                    <div class="row">
+                                        <div class="form-group col-4">
+                                            <label for="frist_name">First Name </label>
+                                            <input type="text" class="form-control" 
+                                                value="{{applicant.First_Name}}"  disabled>
+                                        </div>
+                                        <div class="form-group col-4">
+                                            <label for="frist_name">Middle Name </label>
+                                            <input type="text" class="form-control" 
+                                                value="{{applicant.Middle_Name}}"  disabled>
+                                        </div>
+                                        <div class="form-group col-4">
+                                            <label for="frist_name">Last Name </label>
+                                            <input type="text" class="form-control" 
+                                                value="{{applicant.Last_Name}}" disabled>
+                                        </div>
+                                        <div class="form-group col-3">
+                                            <label for="frist_name">ID No/Passport No.</label>
+                                            <input type="text" class="form-control"
+                                                value="{{applicant.ID_Number}}"  disabled>
+                                        </div>
+                                        <div class="form-group col-3">
+                                            <label for="frist_name">Gender</label>
+                                            <input type="text" class="form-control"
+                                                value="{{applicant.Gender}}" disabled>
+                                        </div>
+                                        <div class="form-group col-3">
+                                            <label for="frist_name">Are You Kenyan </label>
+                                            <input type="text" class="form-control"
+                                                value="{{applicant.Are_You_Kenyan}}"  disabled>
+                                        </div>
+                                        <div class="form-group col-3">
+                                            <label for="frist_name">Nationality</label>
+                                            <input type="text" class="form-control"
+                                                value="{{applicant.Country_Code}}"  disabled>
+                                        </div>
+                                        <div class="form-group col-3">
+                                            <label for="frist_name">Pin Number</label>
+                                            <input type="text" class="form-control"
+                                                value="{{applicant.PIN_NO}}"  disabled>
+                                        </div>
+                                        <div class="form-group col-3">
+                                            <label for="frist_name">Marital Status</label>
+                                            <input type="text" class="form-control"
+                                                value="{{applicant.Marital_Status}}"  disabled>
+                                        </div>
+                                        <div class="form-group col-3">
+                                            <label for="frist_name">Date of Birth</label>
+                                            <input type="text" class="form-control"
+                                                value="{{applicant.Date_Of_Birth}}"  disabled>
+                                        </div>
+                                        <div class="form-group col-3">
+                                            <label for="frist_name">Are you living with a disability?</label>
+                                            <input type="text" class="form-control"
+                                                value="{{applicant.Disabled}}"  disabled>
+                                        </div>
+                                    </div>
+                                    <div class="my-2">
+                                        <h6> Contact Information</h6>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-4">
+                                            <label for="frist_name">Phone Number</label>
+                                            <input type="text" class="form-control"
+                                                value="{{applicant.Cellular_Phone_Number}}"  disabled>
+                                        </div>
+                                        <div class="form-group col-4">
+                                            <label for="frist_name">Postal Address</label>
+                                            <input type="text" class="form-control"
+                                                value="{{applicant.Postal_Address}}"  disabled>
+                                        </div>
+                                        <div class="form-group col-4">
+                                            <label for="frist_name">Postal Code</label>
+                                            <input type="text" class="form-control"
+                                                value="{{applicant.Post_Code}}"  disabled>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <label for="frist_name">Residential Address</label>
+                                            <input type="text" class="form-control"
+                                                value="{{applicant.Residential_Address}}"  disabled>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <label for="frist_name">City/Town</label>
+                                            <input type="text" class="form-control"
+                                                value="{{applicant.TownORCity}}"  disabled>
+                                        </div>
+                                        
+                                    </div>
+                                </form>
+                                
+                            </div>
+                            <div class="ExternalApplication" id="ExternalApplication" style="display:none">
+                                <form action="{% url 'FnApplicantDetails' %}" method="post" novalidate>
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="form-group col-2">
+                                            <label for="frist_name">Title <span class="text-danger">*</span></label>
+                                            <select class="form-control select2" name="title" id="title">
+                                                {% if applicant.Title == 'Prof' %}
+                                                <option selected value="1">Prof</option>
+                                                <option value="2">Dr</option>
+                                                <option value="3">Mr</option>
+                                                <option value="4">Mrs</option>
+                                                <option value="5">Miss</option>
+                                                <option value="6">Ms</option>
+                                                <option value="7">Rev</option>
+                                                {% elif applicant.Title == 'Dr' %}
+                                                <option selected value="2">Dr</option>
+                                                <option value="1">Prof</option>
+                                                <option value="3">Mr</option>
+                                                <option value="4">Mrs</option>
+                                                <option value="5">Miss</option>
+                                                <option value="6">Ms</option>
+                                                <option value="7">Rev</option>
+                                                {% elif applicant.Title == 'Mr' %}
+                                                <option selected value="3">Mr</option>
+                                                <option value="1">Prof</option>
+                                                <option value="2">Dr</option>
+                                                <option value="4">Mrs</option>
+                                                <option value="5">Miss</option>
+                                                <option value="6">Ms</option>
+                                                <option value="7">Rev</option>
+                                                {% elif applicant.Title == 'Mrs' %}
+                                                <option selected value="4">Mrs</option>
+                                                <option value="1">Prof</option>
+                                                <option value="2">Dr</option>
+                                                <option value="3">Mr</option>
+                                                <option value="5">Miss</option>
+                                                <option value="6">Ms</option>
+                                                <option value="7">Rev</option>
+                                                {% elif applicant.Title == 'Miss' %}
+                                                <option selected value="5">Miss</option>
+                                                <option value="1">Prof</option>
+                                                <option value="2">Dr</option>
+                                                <option value="3">Mr</option>
+                                                <option value="4">Mrs</option>
+                                                <option value="6">Ms</option>
+                                                <option value="7">Rev</option>
+                                                {% elif applicant.Title == 'Ms' %}
+                                                <option selected value="6">Ms</option>
+                                                <option value="1">Prof</option>
+                                                <option value="2">Dr</option>
+                                                <option value="3">Mr</option>
+                                                <option value="4">Mrs</option>
+                                                <option value="5">Miss</option>
+                                                <option value="7">Rev</option>
+                                                {% elif applicant.Title == 'Rev' %}
+                                                <option selected value="7">Rev</option>
+                                                <option value="1">Prof</option>
+                                                <option value="2">Dr</option>
+                                                <option value="3">Mr</option>
+                                                <option value="4">Mrs</option>
+                                                <option value="5">Miss</option>
+                                                <option value="6">Ms</option>
+                                                {% else %}
+                                                <option selected value="0">--select--</option>
+                                                <option value="1">Prof</option>
+                                                <option value="2">Dr</option>
+                                                <option value="3">Mr</option>
+                                                <option value="4">Mrs</option>
+                                                <option value="5">Miss</option>
+                                                <option value="6">Ms</option>
+                                                <option value="7">Rev</option>
+                                                {% endif %}
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-4">
+                                            <label for="frist_name">First Name <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" 
+                                                value="{{applicant.First_Name}}" name="firstName" autofocus required>
+                                        </div>
+                                        <div class="form-group col-3">
+                                            <label for="frist_name">Middle Name </label>
+                                            <input type="text" class="form-control" 
+                                                value="{{applicant.Middle_Name}}" name="middleName" autofocus required>
+                                        </div>
+                                        <div class="form-group col-3">
+                                            <label for="frist_name">Last Name <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" 
+                                                value="{{applicant.Last_Name}}" name="lastName" autofocus required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-3">
+                                            <label for="frist_name">ID No/Passport No. <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" class="form-control"
+                                                value="{{applicant.ID_Number}}" name="idNumber" autofocus required>
+                                        </div>
+                                        <div class="form-group col-3">
+                                            <label>Gender <span class="text-danger">*</span></label>
+                                            <select class="form-control select2" name="gender" required>
+                                                {% if applicant.Gender == 'Male' %}
+                                                <option value="1" selected>Male</option>
+                                                <option value="2">Female</option>
+                                                {% elif applicant.Gender == 'Female' %}
+                                                <option value="2" selected>Female</option>
+                                                <option value="1">Male</option>
+                                                {% else %}
+                                                <option selected disabled value="0">
+                                                    --select--</option>
+                                                <option value="1">Male</option>
+                                                <option value="2">Female</option>
+                                                {% endif %}
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-3">
+                                            <label>Are You Kenyan <span class="text-danger">*</span></label>
+                                            <select class="form-control select2" name="areYouKenyan" id="areYouKenyan" required>
+                                                {% if applicant.Are_You_Kenyan == 'Yes' %}
+                                                <option selected value="1">Yes</option>
+                                                <option value="2">No</option>
+                                                {% elif applicant.Are_You_Kenyan == 'No' %}
+                                                <option selected value="2">No</option>
+                                                <option value="1">Yes</option>
+                                                {% else %}
+                                                <option selected value="0">--select--</option>
+                                                <option value="2">No</option>
+                                                <option value="1">Yes</option>
+                                                {% endif %}
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-3">
+                                            <label>Nationality <span class="text-danger">*</span></label>
+                                            <select class="form-control select2" id="country" name="country" required>
+                                                <option selected value="{{applicant.Country_Code}}">{{applicant.Country_Code}}
+                                                </option>
+                                                {% for country in country %}
+                                                {% if country.Code != applicant.Citizenship %}
+                                                <option value="{{country.Code}}">{{country.Name}}</option>
+                                                {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="localsData" style="display:none">
+                                        <div class="form-group col-3">
+                                            <label>Citizenship By <span class="text-danger">*</span></label>
+                                            <select class="form-control select2" name="citizenshipBy" id="citizenshipBy" required>
+                                                {% if applicant.Citizenship_By == 'By Birth' %}
+                                                <option selected value="1">By Birth</option>
+                                                <option value="2">By Naturalization</option>
+                                                <option value="3">By Registration</option>
+                                                {% elif applicant.Citizenship_By == 'By Naturalization' %}
+                                                <option selected value="2">By Naturalization</option>
+                                                <option value="1">By Birth</option>
+                                                <option value="3">By Registration</option>
+                                                {% elif applicant.Citizenship_By == 'By registration' %}
+                                                <option selected value="3">By registration</option>
+                                                <option value="1">By Birth</option>
+                                                <option value="2">By Naturalization</option>
+                                                {% else %}
+                                                <option selected value="0">--select--</option>
+                                                <option value="1">By Birth</option>
+                                                <option value="2">By Naturalization</option>
+                                                <option value="3">By Registration</option>
+                                                {% endif %}
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-3">
+                                            <label for="frist_name">Certificate No. <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" placeholder="{{applicant.Certificate_No_}}"
+                                                value="{{applicant.Certificate_No_}}" name="certificateNo" autofocus required>
+                                        </div>
+                                        <div class="form-group col-3">
+                                            <label>County</label>
+                                            <select class="form-control select2" id="county" name="county" >
+                                                <option selected value="{{applicant.County_Code}}">{{applicant.County}}
+                                                </option>
+                                                {% for county in county %}
+                                                <option value="{{county.CountyCode}}">{{county.Description}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-3">
+                                            <label for="frist_name">Sub-county <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" 
+                                                value="{{applicant.Sub_county}}" name="subCounty" autofocus required>
+                                        </div>
+                                        <div class="form-group col-3">
+                                            <label for="frist_name">Constituency <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" 
+                                                value="{{applicant.Constituency}}" name="constituency" autofocus required>
+                                        </div>
+                                        <div class="form-group col-3">
+                                            <label>Ethnic Origin</label>
+                                            <select class="form-control select2" name="ethnicOrigin" id="ethnicOrigin"
+                                                >
+                                                {% if applicant.Ethnic_Origin == 'African' %}
+                                                <option selected value="0">{{applicant.Ethnic_Origin}}</option>
+                                                <option value="1">Indian</option>
+                                                <option value="2">White</option>
+                                                <option value="3">Colored</option>
+                                                {% elif applicant.Ethnic_Origin == 'Indian' %}
+                                                <option selected value="1">Indian</option>
+                                                <option value="0">African</option>
+                                                <option value="2">White</option>
+                                                <option value="3">Colored</option>
+                                                {% elif applicant.Ethnic_Origin == 'White' %}
+                                                <option selected  value="2">White</option>
+                                                <option value="0">African</option>
+                                                <option value="1">Indian</option>
+                                                <option value="3">Colored</option>
+                                                {% elif applicant.Ethnic_Origin == 'Colored' %}
+                                                <option selected value="3">Colored</option>
+                                                <option value="0">African</option>
+                                                <option value="1">Indian</option>
+                                                <option value="2">White</option>
+                                                {% else %}
+                                                <option selected value="0">--select--</option>
+                                                <option value="0">African</option>
+                                                <option value="1">Indian</option>
+                                                <option value="2">White</option>
+                                                <option value="3">Colored</option>
+                                                {% endif %}
+                                                
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-12">
+                                            <input type="text" class="form-control"
+                                                value="" name="stateNationality" autofocus hidden>
+                                        </div>
+                                        <div class="form-group col-3">
+                                            <label for="frist_name">Pin Number<span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" value="{{applicant.PIN_NO}}"
+                                                name="pINNo" autofocus required>
+                                        </div>
+                                        <div class="form-group col-3">
+                                            <label>Marital Status <span class="text-danger">*</span></label>
+                                            <select class="form-control select2" name="maritalStatus" required required>
+                                                {% if applicant.Marital_Status == 'Single' %}
+                                                <option selected value="1">{{applicant.Marital_Status}}</option>
+                                                <option value="2">Married</option>
+                                                <option value="3">Separated</option>
+                                                <option value="4">Divorced</option>
+                                                <option value="5">Widow(er)</option>
+                                                <option value="6">Other</option>
+                                                {% elif applicant.Marital_Status == 'Married' %}
+                                                <option selected value="2">{{applicant.Marital_Status}}</option>
+                                                <option value="1">Single</option>
+                                                <option value="3">Separated</option>
+                                                <option value="4">Divorced</option>
+                                                <option value="5">Widow(er)</option>
+                                                <option value="6">Other</option>
+                                                {% elif applicant.Marital_Status == 'Separated' %}
+                                                <option selected value="3">{{applicant.Marital_Status}}</option>
+                                                <option value="1">Single</option>
+                                                <option value="2">Married</option>
+                                                <option value="4">Divorced</option>
+                                                <option value="5">Widow(er)</option>
+                                                <option value="6">Other</option>
+                                                {% elif applicant.Marital_Status == 'Divorced' %}
+                                                <option selected value="4">{{applicant.Marital_Status}}</option>
+                                                <option value="1">Single</option>
+                                                <option value="2">Married</option>
+                                                <option value="3">Separated</option>
+                                                <option value="5">Widow(er)</option>
+                                                <option value="6">Other</option>
+                                                {% elif applicant.Marital_Status == 'Widow(er)' %}
+                                                <option selected value="5">{{applicant.Marital_Status}}</option>
+                                                <option value="1">Single</option>
+                                                <option value="2">Married</option>
+                                                <option value="3">Separated</option>
+                                                <option value="4">Divorced</option>
+                                                <option value="6">Other</option>
+                                                {% elif applicant.Marital_Status == 'Other' %}
+                                                <option selected value="6">{{applicant.Marital_Status}}</option>
+                                                <option value="1">Single</option>
+                                                <option value="2">Married</option>
+                                                <option value="3">Separated</option>
+                                                <option value="4">Divorced</option>
+                                                <option value="5">Widow(er)</option>
+                                                {% else %}
+                                                <option selected value="0">
+                                                    --select--</option>
+                                                <option value="1">Single</option>
+                                                <option value="2">Married</option>
+                                                <option value="3">Separated</option>
+                                                <option value="4">Divorced</option>
+                                                <option value="5">Widow(er)</option>
+                                                <option value="6">Other</option>
+                                                {% endif %}
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-3">
+                                            <label for="frist_name">Date of Birth<span class="text-danger">*</span></label>
+                                            <input type="date" class="form-control" value="{{applicant.Date_Of_Birth}}"
+                                                name="dob" autofocus required>
+                                        </div>
+                                        
+                                        <div class="form-group col-3">
+                                            <label>Are you living with a disability? <span class="text-danger">*</span></label>
+                                            <select class="form-control select2" name="disabled" id="disabled" required>
+                                                {% if applicant.Disabled == 'Yes' %}
+                                                <option selected value="1">Yes</option>
+                                                <option value="0">No</option>
+                                                {% elif applicant.Disabled == 'No' %}
+                                                <option selected value="0">No</option>
+                                                <option value="1">Yes</option>
+                                                {% else %}
+                                                <option selected value="2">--select--</option>
+                                                <option value="0">No</option>
+                                                <option value="1">Yes</option>
+                                                {% endif %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row hiddenRow">
+                                        <div class="form-group col-4">
+                                            <label for="frist_name">NCPWD Reg No.</label>
+                                            <input type="number" class="form-control" name="disabilityGrade"
+                                                value="{{applicant.Disability_Grade}}" id="disability" disabled autofocus>
+                                        </div>
+                                        <div class="form-group col-4">
+                                            <label for="frist_name">Date of registration</label>
+                                            <input type="date" class="form-control" name="dateOfRegistration"
+                                                value="{{applicant.Date_Of_Registration}}" id="dateOfRegistration" disabled autofocus>
+                                        </div>
+                                        <div class="form-group col-4 ">
+                                            <label for="frist_name">Nature of your Disability</label>
+                                            <input type="text" class="form-control" value="{{applicant.Nature_of_Disability}}"
+                                                name="natureOfDisability" autofocus>
+                                        </div>
+                                    </div>
+                                    <div class="my-2">
+                                        <h6> Contact Information</h6>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-4">
+                                            <label for="frist_name">Phone Number</label>
+                                            <input type="number" class="form-control" name="phoneNumber"
+                                                value="{{applicant.Cellular_Phone_Number}}" required autofocus>
+                                        </div>
+                                        <div class="form-group col-4">
+                                            <label for="frist_name">Postal Address</label>
+                                            <input type="text" class="form-control" value="{{applicant.Postal_Address}}"
+                                                name="postalAddress" autofocus>
+                                        </div>
+                                        <div class="form-group col-4">
+                                            <label for="frist_name">Postal Code</label>
+                                            <input type="text" class="form-control" value="{{applicant.Post_Code}}"
+                                                name="postalCode" autofocus>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-6">
+                                            <label for="frist_name">Residential Address</label>
+                                            <input type="text" class="form-control" name="residentialAddress"
+                                                value="{{applicant.Residential_Address}}" autofocus>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <label for="frist_name">City/Town</label>
+                                            <input type="text" class="form-control" name="townORCity"
+                                                value="{{applicant.TownORCity}}" autofocus>
+                                        </div>
+                                    </div>
+                                    <div class="my-2">
+                                        <h6>Altenative  Contact Person</h5>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-6">
+                                            <label for="frist_name">Full Name</label>
+                                            <input type="text" class="form-control" name="nameOfAlternativeContactPerson"
+                                                value="{{applicant.Name_of_Alternative_Contact_Person}}" autofocus>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <label for="frist_name">Phone/Telephone</label>
+                                            <input type="text" class="form-control" name="telephoneNo"
+                                                value="{{applicant.Telephone_No}}" autofocus>
+                                        </div>
+                                    </div>
+                                    <div class="my-2">
+                                        <h6>Present Employment</h6>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-3">
+                                            <label for="frist_name">Terms of Service</label>
+                                            <select class="form-control select2" name="termsOfService" id="termsOfService" required>
+                                                <!-- <option selected value="{{applicant.Terms_Of_Service}}">{{applicant.Terms_Of_Service}}
+                                                </option> -->
+                                                {% if applicant.Terms_Of_Service == 'Contract' %}
+                                                <option selected value="1">Contract</option>
+                                                <option value="2">Temporary</option>
+                                                <option value="3">Permanent & Pensionable</option>
+                                                {% elif applicant.Terms_Of_Service == 'Temporary' %}
+                                                <option selected value="2">Temporary</option>
+                                                <option value="1">Contract</option>
+                                                <option value="3">Permanent & Pensionable</option>
+                                                {% elif applicant.Terms_Of_Service == 'Permanent and Pensionable' %}
+                                                <option selected value="3">Permanent and Pensionable</option>
+                                                <option value="1">Contract</option>
+                                                <option value="2">Temporary</option>
+                                                {% else %}
+                                                <option selected value="0">--select--</option>
+                                                <option value="1">Contract</option>
+                                                <option value="2">Temporary</option>
+                                                <option value="3">Permanent & Pensionable</option>
+                                                {% endif %}
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-3">
+                                            <label for="frist_name">Current Monthly Salary</label>
+                                            <input type="text" class="form-control" value="{{applicant.Current_Monthly_Salary}}"
+                                                name="currentMonthlySalary" autofocus>
+                                        </div>
+                                        <div class="form-group col-3">
+                                            <label for="frist_name">Expected Salary</label>
+                                            <input type="text" class="form-control" value="{{applicant.Expected_Salary}}"
+                                                name="expectedSalary" autofocus>
+                                        </div>
+                                        <div class="form-group col-3">
+                                            <label for="frist_name">When can You start</label>
+                                            <input type="text" class="form-control" value="{{applicant.How_Soon_Can_You_Take_This_Appointment}}"
+                                                name="howSoonCanYouTakeThisAppointment" autofocus>
+                                        </div>
+                                    </div>
+                                    <div class="my-2">
+                                        <h6>Employment History</h6>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-12">
+                                            <label for="frist_name">Have you ever been Removed Or Dismissed from Employment?</label>
+                                            <select class="form-control select2" name="haveYouEverBeenRemovedOrDismissedFromEmployment"
+                                                id="employDismisal" required>
+                                                {% if applicant.Have_you_ever_been_removed_dismissed_from_employment == 'No' %}
+                                                <option selected value="2">No</option>
+                                                <option value="1">Yes</option>
+                                                {% elif applicant.Have_you_ever_been_removed_dismissed_from_employment == 'Yes' %}
+                                                <option selected value="1">Yes</option>
+                                                <option value="2">No</option>
+                                                {% else %}
+                                                <option selected value="0">--select--</option>
+                                                <option value="1">Yes</option>
+                                                <option value="2">No</option>
+                                                {% endif %}
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-12 hidegiveDetails">
+                                            <label for="frist_name">Explain</label>
+                                            <textarea class="form-control summernote-simple " name="giveDetails"
+                                                id="giveDetails" disabled>
+                                                {{applicant.Give_Details}}
+                                          </textarea>
+                                        </div>
+                                        
+                                    </div>
+    
+                                    <div class="my-2">
+                                        <h6>Legal Information</h6>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-12">
+                                            <label for="frist_name">Have you been Charged in a Court of Law?</label>
+                                            <select class="form-control select2" name="haveYouBeenChargedInACourtOfLaw" id="haveYouBeenChargedInACourtOfLaw"
+                                                required>
+                                                {% if applicant.Have_you_ever_been_removed_dismissed_from_employment == 'No' %}
+                                                <option selected value="2">No</option>
+                                                <option value="1">Yes</option>
+                                                {% elif applicant.Have_you_ever_been_removed_dismissed_from_employment == 'Yes' %}
+                                                <option selected value="1">Yes</option>
+                                                <option value="2">No</option>
+                                                {% else %}
+                                                <option selected value="0">--select--</option>
+                                                <option value="1">Yes</option>
+                                                <option value="2">No</option>
+                                                {% endif %}
+                                            </select>
+                                        </div>
+                                        <div class="container" id="offenceDetail">
+                                            <div class="row">
+                                                <div class="form-group col-6">
+                                                    <label for="frist_name">Offence</label>
+                                                    <input type="text" class="form-control" value="{{applicant.Offence}}"
+                                                        name="offence" id="offence" autofocus>
+                                                </div>
+                                                <div class="form-group col-6">
+                                                    <label for="frist_name">Date of Offence</label>
+                                                    <input type="date" class="form-control" value="{{applicant.Date_Of_Offence}}"
+                                                        name="dateOfOffence" id="dateOfOffence" autofocus>
+                                                </div>
+                                                <div class="form-group col-6">
+                                                    <label for="frist_name">Place of Offence</label>
+                                                    <input type="text" class="form-control" value="{{applicant.Place_Of_Offence}}"
+                                                        name="placeOfOffence" id="placeOfOffence" autofocus>
+                                                </div>
+                                                <div class="form-group col-6">
+                                                    <label for="frist_name">Sentense Imposed</label>
+                                                    <input type="text" class="form-control" value="{{applicant.Sentence_Imposed}}"
+                                                        name="sentenceImposed" id="sentenceImposed" autofocus>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+    
+                                    <button type="submit" class="btn button-88 my-3 w-100">Submit <i
+                                            class="las la-arrow-right"></i></button>
+                                </form>
+                            </div>
                         </section>
                         <section>
                             <h2 class="my-4 text-center mx-auto">Education/Training</h2>
@@ -2095,7 +2290,31 @@ My Profile
     //Disability Jquery
     $(document).ready(function () {
 
-        
+        $('#ExternalApplication').hide();
+        $('#InternalApplication').hide();
+
+        var ApplicationType = $('#Applicant_Type');
+
+        if (ApplicationType.val() == '1'){
+            $('#ExternalApplication').show(1000);
+            $('#InternalApplication').hide();
+        } else {
+                $('#InternalApplication').show(1000);
+                $('#ExternalApplication').hide();
+            }
+
+        $('#Applicant_Type').on('change', function(){
+            var selectedValue = $(this).val();
+
+            if (ApplicationType.val() == '1'){
+                $('#ExternalApplication').show(1000);
+                $('#InternalApplication').hide(500);
+            } else {
+                $('#InternalApplication').show(1000);
+                $('#ExternalApplication').hide(500);
+            }
+        });
+
         $('#localsData').hide();
 
         var nationalityStatus = $("#areYouKenyan");
@@ -2104,7 +2323,7 @@ My Profile
             $('#localsData').show(1000);
         }
 
-        $("#areYouKenyan").on('change  ', function(){
+        $("#areYouKenyan").on('change', function(){
             var selectedValue = $(this).val();
 
             if (nationalityStatus.val() == '1'){

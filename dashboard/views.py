@@ -234,9 +234,8 @@ class Attachments(UserObjectMixins, View):
             applicantNo = await sync_to_async(request.session.__getitem__)('No_')
             Attachments = []
             async with aiohttp.ClientSession() as session:
-                task_get_leave_attachments = asyncio.ensure_future(self.simple_one_filtered_data(session,
-                                                                                                 "/QyDocumentAttachments", "No_", "eq", applicantNo))
-
+                task_get_leave_attachments = asyncio.ensure_future(self.simple_double_filtered_data(session,
+                                                                                                 "/QyDocumentAttachments", "No_", "eq", no, "and", 'Document_No', "eq", applicantNo))
                 response = await asyncio.gather(task_get_leave_attachments)
 
                 Attachments = [x for x in response[0]]
