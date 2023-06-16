@@ -895,10 +895,10 @@ My Profile
                                         <input type="text" class="form-control" name="institutionName"
                                             id="Aca_institutionName" autofocus required>
                                     </div>
-                                    <div class="form-group col-4">
+                                    <div class="form-group col-4" id="Aca_proficiencyLevelGroup">
                                         <label>Proficiency Level <span class="text-danger">*</span></label>
                                         <select class="form-control select2" name="proficiencyLevel"
-                                            id="Aca_proficiencyLevel" required>
+                                            id="Aca_proficiencyLevel" required >
                                             <option selected disabled value="">Choose...</option>
                                             <option value="1">Not Rated</option>
                                             <option value="2">First Class</option>
@@ -923,7 +923,7 @@ My Profile
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="form-group col-4">
+                                    <div class="form-group col-4" id="Aca_region_Group">
                                         <label for="frist_name">Location</label>
                                         <input type="text" class="form-control" name="region" id="Aca_region" autofocus
                                             required>
@@ -937,7 +937,7 @@ My Profile
                                             <option value="True">Yes</option>
                                         </select>
                                     </div>
-                                    <div class="form-group col-4">
+                                    <div class="form-group col-4" id="Aca_grade_Group">
                                         <label for="frist_name">Grade</label>
                                         <input type="text" class="form-control" name="grade" id="Aca_grade" autofocus
                                             required>
@@ -2306,7 +2306,7 @@ My Profile
         $('#Applicant_Type').on('change', function(){
             var selectedValue = $(this).val();
 
-            if (ApplicationType.val() == '1'){
+            if (selectedValue.val() === '1'){
                 $('#ExternalApplication').show(1000);
                 $('#InternalApplication').hide(500);
             } else {
@@ -2363,11 +2363,23 @@ My Profile
                 $('#Aca_educationLevel').prop('required', false);
                 $('#Aca_fieldOfStudy').prop('required', false);
                 $('#AcademicQualificationCode').prop('required', false);
+                $('#Aca_proficiencyLevel').prop('required', false);
+                $('#Aca_proficiencyLevelGroup').hide(500);
+                $('#Aca_grade_Group').show(1000);
+                $('#Aca_region_Group').show(1000);
+                $('#Aca_grade').prop('required', true);
+                $('#Aca_region').prop('required', true);
             } else {
                 $('#Aca_educationLevelAbove').show(1000);
                 $('#Aca_educationLevel').prop('required', true);
                 $('#Aca_fieldOfStudy').prop('required', true);
                 $('#AcademicQualificationCode').prop('required', true);
+                $('#Aca_proficiencyLevel').prop('required', true);
+                $('#Aca_proficiencyLevelGroup').show(1000);
+                $('#Aca_grade_Group').hide(500);
+                $('#Aca_region_Group').hide(500);
+                $('#Aca_grade').prop('required', false);
+                $('#Aca_region').prop('required', false);
             }
         });
 
