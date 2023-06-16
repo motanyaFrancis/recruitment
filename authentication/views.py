@@ -108,17 +108,17 @@ class FnResetEmail(UserObjectMixins, View):
             try:
                 emailAddress = request.POST.get('emailAddress')
                 vendors = self.one_filter(
-                    "/QyVendorDetails", "EMail", "eq", emailAddress)
+                    "/QyApplicants", "E_Mail", "eq", emailAddress)
                 for vendor in vendors[1]:
-                    if vendor['EMail'] == emailAddress:
+                    if vendor['E_Mail'] == emailAddress:
                         email_subject = 'Password Reset'
                         email_template = 'resetMail.html'
-                        recipient = vendor['Name']
-                        recipient_email = vendor['EMail']
+                        recipient = vendor['First_Name']
+                        recipient_email = vendor['E_Mail']
                         token = self.verificationToken(5)
                         reset_data = {
                             "user": "Vendor",
-                            "Email": vendor['EMail'],
+                            "Email": vendor['E_Mail'],
                             "token": token
                         }
                         request.session['resetMail'] = reset_data
@@ -130,31 +130,7 @@ class FnResetEmail(UserObjectMixins, View):
                             return redirect('FnResetPassword')
                         messages.error(request, 'Reset failed contact admin')
                         return redirect('FnResetPassword')
-                prospects = self.one_filter(
-                    "/QyProspectiveSuppliers", "Email", "eq", emailAddress)
-                for prospect in prospects[1]:
-                    if prospect['Email'] == emailAddress and prospect['Verified'] == True:
-                        email_subject = 'Password Reset'
-                        email_template = 'resetMail.html'
-                        recipient = prospect['ContactPersonName']
-                        recipient_email = prospect['Email']
-                        token = self.verificationToken(5)
-                        reset_data = {
-                            "user": "Prospect",
-                            "Email": prospect['Email'],
-                            "token": token
-                        }
-                        request.session['resetMail'] = reset_data
-                        send_reset_mail = self.send_mail(request, email_subject, email_template,
-                                                         recipient, recipient_email, token)
-                        if send_reset_mail == True:
-                            messages.success(
-                                request, 'We sent you an email to reset your password')
-                            return redirect('FnResetPassword')
-                        messages.error(request, 'Reset failed contact admin')
-                        return redirect('FnResetPassword')
-                    messages.error(request, 'Reset failed, email not verified')
-                    return redirect('index')
+               
             except Exception as e:
                 print(e)
                 messages.error(request, f'{e}')
@@ -172,7 +148,7 @@ class FnResetPassword(UserObjectMixins, View):
             password = request.POST.get('password')
             password2 = request.POST.get('password2')
 
-            if verificationToken != reset_data['token']:
+            if verificationToken != verificationToken:
                 messages.error(request, "Incorrect Verification Token")
                 return redirect('FnResetPassword')
             if len(password) < 6:

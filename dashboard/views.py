@@ -251,7 +251,7 @@ class Attachments(UserObjectMixins, View):
             applicantNo = await sync_to_async(request.session.__getitem__)('No_')
             attachments = request.FILES.getlist('attachment')
             tableID = 52177607
-            # fileName = no
+            needCode = no
             # response = False
 
             for file in attachments:
@@ -260,7 +260,7 @@ class Attachments(UserObjectMixins, View):
 
                 response = self.make_soap_request('FnUploadAttachedDocument',
                                                   applicantNo, fileName, attachment,
-                                                  tableID, applicantNo)
+                                                  tableID, applicantNo, needCode)
             if response is not None:
                 if response == True:
                     message = "Uploaded {} attachments successfully".format(
@@ -280,6 +280,7 @@ def fileUpload(request, pk, no):
         applicantNo = request.session['No_']
         attachments = request.FILES.getlist('attachments')
         tableID = 52177607
+        needCode = no
         
 
         for file in attachments:
@@ -292,8 +293,8 @@ def fileUpload(request, pk, no):
         #                                           tableID, applicantNo)
         
         response = config.CLIENT.service.FnUploadAttachedDocument(
-                       applicantNo, fileName, attachment, tableID, applicantNo
-                        )
+                       applicantNo, fileName, attachment, tableID, applicantNo,
+                        needCode)
         if response is not None:
             if response == True:
                 message = "Uploaded {} attachments successfully".format(
