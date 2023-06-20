@@ -170,7 +170,58 @@ class FnInternalApplicantDetails(UserObjectMixins, View):
             employeeNo = request.POST.get('employeeNo')
             title = request.POST.get('title')
             personalEmail = request.session['E_Mail']
-            response = self.make_soap_request('FnInternalApplicantDetails', applicantNo, employeeNo, applicantType, title, personalEmail)
+            certificateNo = request.POST.get('certificateNo')
+            stateNationality = request.POST.get('stateNationality')
+            country = request.POST.get('country')
+            subCounty = request.POST.get('subCounty')
+            constituency = request.POST.get('constituency')
+            termsOfService = request.POST.get('termsOfService')
+            currentMonthlySalary = request.POST.get('currentMonthlySalary')
+            expectedSalary = request.POST.get('expectedSalary')
+            howSoonCanYouTakeThisAppointment = request.POST.get(
+                'howSoonCanYouTakeThisAppointment')
+            haveYouEverBeenRemovedOrDismissedFromEmployment = request.POST.get(
+                'haveYouEverBeenRemovedOrDismissedFromEmployment')
+            giveDetails = request.POST.get('giveDetails')
+            haveYouBeenChargedInACourtOfLaw = request.POST.get(
+                'haveYouBeenChargedInACourtOfLaw')
+            offence = request.POST.get('offence')
+            dateOfOffence = request.POST.get('dateOfOffence')
+            placeOfOffence = request.POST.get('placeOfOffence')
+            sentenceImposed = request.POST.get('sentenceImposed')
+            townORCity = request.POST.get('townORCity')
+            nameOfAlternativeContactPerson = request.POST.get(
+                'nameOfAlternativeContactPerson')
+            telephoneNo = request.POST.get('telephoneNo')
+            natureOfDisability = request.POST.get('natureOfDisability')
+            dateOfRegistration = request.POST.get('dateOfRegistration')
+            pINNo = request.POST.get('pINNo')
+
+
+            if not stateNationality:
+                stateNationality = ''
+
+            if not giveDetails:
+                giveDetails = ''
+
+            if not natureOfDisability:
+                natureOfDisability = ''
+
+            if not dateOfRegistration:
+                dateOfRegistration = '2100-01-01'
+
+
+
+            response = self.make_soap_request('FnInternalApplicantDetails', 
+                                              applicantNo, employeeNo, applicantType, title, personalEmail,
+                                              certificateNo, stateNationality, country, subCounty,
+                                              constituency, termsOfService, currentMonthlySalary,
+                                              expectedSalary, howSoonCanYouTakeThisAppointment,
+                                              haveYouEverBeenRemovedOrDismissedFromEmployment,
+                                              giveDetails, haveYouBeenChargedInACourtOfLaw, offence,
+                                              dateOfOffence, placeOfOffence, sentenceImposed,
+                                              townORCity, nameOfAlternativeContactPerson,
+                                              telephoneNo, natureOfDisability, dateOfRegistration, pINNo)
 
             if response == True:
                 messages.success(request, "Successfully Added")
@@ -193,7 +244,6 @@ class FnApplicantDetails(UserObjectMixins, View):
             lastName = request.POST.get('lastName')
             idNumber = request.POST.get('idNumber')
             genders = request.POST.get('gender')
-            # citizenship = request.POST.get('citizenship')
             countyCode = request.POST.get('countyCode')
             maritalStatus = int(request.POST.get('maritalStatus'))
             ethnicOrigin = request.POST.get('ethnicOrigin')
