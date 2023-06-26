@@ -396,7 +396,7 @@ My Profile
                                         <div class="form-group col-12">
                                             <label for="frist_name">Have you ever been Removed Or Dismissed from Employment?</label>
                                             <select class="form-control select2" name="haveYouEverBeenRemovedOrDismissedFromEmployment"
-                                                id="employDismisal" required>
+                                                id="internalEmployDismisal" required>
                                                 {% if applicant.Have_you_ever_been_removed_dismissed_from_employment == 'No' %}
                                                 <option selected value="2">No</option>
                                                 <option value="1">Yes</option>
@@ -410,7 +410,7 @@ My Profile
                                                 {% endif %}
                                             </select>
                                         </div>
-                                        <div class="form-group col-12 hidegiveDetails">
+                                        <div class="form-group col-12 hideInternalGiveDetails">
                                             <label for="frist_name">Explain</label>
                                             <textarea class="form-control summernote-simple " name="giveDetails"
                                                 id="giveDetails" disabled>
@@ -2651,24 +2651,37 @@ My Profile
         // DOB End
 
         var employeeDismiss = $('#employDismisal');
-        var DismisalDetail = $('#giveDetails');
         $('.hidegiveDetails').hide();
         
 
         if(employeeDismiss.val() == '1'){
-            // DismisalDetail.prop('disabled', false);
             $('.hidegiveDetails').show(1000);
         }
 
         employeeDismiss.on('change', function(){
             if (this.value === '1'){
-                // DismisalDetail.prop('disabled', false);
                 $('.hidegiveDetails').show(1000);
             } else {
-                // DismisalDetail.prop('disabled', true);
                 $('.hidegiveDetails').hide(500);
             }
-        })
+        });
+
+        var employeeDismissInternal = $('#internalEmployDismisal');
+        
+        $('.hideInternalGiveDetails').hide();
+        
+
+        if(employeeDismiss.val() == '1'){
+            $('.hideInternalGiveDetails').show(1000);
+        }
+
+        employeeDismissInternal.on('change', function(){
+            if (this.value === '1'){
+                $('.hideInternalGiveDetails').show(1000);
+            } else {
+                $('.hideInternalGiveDetails').hide(500);
+            }
+        });
 
         var disabledSelect = $('#disabled');
         var disabilityInput = $('#disability');
