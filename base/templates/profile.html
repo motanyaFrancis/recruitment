@@ -426,7 +426,7 @@ My Profile
                                     <div class="row">
                                         <div class="form-group col-12">
                                             <label for="frist_name">Have you been Charged in a Court of Law?</label>
-                                            <select class="form-control select2" name="haveYouBeenChargedInACourtOfLaw" id="haveYouBeenChargedInACourtOfLaw"
+                                            <select class="form-control select2" name="haveYouBeenChargedInACourtOfLaw" id="InternalhaveYouBeenChargedInACourtOfLaw"
                                                 required>
                                                 {% if applicant.Have_you_ever_been_removed_dismissed_from_employment == 'No' %}
                                                 <option selected value="2">No</option>
@@ -441,7 +441,7 @@ My Profile
                                                 {% endif %}
                                             </select>
                                         </div>
-                                        <div class="container" id="offenceDetail">
+                                        <div class="container" id="offenceDetailInternal">
                                             <div class="row">
                                                 <div class="form-group col-6">
                                                     <label for="frist_name">Offence</label>
@@ -2538,14 +2538,19 @@ My Profile
 
 
         $('#offenceDetail').hide();
+       
 
         var chargedInCourt = $('#haveYouBeenChargedInACourtOfLaw')
+        
 
         if(chargedInCourt.val() == '1'){
             $('#offenceDetail').show(1000);
         } else {
                 $('#offenceDetail').hide(500);
         }
+
+
+        
 
         $('#haveYouBeenChargedInACourtOfLaw').on('change', function(){
             var selectedValue = $(this).val();
@@ -2555,6 +2560,28 @@ My Profile
                 
             } else {
                 $('#offenceDetail').hide(500);
+                
+            }
+        });
+
+        $('#offenceDetailInternal').hide();
+        
+        var chargedInCourtInternal = $('#InternalhaveYouBeenChargedInACourtOfLaw')
+
+        if(chargedInCourtInternal.val() == '1'){
+            $('#offenceDetailInternal').show(1000);
+        } else {
+                $('#offenceDetailInternal').hide(500);
+        }
+
+        $('#InternalhaveYouBeenChargedInACourtOfLaw').on('change', function(){
+            var selectedValue = $(this).val();
+
+            if( chargedInCourtInternal.val() === '1'){
+                $('#offenceDetailInternal').show(1000);
+                
+            } else {
+                $('#offenceDetailInternal').hide(500);
                 
             }
         });
