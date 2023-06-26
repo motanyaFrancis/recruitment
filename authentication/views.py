@@ -27,6 +27,9 @@ class login_request(UserObjectMixins, View):
 
                 applicants = self.one_filter(
                     "/QyApplicants", "E_Mail", "eq", email)
+                
+                
+                
                 for applicant in applicants[1]:
                     
                     if applicant['E_Mail'] == email:
@@ -38,6 +41,7 @@ class login_request(UserObjectMixins, View):
                                 request.session['authenticated'] = True
                                 request.session['full_name'] = applicant['First_Name'] + " " + applicant['Last_Name']
                                 request.session.modified = True
+                                request.session['state'] = "External"
                                 messages.success(
                                     request, f"Success. Logged in as {request.session['full_name']}")
                                 return redirect('dashboard')
@@ -47,6 +51,32 @@ class login_request(UserObjectMixins, View):
                         messages.error(
                             request, "Password not found. Please reset your password.")
                         return redirect('index')
+                    
+                internalApplicants = self.one_filter(
+                    "/QyApplicants", "Personal_Email", "eq", email)
+                
+                for applicant in internalApplicants[1]:
+                    
+                    if applicant['Personal_Email'] == email:
+                        if applicant['Portal_Password'] != '':
+                            if self.pass_decrypt(applicant['Portal_Password']) == password:
+                                request.session['No_'] = applicant['No_']
+                                print(request.session['No_'])
+                                request.session['E_Mail'] = applicant["Personal_Email"]
+                                request.session['authenticated'] = True
+                                request.session['full_name'] = applicant['First_Name'] + " " + applicant['Last_Name']
+                                request.session.modified = True
+                                request.session['state'] = "Internal"
+                                messages.success(
+                                    request, f"Success. Logged in as {request.session['full_name']}")
+                                return redirect('dashboard')
+                            
+                            messages.error(request, "Password mismatch")
+                            return redirect('index')
+                        messages.error(
+                            request, "Password not found. Please reset your password.")
+                        return redirect('index')
+
             except Exception as e:
                 messages.error(request, f"{e}")
                 print(e)

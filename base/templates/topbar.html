@@ -2,7 +2,11 @@
     <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
             <img alt="image" src="../../static/img/logo/pp.png" class="rounded-circle mr-1">
             <div class="d-sm-none d-lg-inline-block">
-                {{email}}
+                {% if username %}
+                    {{username}}
+                {% else %}
+                    {{email}}
+                {% endif%}
             </div>
         </a>
         <div class="dropdown-menu dropdown-menu-right">
