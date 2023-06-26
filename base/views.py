@@ -10,6 +10,7 @@ from asgiref.sync import sync_to_async
 import enum
 from datetime import datetime
 
+
 # Create your views here.
 
 
@@ -61,7 +62,8 @@ class SendMessage(UserObjectMixins, View):
                     reply_email = request.session['E_Mail']
                     name = request.session['full_name']
 
-            if ('authenticated' not in request.session and name == '') or ('authenticated' not in request.session and reply_email == ''):
+            if ('authenticated' not in request.session and name == '') or (
+                    'authenticated' not in request.session and reply_email == ''):
                 return JsonResponse({'success': False, 'error': 'email and name cannot be empty'})
             send_mail = self.send_message(name, reply_email, subject,
                                           message, email_template, recipient_email)
@@ -197,7 +199,6 @@ class FnInternalApplicantDetails(UserObjectMixins, View):
             dateOfRegistration = request.POST.get('dateOfRegistration')
             pINNo = request.POST.get('pINNo')
 
-
             if not stateNationality:
                 stateNationality = ''
 
@@ -210,9 +211,7 @@ class FnInternalApplicantDetails(UserObjectMixins, View):
             if not dateOfRegistration:
                 dateOfRegistration = '2100-01-01'
 
-
-
-            response = self.make_soap_request('FnInternalApplicantDetails', 
+            response = self.make_soap_request('FnInternalApplicantDetails',
                                               applicantNo, employeeNo, applicantType, title, personalEmail,
                                               certificateNo, stateNationality, country, subCounty,
                                               constituency, termsOfService, currentMonthlySalary,
@@ -223,10 +222,10 @@ class FnInternalApplicantDetails(UserObjectMixins, View):
                                               townORCity, nameOfAlternativeContactPerson,
                                               telephoneNo, natureOfDisability, dateOfRegistration, pINNo)
 
-            if response == True:
+            if response:
                 messages.success(request, "Successfully Added")
                 return redirect('Profile')
-            
+
         except Exception as e:
             messages.error(request, f'{e}')
             logging.exception(e)
@@ -305,6 +304,7 @@ class FnApplicantDetails(UserObjectMixins, View):
 
             class Data(enum.Enum):
                 values = genders
+
             gender = (Data.values).value
 
             response = self.make_soap_request('FnApplicantDetails',
@@ -596,7 +596,7 @@ class FnApplicantReferee(UserObjectMixins, View):
             response = self.make_soap_request('FnApplicantReferee',
                                               applicantNo, lineNo, names, designation,
                                               company, address, telephoneNo, email, myAction,
-                                              periodForWhichTheRefereeHasKnownYou, cityOrTown,)
+                                              periodForWhichTheRefereeHasKnownYou, cityOrTown, )
 
             if response == True:
                 return JsonResponse({'success': True, 'message': 'Successfully'})
