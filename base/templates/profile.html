@@ -251,8 +251,20 @@ My Profile
                                             <input type="text" class="form-control"
                                                 value="{{applicant.Disabled}}"  disabled>
                                         </div>
+                                        <div class="form-group col-3">
+                                            <label>Nationality <span class="text-danger">*</span></label>
+                                            <select class="form-control select2" id="countryNation" name="country" required>
+                                                <option selected value="{{applicant.Country_Code}}">{{applicant.Country_Code}}
+                                                </option>
+                                                {% for country in country %}
+                                                {% if country.Code != applicant.Citizenship %}
+                                                <option value="{{country.Code}}">{{country.Name}}</option>
+                                                {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row" id="nationDetails">
                                         <div class="form-group col-3">
                                             <label for="frist_name">Certificate No. <span class="text-danger">*</span></label>
                                             <input type="text" class="form-control" placeholder="{{applicant.Certificate_No_}}"
@@ -263,18 +275,7 @@ My Profile
                                             <input type="text" class="form-control" value="{{applicant.PIN_NO}}"
                                                 name="pINNo" autofocus required>
                                         </div>
-                                        <div class="form-group col-3">
-                                            <label>Nationality <span class="text-danger">*</span></label>
-                                            <select class="form-control select2" id="country" name="country" required>
-                                                <option selected value="{{applicant.Country_Code}}">{{applicant.Country_Code}}
-                                                </option>
-                                                {% for country in country %}
-                                                {% if country.Code != applicant.Citizenship %}
-                                                <option value="{{country.Code}}">{{country.Name}}</option>
-                                                {% endif %}
-                                                {% endfor %}
-                                            </select>
-                                        </div>
+
                                         <div class="form-group col-3">
                                             <label>County</label>
                                             <select class="form-control select2" id="county" name="county" >
@@ -292,7 +293,7 @@ My Profile
                                         </div>
                                         <div class="form-group col-3">
                                             <label for="frist_name">Constituency <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" 
+                                            <input type="text" class="form-control"
                                                 value="{{applicant.Constituency}}" name="constituency" autofocus required>
                                         </div>
                                     </div>
@@ -329,11 +330,11 @@ My Profile
                                     </div>
 
                                     <div class="my-2">
-                                        <h6>Altenative  Contact Person</h5>
+                                        <h5>Alternative  Contact Person</h5>
                                     </div>
                                     <div class="row">
                                         <div class="form-group col-6">
-                                            <label for="frist_name">Full Name</label>
+                                            <label for="first_name">Full Name</label>
                                             <input type="text" class="form-control" name="nameOfAlternativeContactPerson"
                                                 value="{{applicant.Name_of_Alternative_Contact_Person}}" autofocus>
                                         </div>
@@ -1452,6 +1453,7 @@ My Profile
                             <table id="hobbyTable" class="table table-striped">
                                 <thead>
                                     <tr id="tops">
+                                        <th>Line No.</th>
                                         <th>Hobbies</th>
                                         <th>Action</th>
                                     </tr>
@@ -1634,6 +1636,7 @@ My Profile
                     row.append($('<td>').text(Education_Type));
                     row.append($('<td>').text(Education_Level));
                     row.append($('<td>').text(Qualification_Name));
+
                     var form = $('<form>').attr({
                         method: 'POST',
                         action: '{% url "FnDeleteApplicantAcademicQualification" %}'
@@ -2220,12 +2223,12 @@ My Profile
                 // iterate through the data and append to the table
                 for (var i = 0; i < data[1].length; i++) {
                     var Hobbies = data[1][i].Hobbies;
-                    var MembershipNo = data[1][i].MembershipNo;
-                    var Description = data[1][i].Description;
                     var Line_No = data[1][i].Line_No;
+                    console.log(Hobbies,Line_No)
 
                     var row = $('<tr>');
 
+                    row.append($('<td>').text(Line_No));
                     row.append($('<td>').text(Hobbies));
                     // Create the form with inputs and submit button
                     var form = $('<form>').attr({
@@ -2262,7 +2265,7 @@ My Profile
                             data: form.serialize(),
                             success: function (data) {
                                 loadHobby();
-                                if (data['success'] == true) {
+                                if (data['success'] === true) {
                                     iziToast.show({
                                         theme: 'dark',
                                         backgroundColor: '#239B56',
@@ -2510,18 +2513,44 @@ My Profile
         });
 
 
+        var kenyanDetail = $('#nationDetails');
+        var nationality = $("#countryNation");
+
+        kenyanDetail.hide();
+
+        if (nationality.val() === 'KE'){
+            kenyanDetail.show(1000);
+        } else {
+            kenyanDetail.hide(500);
+        }
+
+        nationality.on('change', function(){
+           let selectedValue = $(this).val();
+
+           if (nationality.val() === 'KE'){
+               kenyanDetail.show(1000);
+           } else {
+               kenyanDetail.hide(500);
+           }
+
+        });
+
+
+
         $('#offenceDetail').hide();
 
         var chargedInCourt = $('#haveYouBeenChargedInACourtOfLaw')
 
         if(chargedInCourt.val() == '1'){
             $('#offenceDetail').show(1000);
+        } else {
+                $('#offenceDetail').hide(500);
         }
 
         $('#haveYouBeenChargedInACourtOfLaw').on('change', function(){
             var selectedValue = $(this).val();
 
-            if( selectedValue === '1'){ 
+            if( chargedInCourt.val() === '1'){
                 $('#offenceDetail').show(1000);
                 
             } else {
