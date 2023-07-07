@@ -101,7 +101,7 @@ My Profile
                         </li>
                     </ul>
 
-                    <div class="buttons my-4">
+                    <div class="buttons my-4 d-flex justify-content-end">
                         <button id="prevBtn" class="btn"><i class="las la-angle-double-left"></i>Prev</button>
                         <button id="nextBtn" class="btn">Next <i class="las la-angle-double-right"></i></button>
                     </div>
@@ -277,7 +277,7 @@ My Profile
                                         </div>
 
                                         <div class="form-group col-3">
-                                            <label>County</label>
+                                            <label>County of Birth</label>
                                             <select class="form-control select2" id="county" name="county" >
                                                 <option selected value="{{applicant.County_Code}}">{{applicant.County}}
                                                 </option>
@@ -652,7 +652,7 @@ My Profile
                                                 value="{{applicant.Certificate_No_}}" name="certificateNo" autofocus required>
                                         </div>
                                         <div class="form-group col-3">
-                                            <label>County</label>
+                                            <label>County of Birth</label>
                                             <select class="form-control select2" id="county" name="county" >
                                                 <option selected value="{{applicant.County_Code}}">{{applicant.County}}
                                                 </option>
@@ -672,36 +672,15 @@ My Profile
                                                 value="{{applicant.Constituency}}" name="constituency" autofocus required>
                                         </div>
                                         <div class="form-group col-3">
-                                            <label>Ethnic Origin</label>
-                                            <select class="form-control select2" name="ethnicOrigin" id="ethnicOrigin"
-                                                >
-                                                {% if applicant.Ethnic_Origin == 'African' %}
-                                                <option selected value="0">{{applicant.Ethnic_Origin}}</option>
-                                                <option value="1">Indian</option>
-                                                <option value="2">White</option>
-                                                <option value="3">Colored</option>
-                                                {% elif applicant.Ethnic_Origin == 'Indian' %}
-                                                <option selected value="1">Indian</option>
-                                                <option value="0">African</option>
-                                                <option value="2">White</option>
-                                                <option value="3">Colored</option>
-                                                {% elif applicant.Ethnic_Origin == 'White' %}
-                                                <option selected  value="2">White</option>
-                                                <option value="0">African</option>
-                                                <option value="1">Indian</option>
-                                                <option value="3">Colored</option>
-                                                {% elif applicant.Ethnic_Origin == 'Colored' %}
-                                                <option selected value="3">Colored</option>
-                                                <option value="0">African</option>
-                                                <option value="1">Indian</option>
-                                                <option value="2">White</option>
-                                                {% else %}
-                                                <option selected value="0">--select--</option>
-                                                <option value="0">African</option>
-                                                <option value="1">Indian</option>
-                                                <option value="2">White</option>
-                                                <option value="3">Colored</option>
+                                            <label>Ethnic Community</label>
+                                            <select class="form-control select2" name="ethnicOrigin" id="ethnicOrigin">
+                                                <option selected value="{{applicant.Country_Code}}">{{applicant.Ethnic_Origin}}
+                                                </option>
+                                                {% for community in communities %}
+                                                {% if community.Code != applicant.Citizenship %}
+                                                <option value="{{community.Ethnic_Code}}">{{community.Ethnic_Name}}</option>
                                                 {% endif %}
+                                                {% endfor %}
                                                 
                                             </select>
                                         </div>
