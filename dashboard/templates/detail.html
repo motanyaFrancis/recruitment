@@ -647,7 +647,7 @@
                                     data: {
                                         docID: docID,
                                         tableID: tableID,
-                                        leaveCode: Job_ID,
+                                        leaveCode: No_,
                                         csrfmiddlewaretoken: $(
                                                 'input[name=csrfmiddlewaretoken]'
                                             )
@@ -655,7 +655,7 @@
                                     },
                                     success: function (data) {
                                         $spinner.hide();
-                                        if (data['success'] == true) {
+                                        if (data['success'] === true) {
                                             iziToast.show({
                                                 theme: 'dark',
                                                 backgroundColor: '#239B56',
@@ -729,7 +729,7 @@
                 },
                 success: function (data) {
                     $spinner.hide();
-                    if (data['success'] == true) {
+                    if (data['success'] === true) {
                         iziToast.show({
                             theme: 'dark',
                             backgroundColor: '#239B56',
@@ -776,12 +776,12 @@
         var x = document.getElementsByClassName("tab");
         x[n].style.display = "block";
         //... and fix the Previous/Next buttons:
-        if (n == 0) {
+        if (n === 0) {
             document.getElementById("prevBtn").style.display = "none";
         } else {
             document.getElementById("prevBtn").style.display = "inline";
         }
-        if (n == (x.length - 1)) {
+        if (n === (x.length - 1)) {
             document.getElementById("nextBtn").style.display = "none";
         } else {
             document.getElementById("nextBtn").style.display = "inline";
