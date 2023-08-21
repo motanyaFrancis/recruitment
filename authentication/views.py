@@ -93,10 +93,10 @@ class Register(UserObjectMixins, View):
             email = request.POST.get('email')
             my_password = request.POST.get('password')
             confirm_password = request.POST.get('confirm_password')
-            # agree = request.POST.get('agree')
-            dataPrivacy = True
-            # if agree == 'on':
-            #     dataPrivacy = True
+            agree = request.POST.get('agree')
+            dataPrivacy = False
+            if agree == 'on':
+                dataPrivacy = True
 
             if len(my_password) < 6:
                 messages.error(
@@ -108,7 +108,7 @@ class Register(UserObjectMixins, View):
             if dataPrivacy == True:
                 token = self.verificationToken(5)
                 response = self.make_soap_request('FnApplicantRegister',
-                                                  email, self.pass_encrypt(my_password))
+                                                  email, self.pass_encrypt(my_password), token, token)
                 if response == True:
                     email_subject = 'Activate your account'
                     email_template = 'activate.html'
@@ -216,7 +216,7 @@ class verify_user(UserObjectMixins, View):
             prospect_users = self.one_filter("/QyApplicants",
                                              "E_Mail", "eq", email)
             for user in prospect_users[1]:
-                if secret == secret:
+                if user['Password_Reset_Token'] == secret:
                     response = self.make_soap_request('FnVerifiedApplicant',
                                                       verified, email)
                     if response == True:
