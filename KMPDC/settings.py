@@ -1,4 +1,3 @@
-
 from pathlib import Path
 import os
 from decouple import config, Csv
@@ -11,7 +10,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = ['.localhost', '.127.0.0.1']
+ALLOWED_HOSTS = ['.localhost', '.127.0.0.1', '.192.186.0.184', '.kephis.org']
 
 DATABASES = {
     'default': {
@@ -69,7 +68,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'KMPDC.wsgi.application'
 
-
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -87,7 +85,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
@@ -108,7 +105,6 @@ EMAIL_PORT = config('EMAIL_PORT')
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
-
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
@@ -119,7 +115,6 @@ STATICFILES_DIRS = (
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
 
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 ENCRYPT_KEY = b'bzKNyzSwwsN0pwQKglGqPnMKPS6WTPElkRPoCOTYN0I='
@@ -128,7 +123,6 @@ AUTHS = Session()
 
 WEB_SERVICE_UID = config('WEB_SERVICE_UID')
 WEB_SERVICE_PWD = config('WEB_SERVICE_PWD')
-
 
 O_DATA = config('O_DATA')
 BASE_URL = config('BASE_URL')

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="">
 <head>
     <style>
         body {
@@ -30,22 +29,22 @@
             max-width: 150px;
         }
     </style>
+    <title></title>
 </head>
-
 <body>
-    <div class="container">
-        <p>Hi {{user}},</p>
-        <div class="message">
-            <p>Thanks for creating an account with us! Please use the link and Verification Code below to reset your
-                password.
-            </p>
+<div class="container">
+    <p>Hi {{ user }},</p>
+    <div class="message">
+        <p>Thanks for creating an account with us! Please use the link and Verification Code below to reset your
+            password.
+        </p>
 
-            <p>Verification Code: {{Secret}}</p>
+        <p>Verification Code: <b>{{ Secret }}</b></p>
 
-            <p><a href="http://{{domain}}{% url 'FnResetPassword' %}">Reset your password now</a></p>
-        </div>
-        <p class="signature">Best regards,<br>KEPHIS</p>
+        <p><a href="http://{{ domain }}{% url 'FnResetPassword' %}">Reset your password now</a></p>
     </div>
+    <p class="signature">Best regards,<br>KEPHIS</p>
+</div>
 </body>
 
 </html>

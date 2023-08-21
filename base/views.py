@@ -118,6 +118,8 @@ class Profile(UserObjectMixins, View):
                                                                             '/QyCounties'))
                 pro_courses = asyncio.ensure_future(self.simple_fetch_data(session,
                                                                            '/QyProfessionalCourses'))
+                get_ethnicCommunities = asyncio.ensure_future(self.simple_fetch_data(session,
+                                                                                     '/QyEthnicCommunities'))
 
                 response = await asyncio.gather(personal_details,
                                                 get_country,
@@ -126,7 +128,8 @@ class Profile(UserObjectMixins, View):
                                                 job_industries,
                                                 pro_bodies,
                                                 get_counties,
-                                                pro_courses
+                                                pro_courses,
+                                                get_ethnicCommunities
                                                 )
 
                 for data in response[0]:
@@ -139,6 +142,7 @@ class Profile(UserObjectMixins, View):
                 Bodies = [body for body in response[5]]
                 county = [county for county in response[6]]
                 pro_course = [course for course in response[7]]
+                ethnicCommunities = [community for community in response[8]]
 
         except Exception as e:
             logging.exception(e)
@@ -159,7 +163,8 @@ class Profile(UserObjectMixins, View):
             "email": email,
             "Profile": Profile,
             "Dashboard": Dashboard,
-            "pro_course": pro_course
+            "pro_course": pro_course,
+            'communities': ethnicCommunities
         }
         return render(request, 'profile.html', ctx)
 

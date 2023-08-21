@@ -13,6 +13,7 @@ from datetime import datetime
 import base64
 from django.http import HttpResponse
 
+
 # Create your views here.
 
 
@@ -64,19 +65,17 @@ class Detail(UserObjectMixins, View):
 
             if 'authenticated' in request.session:
                 authenticated = request.session['authenticated']
-                
+
                 userID = request.session['No_']
 
                 if 'Name' in request.session:
                     username = request.session['Name']
                 else:
                     username = request.session['E_Mail']
-                
 
                 applied_jobs = self.one_filter(
                     "/QyApplicantJobApplied", "Application_No_", "eq", userID)
                 submitted = [x for x in applied_jobs[1]]
-                
 
                 for jobs in applied_jobs[1]:
                     submitted_list.append(jobs['Job_ID'])
@@ -99,7 +98,6 @@ class Detail(UserObjectMixins, View):
                 if Experience['Job_ID'] == pk:
                     E_response = Experience
 
-            
             JobResponsibilities = self.one_filter(
                 '/QyJobResponsibilities', 'Code', 'eq', pk)
             RESPOs = [x for x in JobResponsibilities[1]]
@@ -210,9 +208,11 @@ class TechnicalRequirements(UserObjectMixins, View):
             required_files = []
             async with aiohttp.ClientSession() as session:
                 task_get_docs = asyncio.ensure_future(self.simple_one_filtered_data(session,
-                                                                                    "/QyJobAttachments", "Job_ID", "eq", pk))
+                                                                                    "/QyJobAttachments", "Job_ID", "eq",
+                                                                                    pk))
                 task_get_attached = asyncio.ensure_future(self.simple_one_filtered_data(session,
-                                                                                        '/QyDocumentAttachments', 'No_', 'eq', no))
+                                                                                        '/QyDocumentAttachments', 'No_',
+                                                                                        'eq', no))
                 response = await asyncio.gather(task_get_docs, task_get_attached)
 
                 attached = [x for x in response[1]]
@@ -235,7 +235,11 @@ class Attachments(UserObjectMixins, View):
             Attachments = []
             async with aiohttp.ClientSession() as session:
                 task_get_leave_attachments = asyncio.ensure_future(self.simple_double_filtered_data(session,
-                                                                                                 "/QyDocumentAttachments", "No_", "eq", no, "and", 'Document_No', "eq", applicantNo))
+                                                                                                    "/QyDocumentAttachments",
+                                                                                                    "No_", "eq", no,
+                                                                                                    "and",
+                                                                                                    'Document_No', "eq",
+                                                                                                    applicantNo))
                 response = await asyncio.gather(task_get_leave_attachments)
 
                 Attachments = [x for x in response[0]]
@@ -273,27 +277,28 @@ class Attachments(UserObjectMixins, View):
             error = "Upload failed: {}".format(e)
             logging.exception(e)
             return JsonResponse({'success': False, 'error': error})
-        
+
+
 def fileUpload(request, pk, no):
     try:
         applicantNo = request.session['No_']
         attachments = request.FILES.getlist('attachments')
         tableID = 52177607
         needCode = no
-        
-
+        fileName = ''
+        attachment = ''
         for file in attachments:
-                fileName = request.FILES['attachments'].name
-                attachment = base64.b64encode(file.read())
-                print('fileName:  ', fileName)
+            fileName = request.FILES['attachments'].name
+            attachment = base64.b64encode(file.read())
+            print('fileName:  ', fileName)
 
         # response = self.make_soap_request('FnUploadAttachedDocument',
         #                                           applicantNo, fileName, attachment,
         #                                           tableID, applicantNo)
-        
+
         response = config.CLIENT.service.FnUploadAttachedDocument(
-                       applicantNo, fileName, attachment, tableID, applicantNo,
-                        needCode)
+            applicantNo, fileName, attachment, tableID, applicantNo,
+            needCode)
         if response is not None:
             if response == True:
                 message = "Uploaded {} attachments successfully".format(
@@ -308,19 +313,20 @@ def fileUpload(request, pk, no):
         logging.exception(e)
         return redirect('Detail', pk=pk, no=no)
 
+
 class DeleteAttachment(UserObjectMixins, View):
     def post(self, request):
         try:
             docID = int(request.POST.get('docID'))
             tableID = int(request.POST.get('tableID'))
-            docNo = request.session['No_']
+            docNo = request.POST.get('leaveCode')
             print('docID: ', docID)
             print('tableID: ', tableID)
             print('docNo: ', docNo)
             response = self.make_soap_request("FnDeleteDocumentAttachment",
                                               docNo, docID, tableID)
             print('response: ', response)
-            if response == True:
+            if response:
                 return JsonResponse({'success': True, 'message': 'Deleted successfully'})
             return JsonResponse({'success': False, 'message': f'{response}'})
         except Exception as e:

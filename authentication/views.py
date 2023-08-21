@@ -89,6 +89,7 @@ class Register(UserObjectMixins, View):
         return render(request, 'register.html')
 
     async def post(self, request):
+        global send_verification_mail
         try:
             email = request.POST.get('email')
             my_password = request.POST.get('password')
@@ -97,6 +98,7 @@ class Register(UserObjectMixins, View):
             dataPrivacy = True
             # if agree == 'on':
             #     dataPrivacy = True
+            response = ''
 
             if len(my_password) < 6:
                 messages.error(
@@ -105,20 +107,21 @@ class Register(UserObjectMixins, View):
             if my_password != confirm_password:
                 messages.error(request, 'Password mismatch')
                 return redirect('register')
-            if dataPrivacy == True:
+            if dataPrivacy:
                 token = self.verificationToken(5)
                 response = self.make_soap_request('FnApplicantRegister',
                                                   email, self.pass_encrypt(my_password))
-                if response == True:
+                if response:
                     email_subject = 'Activate your account'
                     email_template = 'activate.html'
                     recipient = email
                     recipient_email = email
                     token = token
+
                     send_verification_mail = self.send_mail(request, email_subject,
                                                             email_template, recipient,
                                                             recipient_email, token)
-                if send_verification_mail == True:
+                if send_verification_mail:
                     messages.success(
                         request, "We sent you an email to verify your account")
                     return redirect('verify')
@@ -146,6 +149,8 @@ class FnResetEmail(UserObjectMixins, View):
                         recipient = vendor['First_Name']
                         recipient_email = vendor['E_Mail']
                         token = self.verificationToken(5)
+                        print(recipient_email)
+                        print(token)
                         reset_data = {
                             "user": "Vendor",
                             "Email": vendor['E_Mail'],
@@ -154,7 +159,7 @@ class FnResetEmail(UserObjectMixins, View):
                         request.session['resetMail'] = reset_data
                         send_rest_mail = self.send_mail(request, email_subject, email_template,
                                                         recipient, recipient_email, token)
-                        if send_rest_mail == True:
+                        if send_rest_mail:
                             messages.success(
                                 request, "We sent you an email to reset your password")
                             return redirect('FnResetPassword')
@@ -191,7 +196,7 @@ class FnResetPassword(UserObjectMixins, View):
 
             response = self.make_soap_request('FnResetPassword',
                                               reset_data['Email'], self.pass_encrypt(password), verificationToken)
-            if response == True:
+            if response:
                 del request.session['resetMail']
                 messages.success(
                     request, "Reset successful, login to continue")
